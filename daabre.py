@@ -5,10 +5,6 @@ from tkinter import PhotoImage
 
 def _login():
 	win2= tk.Tk()
-	# Load the background image
-	background_image = PhotoImage(file=r"D:\Users\HP\Desktop\Medha's stuff\login1.png")
-	background_label = tk.Label(win2, image=background_image)
-	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	win2.geometry('500x500')
 	
 	email_var= tk.StringVar()
@@ -27,12 +23,12 @@ def _login():
 	pass_entry.grid(row=1,column=1)
 	submit_button.grid(row=2,column=1)
 
-	if email_var.get() and pass_word.var():
-		win3= tk.tk()
-		win3.geometry('1600x900')
-		label= tk.Label(win3,text='Welcome to Cs project :)',font='Times New Roman',anchor='center',justify='center')
-		label.pack(padx=20,pady=20)
-		win3.mainloop()
+	win2.mainloop()
+	win3= tk.tk()
+	win3.geometry('1600x900')
+	label= tk.Label(win3,text='Welcome to Cs project :)',font='Times New Roman',anchor='center',justify='center')
+	label.pack(padx=20,pady=20)
+	win3.mainloop()
 
 
 def _welcome():
