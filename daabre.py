@@ -16,6 +16,11 @@ label.pack()
 b1= tk.Button(win1,text='Hello world',bg='green',  command = _login)
 b1.pack()
 
-
+a= tk.StringVar()
+b= tk.StringVar()
+cb= tk.Checkbutton(win1,text='male',variable=a)
+cb1= tk.Checkbutton(win1,text='female',variable=b)
+cb.pack()
+cb1.pack()
 win1.mainloop()
 
