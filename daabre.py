@@ -15,11 +15,11 @@ def _login():
 	pass_entry= tk.Entry(win2,textvariable=pass_var)
 	submit_button= tk.Button(win2,text='Submit')
 
-	email_label.grid(row=3,column=3)
-	email_entry.grid(row=3,column=4)
-	pass_label.grid(row=4,column=3)
-	pass_entry.grid(row=4,column=4)
-	submit_button.grid(row=5,column=3)
+	email_label.grid(row=0,column=0)
+	email_entry.grid(row=0,column=1)
+	pass_label.grid(row=1,column=0)
+	pass_entry.grid(row=1,column=1)
+	submit_button.grid(row=2,column=1)
 
 	if email_var.get() and pass_word.var():
 		win3= tk.tk()
