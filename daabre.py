@@ -10,10 +10,29 @@ def _login():
 	background_label = tk.Label(win2, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	win2.geometry('500x500')
-	b2= tk.Button(win2,text='New window',bg='Red',fg='White')
-	b2.pack()
-	win2.mainloop
+	
+	email_var= tk.StringVar()
+	pass_var= tk.StringVar()
 
+	email_label= tk.Label(win2,text='Username')
+	pass_label= tk.Label(win2,text='Password')
+
+	email_entry= tk.Entry(win2,textvariable=email_var)
+	pass_entry= tk.Entry(win2,textvariable=pass_var)
+	submit_button= tk.Button(win2,text='Submit')
+
+	email_label.grid(row=3,column=3)
+	email_entry.grid(row=3,column=4)
+	pass_label.grid(row=4,column=3)
+	pass_entry.grid(row=4,column=4)
+	submit_button.grid(row=5,column=3)
+
+	if email_var.get() and pass_word.var():
+		win3= tk.tk()
+		win3.geometry('1600x900')
+		label= tk.Label(win3,text='Welcome to Cs project :)',font='Times New Roman',anchor='center',justify='center')
+		label.pack(padx=20,pady=20)
+		win3.mainloop()
 
 
 def _welcome():
@@ -27,13 +46,6 @@ def _welcome():
 	b2= tk.Button(win1,text='Signup',bg='green',  command = _login, fg = 'white', width = 10,  font = ("Times New Roman", 30))
 	b2.pack()
 	b2.place(relx=0.5,rely=0.55,anchor = 'center')
-
-	a= tk.StringVar()
-	b= tk.StringVar()
-	cb= tk.Checkbutton(win1,text='male',variable=a)
-	cb1= tk.Checkbutton(win1,text='female',variable=b)
-	cb.pack()
-	cb1.pack()
 	win1.mainloop()
 
 _welcome()
