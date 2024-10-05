@@ -1,14 +1,11 @@
 
-
+import pathlib, os
 import tkinter as tk
 from tkinter import PhotoImage
 
 def _login():
 	win2= tk.Tk()
-	# Load the background image
-	background_image = PhotoImage(file=r"D:\Users\HP\Desktop\Medha's stuff\login1.png")
-	background_label = tk.Label(win2, image=background_image)
-	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
+	
 	win2.geometry('500x500')
 	
 	email_var= tk.StringVar()
@@ -36,7 +33,14 @@ def _login():
 
 
 def _welcome():
+	
 	win1=tk.Tk()
+	img_file_name = "bg.png"
+	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+	img_path = os.path.join(current_dir, img_file_name)
+	background_image = PhotoImage(file=img_path)
+	background_label = tk.Label(win1, image=background_image)
+	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	win1.geometry("1600x900")
 	label = tk.Label(win1, text= "vanakkam da maapla", font = ('Arial', 28))
 	label.pack(padx=20,pady=20)
