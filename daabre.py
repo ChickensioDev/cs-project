@@ -5,7 +5,6 @@ from tkinter import PhotoImage
 
 def _login():
 	win2= tk.Tk()
-	
 	win2.geometry('500x500')
 	
 	email_var= tk.StringVar()
@@ -18,18 +17,18 @@ def _login():
 	pass_entry= tk.Entry(win2,textvariable=pass_var)
 	submit_button= tk.Button(win2,text='Submit')
 
-	email_label.grid(row=3,column=3)
-	email_entry.grid(row=3,column=4)
-	pass_label.grid(row=4,column=3)
-	pass_entry.grid(row=4,column=4)
-	submit_button.grid(row=5,column=3)
+	email_label.grid(row=0,column=0)
+	email_entry.grid(row=0,column=1)
+	pass_label.grid(row=1,column=0)
+	pass_entry.grid(row=1,column=1)
+	submit_button.grid(row=2,column=1)
 
-	if email_var.get() and pass_word.var():
-		win3= tk.tk()
-		win3.geometry('1600x900')
-		label= tk.Label(win3,text='Welcome to Cs project :)',font='Times New Roman',anchor='center',justify='center')
-		label.pack(padx=20,pady=20)
-		win3.mainloop()
+	win2.mainloop()
+	win3= tk.tk()
+	win3.geometry('1600x900')
+	label= tk.Label(win3,text='Welcome to Cs project :)',font='Times New Roman',anchor='center',justify='center')
+	label.pack(padx=20,pady=20)
+	win3.mainloop()
 
 
 def _welcome():
