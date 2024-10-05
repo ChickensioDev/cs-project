@@ -32,15 +32,15 @@ def _login():
 
 
 def _welcome():
-	
 	win1=tk.Tk()
 	img_file_name = "bg.png"
+	win1.geometry("1600x900")
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
 	background_image = PhotoImage(file=img_path)
 	background_label = tk.Label(win1, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
-	win1.geometry("1600x900")
+	
 	label = tk.Label(win1, text= "vanakkam da maapla", font = ('Arial', 28))
 	label.pack(padx=20,pady=20)
 	b1= tk.Button(win1,text='Login',bg='green',  command = _login, fg = 'white', width = 10, font = ("Times New Roman", 30))
