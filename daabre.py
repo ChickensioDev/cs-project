@@ -7,14 +7,20 @@ def _login():
 	b2= tk.Button(win2,text='New window',bg='Red',fg='White')
 	b2.pack()
 	win2.mainloop
-	
+
+
+
 def _welcome():
 	win1=tk.Tk()
 	win1.geometry("1600x900")
-	label = tk.Label(win1, text= "vanakkam da maapla", font = ('Arial', 18))
-	label.pack()
-	b1= tk.Button(win1,text='Hello world',bg='green',  command = _login)
+	label = tk.Label(win1, text= "vanakkam da maapla", font = ('Arial', 28))
+	label.pack(padx=20,pady=20)
+	b1= tk.Button(win1,text='Login',bg='green',  command = _login, fg = 'white', width = 10, font = ("Times New Roman", 30))
 	b1.pack()
+	b1.place(relx=0.5,rely=0.45, anchor='center')
+	b2= tk.Button(win1,text='Signup',bg='green',  command = _login, fg = 'white', width = 10,  font = ("Times New Roman", 30))
+	b2.pack()
+	b2.place(relx=0.5,rely=0.55,anchor = 'center')
 
 	a= tk.StringVar()
 	b= tk.StringVar()
