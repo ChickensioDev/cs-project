@@ -1,8 +1,14 @@
 
 
 import tkinter as tk
+from tkinter import PhotoImage
+
 def _login():
 	win2= tk.Tk()
+	# Load the background image
+	background_image = PhotoImage(file=r"D:\Users\HP\Desktop\Medha's stuff\login1.png")
+	background_label = tk.Label(win2, image=background_image)
+	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	win2.geometry('500x500')
 	b2= tk.Button(win2,text='New window',bg='Red',fg='White')
 	b2.pack()
