@@ -74,18 +74,18 @@ def _signup():
 			win3.mainloop()
 		else:
 			enter_value= tk.Label(win4,text='Please enter values for all the fields',font=('arial',15),fg='red',bg='white')
-			enter_value.place(x=70,y=200)
+			enter_value.place(relx=0.5,rely=0.5, anchor="center")
 	
-	age_label=tk.Label(win4,text="           Age          ",font=("Times New Roman",18))
-	email_label=tk.Label(win4,text='       Username       ',font=("Times New Roman",18))
-	pass_label=tk.Label(win4,text='      Password      ',font=("Times New Roman",18))
+	age_label=tk.Label(win4,text="Age",font=("Times New Roman",18),width=10)
+	email_label=tk.Label(win4,text='Username',font=("Times New Roman",18),width=10)
+	pass_label=tk.Label(win4,text='Password',font=("Times New Roman",18),width=10)
 	
-	age_entry=tk.Entry(win4,textvariable=age_var,font=("Times New Roman",18))
-	email_entry=tk.Entry(win4,textvariable=email_var,font=("Times New Roman",18))
-	pass_entry=tk.Entry(win4,textvariable=pass_var,font=("Times New Roman",18))
+	age_entry=tk.Entry(win4,textvariable=age_var,font=("Times New Roman",18),width = 20)
+	email_entry=tk.Entry(win4,textvariable=email_var,font=("Times New Roman",18), width = 20)
+	pass_entry=tk.Entry(win4,textvariable=pass_var,font=("Times New Roman",18),width = 20)
 	
-	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="male")
-	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="female")
+	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,font=("Times New Roman",18),activeforeground="Green",value="male",width = 7)
+	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,font=("Times New Roman",18),activeforeground="Green",value="female",width=7)
 	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='white', command=_submit)
 	close_button = tk.Button(win4, text='Back', font=("Times New Roman", 14), bg="white", fg="black", command=close_window)
 	
@@ -95,10 +95,10 @@ def _signup():
 	pass_entry.grid(row=1,column=1)
 	age_label.grid(row=2,column=0)
 	age_entry.grid(row=2,column=1)
-	button1.grid(row=3,column=0)
-	button2.grid(row=3,column=1)
-	submit_button.place(relx=0.4,rely=0.6)
-	close_button.place(relx=0.53, rely=0.9, anchor='ne')
+	button1.grid(row=3,column=0,sticky='W')
+	button2.grid(row=3,column=1,sticky='W')
+	submit_button.place(relx=0.5,rely=0.4,anchor = 'center')
+	close_button.place(relx=0.5, rely=0.9, anchor='center')
 	
 	win4.mainloop()
 
