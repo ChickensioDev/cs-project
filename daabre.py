@@ -26,14 +26,15 @@ def _login():
 		else:
 			enter_value= tk.Label(win2,text='Please enter the username and password',font=('arial',15),fg='red',bg='white')
 			enter_value.place(relx=0.5,rely=0.5, anchor="center")
-	login_label = tk.Label(win2,text='login',font=('Times New Roman',28))
-	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18),width=10)
+	
+	login_label = tk.Label(win2,text='Login',font=('Times New Roman',28))
+	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18),width=10,)
 	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18),width=10)
 
 	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18),width = 30)
 	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 30)
 	submit_button= tk.Button(win2,text='Submit',font=("Times New Roman", 18),activeforeground='Green',command=_submit)
-	close_button = tk.Button(win2, text='Back', font=("Times New Roman", 14), activeforeground='Green', command=close_window,height=1,width=2)
+	close_button = tk.Button(win2, text='Back', font=("Times New Roman", 14), activeforeground='Green', command=close_window,height=1,width=4)
 	
 	login_label.grid(row=0,column=0,columnspan=3,sticky='')
 	email_label.grid(row=1,column=0)
@@ -73,7 +74,7 @@ def _signup():
 			win3.mainloop()
 		else:
 			enter_value= tk.Label(win4,text='Please enter values for all the fields',font=('arial',15),fg='red',bg='white')
-			enter_value.place(x=0,y=200)
+			enter_value.place(x=70,y=200)
 	
 	age_label=tk.Label(win4,text="           Age          ",font=("Times New Roman",18))
 	email_label=tk.Label(win4,text='       Username       ',font=("Times New Roman",18))
@@ -85,8 +86,8 @@ def _signup():
 	
 	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="male")
 	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="female")
-	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='Green',command=_submit)
-	close_button = tk.Button(win4, text='X', font=("Times New Roman", 14), bg="red", fg="white", command=close_window)
+	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='white', command=_submit)
+	close_button = tk.Button(win4, text='Back', font=("Times New Roman", 14), bg="white", fg="black", command=close_window)
 	
 	email_label.grid(row=0,column=0)
 	email_entry.grid(row=0,column=1)
@@ -97,7 +98,7 @@ def _signup():
 	button1.grid(row=3,column=0)
 	button2.grid(row=3,column=1)
 	submit_button.place(relx=0.4,rely=0.6)
-	close_button.place(relx=1, rely=0.01, anchor='ne')
+	close_button.place(relx=0.53, rely=0.9, anchor='ne')
 	
 	win4.mainloop()
 
