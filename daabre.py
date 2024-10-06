@@ -124,6 +124,7 @@ def _welcome():
 	
 	global win1
 	win1=tk.Tk()
+	win1.title("Welcome") 
 	img_file_name = "bg.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
