@@ -95,7 +95,7 @@ def _welcome():
 	img_path = os.path.join(current_dir, img_file_name)
 	background_image = PhotoImage(file=img_path)
 	background_label = tk.Label(win1, image=background_image)
-	background_label.place(x=300,y=300)  # Stretch the image to cover the window
+	background_label.place(relwidth = 1, relheight = 1)  # Stretch the image to cover the window
 	win1.geometry("1600x900")
 	label = tk.Label(win1, text= "vanakkam da maapla!", font = ('Arial', 28))
 	label.pack(padx=20,pady=20)
