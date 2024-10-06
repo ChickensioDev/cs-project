@@ -25,24 +25,23 @@ def _login():
 			win3.mainloop()
 		else:
 			enter_value= tk.Label(win2,text='Please enter the username and password',font=('arial',15),fg='red',bg='white')
-			enter_value.place(x=0,y=120)
+			enter_value.place(relx=0.5,rely=0.5, anchor="center")
+	login_label = tk.Label(win2,text='login',font=('Times New Roman',28))
+	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18),width=10)
+	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18),width=10)
 
-
-	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18))
-	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18))
-
-	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18))
-	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18))
+	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18),width = 30)
+	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 30)
 	submit_button= tk.Button(win2,text='Submit',font=("Times New Roman", 18),activeforeground='Green',command=_submit)
-	close_button = tk.Button(win2, text='X', font=("Times New Roman", 14), bg="red", fg="white", command=close_window,height=1,width=2)
+	close_button = tk.Button(win2, text='Back', font=("Times New Roman", 14), activeforeground='Green', command=close_window,height=1,width=2)
 	
-
-	email_label.grid(row=0,column=0)
-	email_entry.grid(row=0,column=1)
-	pass_label.grid(row=1,column=0)
-	pass_entry.grid(row=1,column=1)
-	submit_button.grid(row=2,column=1)
-	close_button.place(relx=0.93,rely=0.03)
+	login_label.grid(row=0,column=0,columnspan=3,sticky='')
+	email_label.grid(row=1,column=0)
+	email_entry.grid(row=1,column=1)
+	pass_label.grid(row=2,column=0)
+	pass_entry.grid(row=2,column=1)
+	submit_button.place(relx=0.5,rely=0.4,anchor="center")
+	close_button.place(relx=0.5,rely=0.9, anchor = "center")
 
 
 	win2.mainloop()
