@@ -67,6 +67,7 @@ def _signup():
 	def _submit():
 		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get():
 			win3= tk.Tk()
+			win3.title("Befake")
 			win3.geometry('1600x900')
 			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 			label1.pack(padx=20,pady=20)
@@ -76,7 +77,7 @@ def _signup():
 			enter_value.place(x=0,y=200)
 	
 	age_label=tk.Label(win4,text="           Age          ",font=("Times New Roman",18))
-	email_label=tk.Label(win4,text='       Email id       ',font=("Times New Roman",18))
+	email_label=tk.Label(win4,text='       Username       ',font=("Times New Roman",18))
 	pass_label=tk.Label(win4,text='      Password      ',font=("Times New Roman",18))
 	
 	age_entry=tk.Entry(win4,textvariable=age_var,font=("Times New Roman",18))
