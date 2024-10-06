@@ -82,7 +82,6 @@ def _signup():
 	submit_button.place(relx=0.4,rely=0.6)
 	close_button.place(relx=1, rely=0.01, anchor='ne')
 	
-	win4.protocol("WM_DELETE_WINDOW", close_window)
 	win4.mainloop()
 
 
