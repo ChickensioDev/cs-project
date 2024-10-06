@@ -55,7 +55,7 @@ def _signup():
 	age_var=tk.StringVar()
 	email_var=tk.StringVar()
 	pass_var=tk.StringVar()
-	gender_var = tk.StringVar(value="") 
+	gender_var = tk.StringVar(value="o") 
 	
 	age_label=tk.Label(win4,text="           Age          ",font=("Times New Roman",18))
 	email_label=tk.Label(win4,text='       Email id       ',font=("Times New Roman",18))
