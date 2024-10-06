@@ -9,12 +9,13 @@ def _login():
 		win1.deiconify()  #Shows the hidden main window,win1 again
 	win1.withdraw() #Hides the main window.win1
 	win2= tk.Toplevel()
-	win2.geometry('500x500')
+	win2.geometry('1600x900')
 	win2.configure(bg="lightblue")
 	win2.title("Login")
 	
 	email_var= tk.StringVar()
 	pass_var= tk.StringVar()
+	show_password = tk.BooleanVar()
 
 	def _submit():
 		if email_var.get() and pass_var.get():
@@ -26,22 +27,28 @@ def _login():
 		else:
 			enter_value= tk.Label(win2,text='Please enter the username and password',font=('arial',15),fg='red',bg='white')
 			enter_value.place(relx=0.5,rely=0.5, anchor="center")
-	
+	def password_seen():
+		if show_password.get():
+			pass_entry.config(show='')
+		else:
+			pass_entry.config(show='*')  # Hide the password with *)
 	login_label = tk.Label(win2,text='Login',font=('Times New Roman',28))
 	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18),width=10,)
 	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18),width=10)
 
 	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18),width = 30)
-	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 30)
+	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 30,)
 	submit_button= tk.Button(win2,text='Submit',font=("Times New Roman", 18),activeforeground='Green',command=_submit)
 	close_button = tk.Button(win2, text='Back', font=("Times New Roman", 14), activeforeground='Green', command=close_window,height=1,width=4)
+	show_password_check = tk.Checkbutton(win2, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen)
 	
 	login_label.grid(row=0,column=0,columnspan=3,sticky='')
 	email_label.grid(row=1,column=0)
 	email_entry.grid(row=1,column=1)
 	pass_label.grid(row=2,column=0)
 	pass_entry.grid(row=2,column=1)
-	submit_button.place(relx=0.5,rely=0.4,anchor="center")
+	show_password_check.grid(row=3, column=1, sticky='w')  # Place the checkbox below the password field
+	submit_button.place(relx=0.5,rely=0.4,anchor="center",)
 	close_button.place(relx=0.5,rely=0.9, anchor = "center")
 
 
@@ -55,13 +62,13 @@ def _signup():
 	win1.withdraw()	
 	win4 = tk.Toplevel()
 	win4.title("Sign up")
-	win4.geometry("500x500")
+	win4.geometry("1600x900")
 	win4.configure(bg="lightblue")
 	win4.title("Sign Up")
 	
 	age_var=tk.StringVar()
 	email_var=tk.StringVar()
-	pass_var=tk.StringVar()
+	pass_var=tk.StringVar()		
 	gender_var = tk.StringVar(value="o") 
 
 	def _submit():
