@@ -86,8 +86,7 @@ def _signup():
 	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="male")
 	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="female")
 	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='Green',command=_submit)
-	close_button = tk.Button(win4, text='X', font=("Times New Roman", 14), 
-                         bg="red", fg="white", command=close_window)
+	close_button = tk.Button(win4, text='X', font=("Times New Roman", 14), bg="red", fg="white", command=close_window)
 	
 	email_label.grid(row=0,column=0)
 	email_entry.grid(row=0,column=1)
@@ -116,10 +115,10 @@ def _welcome():
 	win1.geometry("1600x900")
 	label = tk.Label(win1, text= "vanakkam da maapla!", font = ('Arial', 28))
 	label.pack(padx=20,pady=20)
-	label1 = tk.Label(win1, text= " Do you have an account?", font = ('Arial', 24))
+	label1 = tk.Label(win1, text= "Already have an account?", font = ('Arial', 24))
 	label1.pack()
 	label1.place(relx=0.5,rely=0.3,anchor='center')
-	label2 = tk.Label(win1, text= " If not please sign up", font = ('Arial', 24))
+	label2 = tk.Label(win1, text= "New to the page?", font = ('Arial', 24))
 	label2.pack()
 	label2.place(relx=0.5,rely=0.6,anchor='center')
 	b1= tk.Button(win1,text='Login',bg='green',  command = _login, fg = 'white', width = 7, height=1, font = ("Times New Roman", 30),activeforeground='Green')
