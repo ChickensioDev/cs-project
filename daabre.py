@@ -9,7 +9,7 @@ def _login():
 		win1.deiconify()  #Shows the hidden main window,win1 again
 	win1.withdraw() #Hides the main window.win1
 	win2= tk.Toplevel()
-	win2.geometry('1600x900')
+	win2.geometry('500x500')
 	win2.configure(bg="lightblue")
 	win2.title("Login")
 	
@@ -62,7 +62,7 @@ def _signup():
 	win1.withdraw()	
 	win4 = tk.Toplevel()
 	win4.title("Sign up")
-	win4.geometry("1600x900")
+	win4.geometry("500x500")
 	win4.configure(bg="lightblue")
 	win4.title("Sign Up")
 	
