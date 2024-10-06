@@ -16,12 +16,24 @@ def _login():
 	email_var= tk.StringVar()
 	pass_var= tk.StringVar()
 
+	def _submit():
+		if email_var.get() and pass_var.get():
+			win3= tk.Tk()
+			win3.geometry('1600x900')
+			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
+			label1.pack(padx=20,pady=20)
+			win3.mainloop()
+		else:
+			enter_value= tk.Label(win2,text='Please enter the username and password',font=('arial',15),fg='red',bg='white')
+			enter_value.place(x=0,y=120)
+
+
 	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18))
 	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18))
 
 	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18))
 	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18))
-	submit_button= tk.Button(win2,text='Submit',font=("Times New Roman", 18),activeforeground='Green')
+	submit_button= tk.Button(win2,text='Submit',font=("Times New Roman", 18),activeforeground='Green',command=_submit)
 	close_button = tk.Button(win2, text='X', font=("Times New Roman", 14), bg="red", fg="white", command=close_window,height=1,width=2)
 	
 
@@ -34,11 +46,6 @@ def _login():
 
 
 	win2.mainloop()
-	win3= tk.Tk()
-	win3.geometry('1600x900')
-	label= tk.Label(win3,text='Welcome to Cs project :)',font='Times New Roman',anchor='center',justify='center')
-	label.pack(padx=20,pady=20)
-	win3.mainloop()
 
 def _signup():
 	def close_window():
@@ -56,6 +63,17 @@ def _signup():
 	email_var=tk.StringVar()
 	pass_var=tk.StringVar()
 	gender_var = tk.StringVar(value="o") 
+
+	def _submit():
+		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get():
+			win3= tk.Tk()
+			win3.geometry('1600x900')
+			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
+			label1.pack(padx=20,pady=20)
+			win3.mainloop()
+		else:
+			enter_value= tk.Label(win4,text='Please enter values for all the fields',font=('arial',15),fg='red',bg='white')
+			enter_value.place(x=0,y=200)
 	
 	age_label=tk.Label(win4,text="           Age          ",font=("Times New Roman",18))
 	email_label=tk.Label(win4,text='       Email id       ',font=("Times New Roman",18))
@@ -67,7 +85,7 @@ def _signup():
 	
 	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="male")
 	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,height=1,width=10,font=("Times New Roman",18),activeforeground="Green",value="female")
-	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='Green')
+	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='Green',command=_submit)
 	close_button = tk.Button(win4, text='X', font=("Times New Roman", 14), 
                          bg="red", fg="white", command=close_window)
 	
