@@ -12,7 +12,6 @@ def _login():
 	win2.geometry('1600x900')
 	win2.configure(bg="lightblue")
 	win2.title("Login")
-	
 	email_var= tk.StringVar()
 	pass_var= tk.StringVar()
 	show_password = tk.BooleanVar()
@@ -96,7 +95,7 @@ def _signup():
 	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='white', command=_submit)
 	close_button = tk.Button(win4, text='Back', font=("Times New Roman", 14), bg="white", fg="black", command=close_window)
 	
-	email_label.grid(row=0,column=0)
+	email_label.grid(row=0,column=1)
 	email_entry.grid(row=0,column=1)
 	pass_label.grid(row=1,column=0)
 	pass_entry.grid(row=1,column=1)
