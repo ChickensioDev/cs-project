@@ -71,7 +71,7 @@ def _signup():
 	pass_var=tk.StringVar()		
 	gender_var = tk.StringVar(value="o") 
 	show_password = tk.BooleanVar()
-
+	
 	def _submit():
 		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get():
 			win3= tk.Tk()
@@ -114,7 +114,6 @@ def _signup():
 	button2.grid(row=4,column=1,sticky='W')
 	submit_button.place(relx=0.5,rely=0.4,anchor = 'center')
 	close_button.place(relx=0.5, rely=0.9, anchor='center')
-	
 	win4.mainloop()
 
 
@@ -146,3 +145,6 @@ def _welcome():
 	win1.mainloop()
 
 _welcome()
+
+def _create_sql():
+	pass
