@@ -2,8 +2,11 @@
 import pathlib, os
 import tkinter as tk
 from tkinter import PhotoImage
+from tkinter import messagebox as msg
 
-
+def add_user():
+	pass
+	
 def _login():
 	
 	def close_window():
@@ -21,6 +24,7 @@ def _login():
 	def _submit():
 		if email_var.get() and pass_var.get():
 			win3= tk.Tk()
+			win3.title("Be fake")
 			win3.geometry('1600x900')
 			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 			label1.pack(padx=20,pady=20)
