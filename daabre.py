@@ -65,7 +65,6 @@ def _signup():
 	win4.title("Sign up")
 	win4.geometry("500x500")
 	win4.configure(bg="lightblue")
-	win4.title("Sign Up")
 	
 	age_var=tk.StringVar()
 	email_var=tk.StringVar()
@@ -104,7 +103,7 @@ def _signup():
 	close_button = tk.Button(win4, text='Back', font=("Times New Roman", 14), bg="white", fg="black", command=close_window)
 	show_password_check = tk.Checkbutton(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen)
 	
-	email_label.grid(row=0,column=1)
+	email_label.grid(row=0,column=0)
 	email_entry.grid(row=0,column=1)
 	pass_label.grid(row=2,column=0)
 	pass_entry.grid(row=2,column=1)
