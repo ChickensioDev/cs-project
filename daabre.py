@@ -3,10 +3,20 @@ import pathlib, os
 import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import messagebox as msg
+import mysql.connector
 
 def add_user():
 	pass
-	
+
+def _create_sql(n,a,p,g):
+	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
+	cursor = conn.cursor()
+	sql_insert_query = """ INSERT INTO login_info
+                   (username,password,age,gender) VALUES (%s,%s,%s,%s)"""
+	insert_tuple_1 = (n,p,a,g)
+	cursor.execute(sql_insert_query,insert_tuple_1)
+	conn.commit()
+	cursor.close()
 def _login():
 	
 	def close_window():
@@ -78,12 +88,14 @@ def _signup():
 	
 	def _submit():
 		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get():
+			_create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get())
 			win3= tk.Tk()
 			win3.title("Befake")
 			win3.geometry('1600x900')
 			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 			label1.pack(padx=20,pady=20)
 			win3.mainloop()
+			
 		else:
 			enter_value= tk.Label(win4,text='Please enter values for all the fields',font=('arial',15),fg='red',bg='white')
 			enter_value.place(relx=0.5,rely=0.5, anchor="center")
@@ -150,5 +162,5 @@ def _welcome():
 
 _welcome()
 
-def _create_sql():
-	pass
+
+	
