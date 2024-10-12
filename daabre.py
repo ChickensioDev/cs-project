@@ -87,7 +87,7 @@ def _signup():
 	show_password = tk.BooleanVar()
 	
 	def _submit():
-		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get():
+		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o':
 			_create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get())
 			win3= tk.Tk()
 			win3.title("Befake")
