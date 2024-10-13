@@ -2,8 +2,21 @@
 import pathlib, os
 import tkinter as tk
 from tkinter import PhotoImage
+from tkinter import messagebox as msg
+import mysql.connector
 
+def add_user():
+	pass
 
+def _create_sql(n,a,p,g):
+	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
+	cursor = conn.cursor()
+	sql_insert_query = """ INSERT INTO login_info
+                   (username,password,age,gender) VALUES (%s,%s,%s,%s)"""
+	insert_tuple_1 = (n,p,a,g)
+	cursor.execute(sql_insert_query,insert_tuple_1)
+	conn.commit()
+	cursor.close()
 def _login():
 	
 	def close_window():
@@ -21,6 +34,7 @@ def _login():
 	def _submit():
 		if email_var.get() and pass_var.get():
 			win3= tk.Tk()
+			win3.title("Be fake")
 			win3.geometry('1600x900')
 			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 			label1.pack(padx=20,pady=20)
@@ -36,7 +50,6 @@ def _login():
 	login_label = tk.Label(win2,text='Login',font=('Times New Roman',28))
 	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18),width=10,)
 	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18),width=10)
-	
 
 	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18),width = 30)
 	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 30,show='*')
@@ -66,23 +79,23 @@ def _signup():
 	win4.title("Sign up")
 	win4.geometry("500x500")
 	win4.configure(bg="lightblue")
-	win4.title("Sign Up")
 	
 	age_var=tk.StringVar()
 	email_var=tk.StringVar()
 	pass_var=tk.StringVar()		
-	phone_var=tk.StringVar()
 	gender_var = tk.StringVar(value="o") 
 	show_password = tk.BooleanVar()
-
+	
 	def _submit():
-		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() and phone_var.get():
+		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o':
+			_create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get())
 			win3= tk.Tk()
 			win3.title("Befake")
 			win3.geometry('1600x900')
 			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 			label1.pack(padx=20,pady=20)
 			win3.mainloop()
+			
 		else:
 			enter_value= tk.Label(win4,text='Please enter values for all the fields',font=('arial',15),fg='red',bg='white')
 			enter_value.place(relx=0.5,rely=0.5, anchor="center")
@@ -95,12 +108,10 @@ def _signup():
 	age_label=tk.Label(win4,text="Age",font=("Times New Roman",18),width=10)
 	email_label=tk.Label(win4,text='Username',font=("Times New Roman",18),width=10)
 	pass_label=tk.Label(win4,text='Password',font=("Times New Roman",18),width=10)
-	phone_label=tk.Label(win4,text='phone number',font=("Times New Roman",18),width=10)
 	
 	age_entry=tk.Entry(win4,textvariable=age_var,font=("Times New Roman",18),width = 20)
 	email_entry=tk.Entry(win4,textvariable=email_var,font=("Times New Roman",18), width = 20)
 	pass_entry=tk.Entry(win4,textvariable=pass_var,font=("Times New Roman",18),width = 20, show='*')
-	phone_entry=tk.Entry(win4,textvariable=phone_var,font=("Times New Roman",18),width = 20)
 	
 	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,font=("Times New Roman",18),activeforeground="Green",value="male",width = 7)
 	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,font=("Times New Roman",18),activeforeground="Green",value="female",width=7)
@@ -108,20 +119,18 @@ def _signup():
 	close_button = tk.Button(win4, text='Back', font=("Times New Roman", 14), bg="white", fg="black", command=close_window)
 	show_password_check = tk.Checkbutton(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen)
 	
-	email_label.grid(row=0, column=0)
-    email_entry.grid(row=0, column=1) 
-    age_label.grid(row=1, column=0)
-    age_entry.grid(row=1, column=1)   
-    phone_label.grid(row=2, column=0)
-    phone_entry.grid(row=2, column=1)    
-    pass_label.grid(row=3, column=0)
-    pass_entry.grid(row=3, column=1)   
-    show_password_check.grid(row=4, column=1, sticky='w')  
-    button1.grid(row=5, column=0, sticky='W')
-    button2.grid(row=5, column=1, sticky='W')  
-    submit_button.place(relx=0.5, rely=0.4, anchor='center')
-    close_button.place(relx=0.5, rely=0.9, anchor='center')   
-    win4.mainloop()
+	email_label.grid(row=0,column=0)
+	email_entry.grid(row=0,column=1)
+	pass_label.grid(row=2,column=0)
+	pass_entry.grid(row=2,column=1)
+	show_password_check.grid(row=3, column=1, sticky='w') 
+	age_label.grid(row=1,column=0)
+	age_entry.grid(row=1,column=1)
+	button1.grid(row=4,column=0,sticky='W')
+	button2.grid(row=4,column=1,sticky='W')
+	submit_button.place(relx=0.5,rely=0.4,anchor = 'center')
+	close_button.place(relx=0.5, rely=0.9, anchor='center')
+	win4.mainloop()
 
 
 def _welcome():
@@ -152,3 +161,6 @@ def _welcome():
 	win1.mainloop()
 
 _welcome()
+
+
+	
