@@ -3,8 +3,8 @@ import pathlib, os
 import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import messagebox as msg
+import mysql.connector
 
-import customtkinter
 def add_user():
 	pass
 
