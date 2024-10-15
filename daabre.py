@@ -3,8 +3,16 @@ import pathlib, os
 import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import messagebox as msg
-def add_user():
-	pass
+import mysql.connector
+
+def successful_signin():
+	win3= tk.Tk()
+	win3.title("Be fake")
+	win3.geometry('1600x900')
+	label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
+	label1.pack(padx=20,pady=20)
+	win3.mainloop()
+	
 
 def _create_sql(n,a,p,g):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
@@ -15,6 +23,22 @@ def _create_sql(n,a,p,g):
 	cursor.execute(sql_insert_query,insert_tuple_1)
 	conn.commit()
 	cursor.close()
+	
+def _search_sql(n,p):
+	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
+	cursor = conn.cursor()
+	sql_insert_query = "SELECT password from login_info where username = '%s'" 
+	cursor.execute(sql_insert_query % n)
+	result = cursor.fetchall()
+	if len(result) == 0:
+		return -1
+	elif result[0][0] == p:
+		return 1
+	else:
+		return 0
+	
+	
+
 def _login():
 	
 	def close_window():
@@ -28,18 +52,21 @@ def _login():
 	email_var= tk.StringVar()
 	pass_var= tk.StringVar()
 	show_password = tk.BooleanVar()
-
+	enter_value = tk.Label(win2,text='',font=('arial',15),fg='red',bg='white')
 	def _submit():
+		
+
+		
 		if email_var.get() and pass_var.get():
-			win3= tk.Tk()
-			win3.title("Be fake")
-			win3.geometry('1600x900')
-			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
-			label1.pack(padx=20,pady=20)
-			win3.mainloop()
+			if _search_sql(email_var.get(), pass_var.get()) == 1:
+				successful_signin()
+			elif _search_sql(email_var.get(), pass_var.get()) == 0:
+				enter_value.config(text="incorrect password")
+			elif _search_sql(email_var.get(), pass_var.get()) == -1:
+				enter_value.config(text="username does not exist")
 		else:
-			enter_value= tk.Label(win2,text='Please enter the username and password',font=('arial',15),fg='red',bg='white')
-			enter_value.place(relx=0.5,rely=0.5, anchor="center")
+			enter_value.config(text='Please enter the username and password',)
+		enter_value.place(relx=0.5,rely=0.5, anchor="center")			
 	def password_seen():
 		if show_password.get():
 			pass_entry.config(show='')
