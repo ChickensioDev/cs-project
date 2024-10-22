@@ -4,6 +4,9 @@ import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import messagebox as msg
 import mysql.connector
+import customtkinter as ctk
+
+
 
 def successful_signin():
 	win3= tk.Tk()
@@ -23,6 +26,10 @@ def _create_sql(n,a,p,g):
 	cursor.execute(sql_insert_query,insert_tuple_1)
 	conn.commit()
 	cursor.close()
+	f = open('cache.txt','w')
+	data = (n,a,p,g)
+	for i in data:
+		f.write(i)
 	
 def _search_sql(n,p):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
@@ -161,7 +168,7 @@ def _signup():
 def _welcome():
 	
 	global win1
-	win1=tk.Tk()
+	win1=ctk.CTk()
 	win1.title("Welcome")
 	img_file_name = "bg.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
