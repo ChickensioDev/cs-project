@@ -24,12 +24,13 @@ def _create_sql(n,a,p,g):
                    (username,password,age,gender) VALUES (%s,%s,%s,%s)"""
 	insert_tuple_1 = (n,p,a,g)
 	cursor.execute(sql_insert_query,insert_tuple_1)
+	sql_insert_query = "SELECT id from login_info where username = '%s'" 
+	cursor.execute(sql_insert_query % n)
+	result = cursor.fetchall()
 	conn.commit()
 	cursor.close()
 	f = open('cache.txt','w')
-	data = (n,a,p,g)
-	for i in data:
-		f.write(i+'\n')
+	f.write(str(result[0][0]))
 	
 def _search_sql(n,p):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
@@ -38,10 +39,20 @@ def _search_sql(n,p):
 	cursor.execute(sql_insert_query % n)
 	result = cursor.fetchall()
 	if len(result) == 0:
+		cursor.close()
 		return -1
 	elif result[0][0] == p:
+		sql_insert_query = "SELECT id from login_info where username = '%s'" 
+		cursor.execute(sql_insert_query % n)
+		result = cursor.fetchall()
+		conn.commit()
+		cursor.close()
+		f = open('cache.txt','w')
+		f.write(str(result[0][0]))
+		cursor.close()
 		return 1
 	else:
+		cursor.close()
 		return 0
 	
 	
