@@ -29,7 +29,7 @@ def _create_sql(n,a,p,g):
 	f = open('cache.txt','w')
 	data = (n,a,p,g)
 	for i in data:
-		f.write(i)
+		f.write(i+'\n')
 	
 def _search_sql(n,p):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
