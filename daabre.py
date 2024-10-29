@@ -1,5 +1,7 @@
 
 import pathlib, os
+import PIL
+from PIL import Image
 import tkinter as tk
 from tkinter import PhotoImage
 from tkinter import messagebox as msg
@@ -24,10 +26,10 @@ def _create_sql(n,a,p,g):
                    (username,password,age,gender) VALUES (%s,%s,%s,%s)"""
 	insert_tuple_1 = (n,p,a,g)
 	cursor.execute(sql_insert_query,insert_tuple_1)
+	conn.commit()
 	sql_insert_query = "SELECT id from login_info where username = '%s'" 
 	cursor.execute(sql_insert_query % n)
 	result = cursor.fetchall()
-	conn.commit()
 	cursor.close()
 	f = open('cache.txt','w')
 	f.write(str(result[0][0]))
@@ -45,7 +47,6 @@ def _search_sql(n,p):
 		sql_insert_query = "SELECT id from login_info where username = '%s'" 
 		cursor.execute(sql_insert_query % n)
 		result = cursor.fetchall()
-		conn.commit()
 		cursor.close()
 		f = open('cache.txt','w')
 		f.write(str(result[0][0]))
@@ -60,7 +61,7 @@ def _search_sql(n,p):
 def _login():
 	
 	def close_window():
-		win2.withdraw() # Hides the login window, win2
+		win2.iconify() # Hides the login window, win2
 		win1.deiconify()  #Shows the hidden main window,win1 again
 	win1.withdraw() #Hides the main window.win1
 	win2= tk.Toplevel()
@@ -179,28 +180,35 @@ def _signup():
 def _welcome():
 	
 	global win1
-	win1=ctk.CTk()
+	win1=ctk.CTk() #Creates a CTk window
 	win1.title("Welcome")
 	img_file_name = "bg.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
-	background_image = PhotoImage(file=img_path)
-	background_label = tk.Label(win1, image=background_image)
-	background_label.place(relwidth = 1, relheight = 1)  # Stretch the image to cover the window
+
+	#Load the image using Pillow
+	image = Image.open(img_path)
+	background_image =ctk.CTkImage(dark_image=image,size=(1600,900))
+	background_label = ctk.CTkLabel(win1, image=background_image)
+	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
+
+	frame = ctk.CTkFrame(win1, corner_radius=15,width=600,height=600, fg_color="transparent")  # Semi-transparent white
+	frame.place(relx=0.5, rely=0.5, anchor='center')
+
 	win1.geometry("1600x900")
-	label = tk.Label(win1, text= "vanakkam da maapla!", font = ('Arial', 28))
-	label.pack(padx=20,pady=20)
-	label1 = tk.Label(win1, text= "Already have an account?", font = ('Arial', 24))
-	label1.pack()
+	title_label = ctk.CTkLabel(win1, text= "welcome!", font = ('Arial', 28),bg_color='transparent')
+	title_label.place(relx=0.5,rely=0.2,anchor='center')
+	
+	label1 = ctk.CTkLabel(win1, text= "Already have an account?", font = ('Arial', 24))
 	label1.place(relx=0.5,rely=0.3,anchor='center')
-	label2 = tk.Label(win1, text= "New to the page?", font = ('Arial', 24))
-	label2.pack()
+	
+	label2 = ctk.CTkLabel(win1, text= "New to the page?", font = ('Arial', 24))
 	label2.place(relx=0.5,rely=0.6,anchor='center')
-	b1= tk.Button(win1,text='Login',bg='green',  command = _login, fg = 'white', width = 7, height=1, font = ("Times New Roman", 30),activeforeground='Green')
-	b1.pack()
+	
+	b1= ctk.CTkButton(win1,text='Login',command = _login,fg_color='green', text_color= 'white', width = 7, height=1, font = ("Times New Roman", 30))
 	b1.place(relx=0.5,rely=0.4, anchor='center')
-	b2= tk.Button(win1,text='Sign up',bg='green',  command = _signup, fg = 'white', width = 7, height=1,  font = ("Times New Roman", 30),activeforeground='Green')
-	b2.pack()
+	
+	b2= ctk.CTkButton(win1, command = _signup,text='Sign up',fg_color='green',  text_color = 'white', width = 7, height=1,  font = ("Times New Roman", 30))
 	b2.place(relx=0.5,rely=0.7,anchor = 'center')
 	win1.mainloop()
 
