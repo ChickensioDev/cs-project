@@ -11,10 +11,10 @@ import customtkinter as ctk
 
 
 def successful_signin():
-	win3= tk.Tk()
+	win3= ctk.CTk()
 	win3.title("Be fake")
 	win3.geometry('1600x900')
-	label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
+	label1= ctk.CTkLabel(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 	label1.pack(padx=20,pady=20)
 	win3.mainloop()
 	
@@ -64,42 +64,41 @@ def _login():
 		win2.iconify() # Hides the login window, win2
 		win1.deiconify()  #Shows the hidden main window,win1 again
 	win1.withdraw() #Hides the main window.win1
-	win2= tk.Toplevel()
+	win2= ctk.CTkToplevel()
 	win2.geometry('500x500')
-	win2.configure(bg="lightblue")
+	win2.configure(fg_color='lightblue')
 	win2.title("Login")
-	email_var= tk.StringVar()
-	pass_var= tk.StringVar()
-	show_password = tk.BooleanVar()
-	enter_value = tk.Label(win2,text='',font=('arial',15),fg='red',bg='white')
+	email_var= ctk.StringVar()
+	pass_var= ctk.StringVar()
+	show_password = ctk.BooleanVar()
+	enter_value = ctk.CTkLabel(win2,text='',font=('arial',15),text_color='red',fg_color='white')
+	
 	def _submit():
-		
-
-		
-		if email_var.get() and pass_var.get():
-			if _search_sql(email_var.get(), pass_var.get()) == 1:
-				successful_signin()
-			elif _search_sql(email_var.get(), pass_var.get()) == 0:
-				enter_value.config(text="incorrect password")
-			elif _search_sql(email_var.get(), pass_var.get()) == -1:
-				enter_value.config(text="username does not exist")
-		else:
-			enter_value.config(text='Please enter the username and password',)
-		enter_value.place(relx=0.5,rely=0.5, anchor="center")			
+			if email_var.get() and pass_var.get():
+				if _search_sql(email_var.get(), pass_var.get()) == 1:
+					successful_signin()
+				elif _search_sql(email_var.get(), pass_var.get()) == 0:
+				 enter_value.configure(text="incorrect password")
+				elif _search_sql(email_var.get(), pass_var.get()) == -1:
+					enter_value.configure(text="username does not exist")
+			else:
+				enter_value.configure(text="Please enter the username and password")
+			enter_value.place(relx=0.5,rely=0.5,anchor='center')
 	def password_seen():
 		if show_password.get():
-			pass_entry.config(show='')
+			pass_entry.configure(show='')
 		else:
-			pass_entry.config(show='*')  # Hide the password with *)
-	login_label = tk.Label(win2,text='Login',font=('Times New Roman',28))
-	email_label= tk.Label(win2,text='Username',font=("Times New Roman", 18),width=10,)
-	pass_label= tk.Label(win2,text='Password',font=("Times New Roman", 18),width=10)
+			pass_entry.configure(show='*')  # Hide the password with *)
+	login_label = ctk.CTkLabel(win2,text='Login',font=('Times New Roman',28),text_color='black',fg_color='transparent')
+	email_label= ctk.CTkLabel(win2,text='Username',font=("Times New Roman", 18),width=10,text_color='Black',fg_color='transparent')
+	pass_label= ctk.CTkLabel(win2,text='Password',font=("Times New Roman", 18),width=10,text_color='Black',fg_color='transparent')
 
-	email_entry= tk.Entry(win2,textvariable=email_var,font=("Times New Roman", 18),width = 30)
-	pass_entry= tk.Entry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 30,show='*')
-	submit_button= tk.Button(win2,text='Submit',font=("Times New Roman", 18),activeforeground='Green',command=_submit)
-	close_button = tk.Button(win2, text='Back', font=("Times New Roman", 14), activeforeground='Green', command=close_window,height=1,width=4)
-	show_password_check = tk.Checkbutton(win2, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen)
+	email_entry= ctk.CTkEntry(win2,textvariable=email_var,font=("Times New Roman", 18),width = 150)
+	pass_entry= ctk.CTkEntry(win2,textvariable=pass_var,font=("Times New Roman", 18),width = 150,show='*')
+	
+	submit_button= ctk.CTkButton(win2,text='Submit',font=("Times New Roman", 18),command=_submit,text_color='white',fg_color='green')
+	close_button = ctk.CTkButton(win2, text='Back', font=("Times New Roman",14),text_color='white',fg_color='green', command=close_window)
+	show_password_check = ctk.CTkCheckBox(win2, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='Black')
 	
 	login_label.grid(row=0,column=0,columnspan=3,sticky='')
 	email_label.grid(row=1,column=0)
@@ -119,49 +118,49 @@ def _signup():
 		win1.deiconify() 
 	
 	win1.withdraw()	
-	win4 = tk.Toplevel()
+	win4 = ctk.CTkToplevel()
 	win4.title("Sign up")
 	win4.geometry("500x500")
-	win4.configure(bg="lightblue")
+	win4.configure(fg_color="lightblue")
 	
-	age_var=tk.StringVar()
-	email_var=tk.StringVar()
-	pass_var=tk.StringVar()		
-	gender_var = tk.StringVar(value="o") 
-	show_password = tk.BooleanVar()
+	age_var=ctk.StringVar()
+	email_var=ctk.StringVar()
+	pass_var=ctk.StringVar()		
+	gender_var = ctk.StringVar(value="o") 
+	show_password = ctk.BooleanVar()
 	
 	def _submit():
 		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o':
 			_create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get())
-			win3= tk.Tk()
+			win3= ctk.CTk()
 			win3.title("Befake")
 			win3.geometry('1600x900')
-			label1= tk.Label(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
+			label1= ctk.CTkLabel(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
 			label1.pack(padx=20,pady=20)
 			win3.mainloop()
 			
 		else:
-			enter_value= tk.Label(win4,text='Please enter values for all the fields',font=('arial',15),fg='red',bg='white')
+			enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
 			enter_value.place(relx=0.5,rely=0.5, anchor="center")
 	def password_seen():
 		if show_password.get():
-			pass_entry.config(show='')
+			pass_entry.configure(show='')
 		else:
-			pass_entry.config(show='*')  # Hide the password with *)
+			pass_entry.configure(show='*')  # Hide the password with *)
 	
-	age_label=tk.Label(win4,text="Age",font=("Times New Roman",18),width=10)
-	email_label=tk.Label(win4,text='Username',font=("Times New Roman",18),width=10)
-	pass_label=tk.Label(win4,text='Password',font=("Times New Roman",18),width=10)
+	age_label=ctk.CTkLabel(win4,text="Age",font=("Times New Roman",18),width=10,text_color='black')
+	email_label=ctk.CTkLabel(win4,text='Username',font=("Times New Roman",18),width=10,text_color='black')
+	pass_label=ctk.CTkLabel(win4,text='Password',font=("Times New Roman",18),width=10,text_color='black')
 	
-	age_entry=tk.Entry(win4,textvariable=age_var,font=("Times New Roman",18),width = 20)
-	email_entry=tk.Entry(win4,textvariable=email_var,font=("Times New Roman",18), width = 20)
-	pass_entry=tk.Entry(win4,textvariable=pass_var,font=("Times New Roman",18),width = 20, show='*')
+	age_entry=ctk.CTkEntry(win4,textvariable=age_var,font=("Times New Roman",18),width = 200)
+	email_entry=ctk.CTkEntry(win4,textvariable=email_var,font=("Times New Roman",18), width = 200)
+	pass_entry=ctk.CTkEntry(win4,textvariable=pass_var,font=("Times New Roman",18),width = 200, show='*')
 	
-	button1=tk.Radiobutton(win4,text='Male',variable=gender_var,font=("Times New Roman",18),activeforeground="Green",value="male",width = 7)
-	button2=tk.Radiobutton(win4,text='Female',variable=gender_var,font=("Times New Roman",18),activeforeground="Green",value="female",width=7)
-	submit_button= tk.Button(win4,text='Submit',font=("Times New Roman",18),activeforeground='white', command=_submit)
-	close_button = tk.Button(win4, text='Back', font=("Times New Roman", 14), bg="white", fg="black", command=close_window)
-	show_password_check = tk.Checkbutton(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen)
+	button1=ctk.CTkRadioButton(win4,text='Male',variable=gender_var,font=("Times New Roman",18),fg_color="Green",text_color='black',value="male",width = 7)
+	button2=ctk.CTkRadioButton(win4,text='Female',variable=gender_var,font=("Times New Roman",18),fg_color="Green",text_color='black',value="female",width=7)
+	submit_button= ctk.CTkButton(win4,text='Submit',font=("Times New Roman",18), command=_submit,fg_color='Green')
+	close_button = ctk.CTkButton(win4, text='Back', font=("Times New Roman", 14), text_color="white", fg_color="green", command=close_window)
+	show_password_check = ctk.CTkCheckBox(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='black')
 	
 	email_label.grid(row=0,column=0)
 	email_entry.grid(row=0,column=1)
