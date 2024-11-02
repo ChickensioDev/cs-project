@@ -22,7 +22,9 @@ def _message():
 		conn.commit()
 		
 	def _check():
-		sql_query = cursor.execute('select * from messages')
+		conn.commit()
+		cursor.execute('select * from messages')
+		
 		result = cursor.fetchall()
 		for i in range(0,len(result)):
 			displabel = CTkLabel(master=app, text = result[i])
