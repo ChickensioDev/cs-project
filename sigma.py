@@ -49,6 +49,5 @@ cursor = conn.cursor()
 data = _import_data()
 id = data[0]
 user = data[1]
-print(id,user)
 _message()
 app.mainloop()
