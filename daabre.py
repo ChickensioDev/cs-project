@@ -7,23 +7,22 @@ from tkinter import PhotoImage
 from tkinter import messagebox as msg
 import mysql.connector
 import customtkinter as ctk
-
+import subprocess
+import sys
 
 
 def successful_signin():
-	win3= ctk.CTk()
-	win3.title("Be fake")
-	win3.geometry('1600x900')
-	label1= ctk.CTkLabel(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
-	label1.pack(padx=20,pady=20)
-	win3.mainloop()
+	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+
+	subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
+	sys.exit()
 	
 
 def _create_sql(n,a,p,g):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
-	sql_insert_query = """ INSERT INTO login_info
-                   (username,password,age,gender) VALUES (%s,%s,%s,%s)"""
+	sql_insert_query = '''INSERT INTO login_info
+                   (username,password,age,gender) VALUES (%s,%s,%s,%s)'''
 	insert_tuple_1 = (n,p,a,g)
 	cursor.execute(sql_insert_query,insert_tuple_1)
 	conn.commit()
@@ -132,13 +131,7 @@ def _signup():
 	def _submit():
 		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o':
 			_create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get())
-			win3= ctk.CTk()
-			win3.title("Befake")
-			win3.geometry('1600x900')
-			label1= ctk.CTkLabel(win3,text='Welcome to Cs project :)',font=('Times New Roman',20),anchor='center',justify='center')
-			label1.pack(padx=20,pady=20)
-			win3.mainloop()
-			
+			_successful_signin()
 		else:
 			enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
 			enter_value.place(relx=0.5,rely=0.5, anchor="center")
