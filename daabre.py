@@ -191,7 +191,7 @@ def _welcome():
 	background_label = ctk.CTkLabel(win1, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 
-	frame = ctk.CTkFrame(win1, corner_radius=15,width=600,height=600, fg_color="transparent")  # Semi-transparent white
+	frame = ctk.CTkFrame(win1, corner_radius=15,width=600,height=600, fg_color="transparent") 
 	frame.place(relx=0.5, rely=0.5, anchor='center')
 
 	win1.geometry("1600x900")
