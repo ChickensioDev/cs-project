@@ -1,7 +1,7 @@
 import pathlib, os
 import mysql.connector
 from customtkinter import *
-
+msgno = 0
 def _import_data():
 	f = open('cache.txt','r')
 	id = int(f.read())
@@ -17,18 +17,19 @@ def _message():
 	def _send():
 		sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
 		sql_insert_tuple = (id,user,message.get())
-		print(sql_insert_tuple)
 		cursor.execute(sql_insert_query, sql_insert_tuple)
 		conn.commit()
 		
 	def _check():
+		global msgno
 		conn.commit()
 		cursor.execute('select * from messages')
-		
 		result = cursor.fetchall()
-		for i in range(0,len(result)):
+		
+		for i in range(msgno,len(result)):
 			displabel = CTkLabel(master=app, text = result[i])
 			displabel.pack()
+		msgno = len(result)
 	def _close():
 		sql_insert_query ='''delete from messages'''
 		cursor.execute(sql_insert_query)
