@@ -75,7 +75,7 @@ app.mainloop()
 
 def create_room():
     win4=CTk()
-    win4.geometry=("1600x900")
+    win4.geometry("1600x900")
     win4.title("Room")
 
     label_name=CTkLabel(win4,text="Name",font=("Arial",28))
@@ -98,7 +98,7 @@ def create_room():
 
 def join_room():
     win5=CTk()
-    win5.geometry=("1600x900")
+    win5.geometry="1600x900")
 
     label_name=CTkLabel(win5,text="Name",font=("Arial",28))
     label_name.place(relx=0.5,rely=0.5,anchor='center')
