@@ -14,7 +14,7 @@ import sys
 def _successful_signin():
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 
-	subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
+	subprocess.Popen(['python',os.path.join(current_dir,'befake.py')])
 	sys.exit()
 	
 
@@ -31,7 +31,7 @@ def _create_sql(n,a,p,g):
 	result = cursor.fetchall()
 	cursor.close()
 	f = open('cache.txt','w')
-	f.write(str(result[0][0]))
+	f.write(str(result[0][0]) + '\n')
 	
 def _search_sql(n,p):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
@@ -48,7 +48,7 @@ def _search_sql(n,p):
 		result = cursor.fetchall()
 		cursor.close()
 		f = open('cache.txt','w')
-		f.write(str(result[0][0]))
+		f.write(str(result[0][0]) + '\n')
 		cursor.close()
 		return 1
 	else:
