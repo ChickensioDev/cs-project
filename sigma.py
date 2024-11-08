@@ -4,11 +4,12 @@ from customtkinter import *
 msgno = 0
 def _import_data():
 	f = open('cache.txt','r')
-	id = int(f.read())
+	id = int(f.readline())
+	room = f.readline()
+	cursor.execute("use {}".format(room))
 	sql_insert_query = "SELECT * from login_info where id = '%s'" 
 	cursor.execute(sql_insert_query % id)
 	result = cursor.fetchall()
-	
 	label = CTkLabel(master=app,text = result, font=('Arial',30))
 	label.place(relx=0.5,rely=0.5,anchor='center')
 	return id,result[0][1]
@@ -47,9 +48,11 @@ def _message():
 	closebutton.place(relx=0.5,rely=0.95)
 app = CTk()
 app.geometry("900x900")
-+ data = _import_data()
+conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test')
+cursor = conn.cursor()
+
+data = _import_data()
 id = data[0]
 user = data[1]
 _message()
 app.mainloop()
-
