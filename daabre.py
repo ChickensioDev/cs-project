@@ -11,7 +11,7 @@ import subprocess
 import sys
 
 
-def successful_signin():
+def _successful_signin():
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 
 	subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
@@ -75,7 +75,7 @@ def _login():
 	def _submit():
 			if email_var.get() and pass_var.get():
 				if _search_sql(email_var.get(), pass_var.get()) == 1:
-					successful_signin()
+					_successful_signin()
 				elif _search_sql(email_var.get(), pass_var.get()) == 0:
 				 enter_value.configure(text="incorrect password")
 				elif _search_sql(email_var.get(), pass_var.get()) == -1:
