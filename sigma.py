@@ -64,12 +64,14 @@ def _funtions_menu():
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
 	taskbutton = CTkButton(app,text='To-do',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
+	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
 	
 	timerbutton.place(relx=0.02,rely=0.2)
 	calendarbutton.place(relx=0.02,rely=0.3)
 	taskbutton.place(relx=0.02,rely=0.4)
 	notesbutton.place(relx=0.02,rely=0.5)
 	musicbutton.place(relx=0.02,rely=0.6)
+	logoutbutton.place(relx=0.02,rely=0.92)
 
 
 app = CTk()
