@@ -2,6 +2,8 @@ import pathlib, os
 import mysql.connector
 from customtkinter import *
 from PIL import Image
+import tkinter as tk
+import random
 msgno = 0
 def _import_data():
 	f = open('cache.txt','r')
@@ -38,6 +40,7 @@ def _message():
 			displabel = CTkLabel(master=frame_2, text = result[i],bg_color='transparent',text_color='white')
 			displabel.pack(side='top')
 		msgno = len(result)
+
 	def _close():
 		sql_insert_query ='''delete from messages'''
 		cursor.execute(sql_insert_query)
@@ -61,21 +64,39 @@ def _message():
 	checkbutton.place(relx=0.9,rely=0.92)
 	closebutton.place(relx=0.5,rely=0.95,anchor='center')
 
-def _funtions_menu():
-	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
-	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
-	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
-	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
-	taskbutton = CTkButton(app,text='To-do',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
-	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=50,height=50)
-	
-	timerbutton.place(relx=0.02,rely=0.2)
-	calendarbutton.place(relx=0.02,rely=0.3)
-	taskbutton.place(relx=0.02,rely=0.4)
-	notesbutton.place(relx=0.02,rely=0.5)
-	musicbutton.place(relx=0.02,rely=0.6)
-	logoutbutton.place(relx=0.02,rely=0.92)
+def _bgchange():
+		list_bg= ['pic1.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png','pic7.png','pic8.png','pic9.png']
+		def _openimage():
+			text= random.randint(0,8)
+			image_ = list_bg[text]
+			c_dir = pathlib.Path(__file__).parent.resolve()
+			image_path1 = os.path.join(c_dir, image_)
+			image_open = Image.open(image_path1)
+			bg_image1 =CTkImage(dark_image=image_open,size=(1600,900))
+			bg_label1 =CTkLabel(app, image=bg_image1,text=' ')
+			bg_label1.place(relwidth=0.9, relheight=0.9) 
+		_openimage()
+		_funtions_menu()
+		_message()
+		_import_data()
 
+def _funtions_menu():
+
+	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
+
+	timerbutton.place(relx=0.02,rely=0.3)
+	calendarbutton.place(relx=0.02,rely=0.4)
+	taskbutton.place(relx=0.02,rely=0.5)
+	notesbutton.place(relx=0.02,rely=0.6)
+	musicbutton.place(relx=0.02,rely=0.7)
+	logoutbutton.place(relx=0.02,rely=0.92)
+	bgchangebutton.place(relx=0.02,rely=0.2)
 
 app = CTk()
 app.geometry("1600x900")
