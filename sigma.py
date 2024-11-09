@@ -74,7 +74,7 @@ def _bgchange():
 			image_open = Image.open(image_path1)
 			bg_image1 =CTkImage(dark_image=image_open,size=(1600,900))
 			bg_label1 =CTkLabel(app, image=bg_image1,text=' ')
-			bg_label1.place(relwidth=0.9, relheight=0.9) 
+			bg_label1.place(relwidth=1, relheight=1) 
 		_openimage()
 		_funtions_menu()
 		_message()
