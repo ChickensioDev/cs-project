@@ -13,8 +13,8 @@ def _import_data():
 	sql_insert_query = "SELECT * from login_info where id = '%s'" 
 	cursor.execute(sql_insert_query % id)
 	result = cursor.fetchall()
-	label = CTkLabel(app,text=result, font=('Arial',20),height=28,width=260)
-	label.place(relx=0.5,rely=0.03,anchor='center')
+	label = CTkLabel(app,text='User_Id: '+str(result[0][0])+'\nUsername: '+str(result[0][1])+'\nAge: '+str(result[0][3])+'\nGender: '+str(result[0][2])+'\nPassword: '+str(result[0][4]), font=('Arial',20),width=200,height=130)
+	label.place(relx=0.5,rely=0.1,anchor='center')
 	f.close()
 	return id,result[0][1],room
 
@@ -28,27 +28,28 @@ def _message():
 		sql_insert_tuple = (id,user,message.get())
 		cursor.execute(sql_insert_query, sql_insert_tuple)
 		conn.commit()
+
 		
 	def _check():
 		global msgno
 		conn.commit()
-		
 		cursor.execute('select * from messages')
 		result = cursor.fetchall()
-		
 		for i in range(msgno,len(result)):
-			displabel = CTkLabel(master=frame_2, text = result[i],bg_color='transparent',text_color='white')
-			displabel.pack(side='top')
+			displabel = CTkLabel(master=frame_2, text = result[i][2]+' : '+result[i][3]+'\n',bg_color='transparent',text_color='white',wraplength=200,font=('Arial',15))
+			displabel.pack(side='bottom')
 		msgno = len(result)
-
+	
 	def _close():
 		sql_insert_query ='''delete from messages'''
 		cursor.execute(sql_insert_query)
 		conn.commit()
 		cursor.close()
 
-	frame_2 = CTkFrame(app, corner_radius=15,width=260,height=670, fg_color="transparent") 
-	frame_2.place(relx=0.8, rely=0.02)
+	frame_2 = CTkFrame(app, corner_radius=15,width=260,height=500, fg_color="transparent") 
+	frame_2.place(relx=0.8, rely=0.1)
+	scroll = CTkScrollbar(master=frame_2,orientation='vertical')
+	scroll.pack(side='right')
 	frame_2.pack_propagate(False)
 	message = StringVar()
 	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
@@ -56,7 +57,7 @@ def _message():
 	submitbutton = CTkButton(app,text='Send',font=("Times New Roman", 18),command=_send,text_color='white',fg_color='green',width=100)
 	checkbutton = CTkButton(app,text='check',font=("Times New Roman", 18),command=_check,text_color='white',fg_color='green',width=100)
 	closebutton = CTkButton(app,text='close',font=("Times New Roman", 18),command=_close,text_color='white',fg_color='green')
-	chatbox_label= CTkLabel(app,text='ChatBox',font=("Times New Roman", 18),width=250)
+	chatbox_label= CTkLabel(app,text='ChatBox',font=("Times New Roman", 18),width=260)
 
 	chatbox_label.place(relx=0.8,rely=0.02)
 	messagebox.place(relx = 0.81,rely=0.86)
