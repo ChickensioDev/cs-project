@@ -13,11 +13,13 @@ def _import_data():
 	result = cursor.fetchall()
 	label = CTkLabel(app,text=result, font=('Arial',20),height=28,width=260)
 	label.place(relx=0.5,rely=0.03,anchor='center')
-	
+	f.close()
 	return id,result[0][1],room
 
 def _message():
 	cursor.execute('use %s'%room)
+	
+
 	def _send():
 		
 		sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
@@ -33,8 +35,8 @@ def _message():
 		result = cursor.fetchall()
 		
 		for i in range(msgno,len(result)):
-			displabel = CTkLabel(master=app, text = result[i],bg_color='transparent',text_color='white')
-			displabel.place(relx=0.82,rely=0.8)
+			displabel = CTkLabel(master=frame_2, text = result[i],bg_color='transparent',text_color='white')
+			displabel.pack(side='top')
 		msgno = len(result)
 	def _close():
 		sql_insert_query ='''delete from messages'''
@@ -44,6 +46,7 @@ def _message():
 
 	frame_2 = CTkFrame(app, corner_radius=15,width=260,height=670, fg_color="transparent") 
 	frame_2.place(relx=0.8, rely=0.02)
+	frame_2.pack_propagate(False)
 	message = StringVar()
 	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
 	
