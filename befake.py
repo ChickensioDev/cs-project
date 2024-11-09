@@ -19,9 +19,10 @@ def create_pressed(n,p):
 	cursor.execute('''create table messages (mid int primary key auto_increment, id int, username varchar(20),message varchar(3000))''')
 	
 	cursor.execute('''use userinfo''')
-	cursor.execute('''insert into room_info(id,room) values (%s, %s)''',(id,n))
+	cursor.execute('''insert into room_info(id,room,password) values (%s, %s, %s)''',(id,n,p))
 	conn.commit()
-	f = open("cache.txt","a")
+	f = open("cache.txt","w")
+	f.write(str(id) + '\n')
 	f.write(n + '\n')
 	f.close()
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
@@ -29,6 +30,10 @@ def create_pressed(n,p):
 	sys.exit()
 
 def join_pressed(n,p):
+	cursor.execute('''use userinfo''')
+	cursor.execute('select * from room_info where room = %s', (n,))
+	result = cursor.fetchall()
+	print(result)
 	f = open("cache.txt",'w')
 	f.write(str(id) + '\n')
 	f.write(n + '\n')
