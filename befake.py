@@ -33,14 +33,15 @@ def join_pressed(n,p):
 	cursor.execute('''use userinfo''')
 	cursor.execute('select * from room_info where room = %s', (n,))
 	result = cursor.fetchall()
-	print(result)
-	f = open("cache.txt",'w')
-	f.write(str(id) + '\n')
-	f.write(n + '\n')
-	f.close()
-	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
-	subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
-	sys.exit()
+	if len(result) != 0:
+		if result[0][3] == p:
+			f = open("cache.txt",'w')
+			f.write(str(id) + '\n')
+			f.write(n + '\n')
+			f.close()
+			current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+			subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
+			sys.exit()
 	
 def room1():
 	win3=CTk()
@@ -100,9 +101,14 @@ def join_room():
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28))
 	label_pass.place(relx=0.48,rely=0.6,anchor="center")
-	
+	show_password = BooleanVar()
 	name_var=StringVar()
 	pass_var=StringVar()
+	def password_seen():
+		if show_password.get():
+				pass_entry.configure(show='')
+		else:
+				pass_entry.configure(show='*')  # Hide the password with *)
 	def pressed():
 		if pass_var.get() and name_var.get():
 			join_pressed(name_var.get(),pass_var.get())
@@ -110,7 +116,8 @@ def join_room():
 	name_entry.place(relx=0.6,rely=0.5,anchor='center')
 	pass_entry=CTkEntry(win5,textvariable=pass_var,font=("Times New Roman",28),width=200)
 	pass_entry.place(relx=0.6,rely=0.6,anchor='center')
-
+	show_password_check = CTkCheckBox(win5, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='white')
+	show_password_check.place(relx=0.58,rely=0.65,anchor='center')
 	join_button=CTkButton(win5,text='Join Room',font=("Times New Roman",28), command = pressed)
 	join_button.place(relx=0.55,rely=0.7,anchor='center')
 
