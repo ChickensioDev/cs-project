@@ -21,17 +21,23 @@ def _successful_signin():
 def _create_sql(n,a,p,g):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
-	sql_insert_query = '''INSERT INTO login_info
-                   (username,password,age,gender) VALUES (%s,%s,%s,%s)'''
-	insert_tuple_1 = (n,p,a,g)
-	cursor.execute(sql_insert_query,insert_tuple_1)
-	conn.commit()
-	sql_insert_query = "SELECT id from login_info where username = '%s'" 
-	cursor.execute(sql_insert_query % n)
+	cursor.execute('''select * from login_info where username = %s''',n)
 	result = cursor.fetchall()
-	cursor.close()
-	f = open('cache.txt','w')
-	f.write(str(result[0][0]) + '\n')
+	if len(result) == 0:
+		sql_insert_query = '''INSERT INTO login_info
+                   (username,password,age,gender) VALUES (%s,%s,%s,%s)'''
+		insert_tuple_1 = (n,p,a,g)
+		cursor.execute(sql_insert_query,insert_tuple_1)
+		conn.commit()
+		sql_insert_query = "SELECT id from login_info where username = '%s'" 
+		cursor.execute(sql_insert_query % n)
+		result = cursor.fetchall()
+		cursor.close()
+		f = open('cache.txt','w')
+		f.write(str(result[0][0]) + '\n')
+	else:
+		pass ###make label say username already exists
+		
 	
 def _search_sql(n,p):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
@@ -70,7 +76,7 @@ def _login():
 	email_var= ctk.StringVar()
 	pass_var= ctk.StringVar()
 	show_password = ctk.BooleanVar()
-	enter_value = ctk.CTkLabel(win2,text='',font=('arial',15),text_color='red',fg_color='white')
+	
 	img_file_name = "login1.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
@@ -86,7 +92,7 @@ def _login():
 				if _search_sql(email_var.get(), pass_var.get()) == 1:
 					_successful_signin()
 				elif _search_sql(email_var.get(), pass_var.get()) == 0:
-				 enter_value.configure(text="incorrect password")
+					enter_value.configure(text="incorrect password")
 				elif _search_sql(email_var.get(), pass_var.get()) == -1:
 					enter_value.configure(text="username does not exist")
 			else:
@@ -107,11 +113,11 @@ def _login():
 	submit_button= ctk.CTkButton(win2,text='Submit',font=("Berlin Sans FB Demi", 18),command=_submit,text_color='blue',fg_color='lightblue')
 	close_button = ctk.CTkButton(win2, text='Back', font=("Berlin Sans FB Demi",14),text_color='blue',fg_color='lightblue', command=close_window)
 	show_password_check = ctk.CTkCheckBox(win2, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='Black')
+	enter_value = ctk.CTkLabel(win2,text='',font=('arial',15),text_color='red',fg_color='white')
 	
-	login_label.grid(row=0, column=0, columnspan=2, sticky='ew', pady=10)
-
 	win2.grid_rowconfigure(0, weight=1)  
 	win2.grid_rowconfigure(1, weight=1)  
+	login_label.grid(row=0, column=0, columnspan=2, sticky='ew', pady=10)
 	login_label.grid(row=2, column=0,sticky='n')
 	email_label.grid(row=3, column=0, padx=5, pady=5, sticky='e')
 	email_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
@@ -121,7 +127,7 @@ def _login():
 	submit_button.grid(row=6, column=0, pady=20)
 	close_button.grid(row=6, column=1, pady=10)
 	win2.grid_columnconfigure((0, 1), weight=1)
-
+	
 
 	win2.mainloop()
 
