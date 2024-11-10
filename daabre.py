@@ -92,7 +92,7 @@ def _login():
 				if _search_sql(email_var.get(), pass_var.get()) == 1:
 					_successful_signin()
 				elif _search_sql(email_var.get(), pass_var.get()) == 0:
-				 enter_value.configure(text="incorrect password")
+					enter_value.configure(text="incorrect password")
 				elif _search_sql(email_var.get(), pass_var.get()) == -1:
 					enter_value.configure(text="username does not exist")
 			else:
