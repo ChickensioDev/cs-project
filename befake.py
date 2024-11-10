@@ -118,7 +118,7 @@ def join_room():
 			join_pressed(name_var.get(),pass_var.get())
 	name_entry=CTkEntry(win5,textvariable=name_var,font=("Times New Roman",28),width=200)
 	name_entry.place(relx=0.6,rely=0.5,anchor='center')
-	pass_entry=CTkEntry(win5,textvariable=pass_var,font=("Times New Roman",28),width=200)
+	pass_entry=CTkEntry(win5,textvariable=pass_var,font=("Times New Roman",28),width=200, show = "*")
 	pass_entry.place(relx=0.6,rely=0.6,anchor='center')
 	show_password_check = CTkCheckBox(win5, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='white')
 	show_password_check.place(relx=0.58,rely=0.65,anchor='center')
