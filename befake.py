@@ -42,6 +42,10 @@ def join_pressed(n,p):
 			current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 			subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
 			sys.exit()
+		else:
+			pass ###remove this line and add text that says password incorrect
+	else:
+		pass ###remove this line and add text that says acc not found
 	
 def room1():
 	win3=CTk()
