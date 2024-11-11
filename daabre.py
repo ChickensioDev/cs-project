@@ -21,7 +21,7 @@ def _successful_signin():
 def _create_sql(n,a,p,g):
 	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
-	cursor.execute('''select * from login_info where username = %s''',n)
+	cursor.execute('''select * from login_info where username = %s'''%n)
 	result = cursor.fetchall()
 	if len(result) == 0:
 		sql_insert_query = '''INSERT INTO login_info
