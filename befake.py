@@ -68,7 +68,7 @@ def room1():
 def create_room():
 	win4=CTkToplevel()
 	win4.geometry("1600x900")
-	win4.title("Room")
+	win4.title("Create Room")
 
 	label_name=CTkLabel(win4,text="Name",font=("Arial",28))
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
@@ -101,6 +101,7 @@ def create_room():
 def join_room():
 	win5=CTkToplevel()
 	win5.geometry("1600x900")
+	win5.Title("Join Room")
 	label_name=CTkLabel(win5,text="Name",font=("Arial",28))
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28))

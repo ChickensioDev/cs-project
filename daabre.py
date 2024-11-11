@@ -69,7 +69,7 @@ def _login():
 		win2.iconify() # Hides the login window, win2
 		win1.deiconify()  #Shows the hidden main window,win1 again
 	win1.withdraw() #Hides the main window.win1
-	win2= ctk.CTkToplevel()
+	win2= ctk.CTkToplevel() #Creates a Sub-window
 	win2.geometry('500x500')
 	win2.configure(fg_color='lightblue')
 	win2.title("Login")
