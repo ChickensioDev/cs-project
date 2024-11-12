@@ -19,7 +19,7 @@ def _successful_signin():
 	
 
 def _create_sql(n,a,p,g):
-	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
+	conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
 	cursor.execute('''select * from login_info where username = %s''',(n,))
 	result = cursor.fetchall()
@@ -40,7 +40,7 @@ def _create_sql(n,a,p,g):
 		
 	
 def _search_sql(n,p):
-	conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test', database = 'userinfo')
+	conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
 	sql_insert_query = "SELECT password from login_info where username = '%s'" 
 	cursor.execute(sql_insert_query % n)

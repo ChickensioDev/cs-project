@@ -101,7 +101,7 @@ def _funtions_menu():
 
 app = CTk()
 app.geometry("1600x900")
-conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test')
+conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test')
 cursor = conn.cursor()
 image_file = "bg_image.png"
 curr_dir = pathlib.Path(__file__).parent.resolve()
