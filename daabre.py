@@ -110,8 +110,8 @@ def _login():
 	email_entry= ctk.CTkEntry(win2,textvariable=email_var,font=("Berlin Sans FB Demi", 18),width = 150)
 	pass_entry= ctk.CTkEntry(win2,textvariable=pass_var,font=("Berlin Sans FB Demi", 18),width = 150,show='*')
 	
-	submit_button= ctk.CTkButton(win2,text='Submit',font=("Berlin Sans FB Demi", 18),command=_submit,text_color='blue',fg_color='lightblue')
-	close_button = ctk.CTkButton(win2, text='Back', font=("Berlin Sans FB Demi",14),text_color='blue',fg_color='lightblue', command=close_window)
+	submit_button= ctk.CTkButton(win2,text='Submit',font=("Berlin Sans FB Demi", 18),command=_submit,text_color='blue',fg_color='lightblue',hover_color='pink')
+	close_button = ctk.CTkButton(win2, text='Back', font=("Berlin Sans FB Demi",14),text_color='blue',fg_color='lightblue', command=close_window,hover_color='pink')
 	show_password_check = ctk.CTkCheckBox(win2, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='Black')
 	enter_value = ctk.CTkLabel(win2,text='',font=('arial',15),text_color='red',fg_color='white')
 	
@@ -180,8 +180,8 @@ def _signup():
 
 	button1 = ctk.CTkRadioButton(win4, text='Male', variable=gender_var, font=("Times New Roman", 18), fg_color="lightblue", text_color='black', value="male", width=7)
 	button2 = ctk.CTkRadioButton(win4, text='Female', variable=gender_var, font=("Times New Roman", 18), fg_color="Green", text_color='black', value="female", width=7)
-	submit_button = ctk.CTkButton(win4, text='Submit', font=("Times New Roman", 18), command=_submit, fg_color='lightblue',text_color="blue")
-	close_button = ctk.CTkButton(win4, text='Back', font=("Times New Roman", 14), text_color="blue", fg_color="lightblue", command=close_window)
+	submit_button = ctk.CTkButton(win4, text='Submit', font=("Times New Roman", 18), command=_submit, fg_color='lightblue',text_color="blue",hover_color='pink')
+	close_button = ctk.CTkButton(win4, text='Back', font=("Times New Roman", 14), text_color="blue", fg_color="lightblue", command=close_window,hover_color='pink')
 	show_password_check = ctk.CTkCheckBox(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen, text_color='black')
 
 	# Grid row configuration to push content down

@@ -101,7 +101,7 @@ def create_room():
 def join_room():
 	win5=CTkToplevel()
 	win5.geometry("1600x900")
-	win5.Title("Join Room")
+	win5.title("Join Room")
 	label_name=CTkLabel(win5,text="Name",font=("Arial",28))
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28))
@@ -127,7 +127,7 @@ def join_room():
 	join_button.place(relx=0.55,rely=0.7,anchor='center')
 
 	win5.mainloop()
-conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test')
+conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test')
 cursor = conn.cursor()
 data = _import_data()
 id = data[0]
