@@ -163,7 +163,7 @@ def _signup():
 			_successful_signin()
 		else:
 			enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
-			enter_value.place(relx=0.5,rely=0.5, anchor="center")
+			enter_value.place(relx=0.5,rely=0.95, anchor="center")
 	def password_seen():
 		if show_password.get():
 			pass_entry.configure(show='')
@@ -171,44 +171,32 @@ def _signup():
 			pass_entry.configure(show='*')  # Hide the password with *)
 	
 	age_label = ctk.CTkLabel(win4, text="Age", font=("Times New Roman", 18), width=10, text_color='black')
-	email_label = ctk.CTkLabel(win4, text='Username', font=("Times New Roman", 18), width=10, text_color='black')
-	pass_label = ctk.CTkLabel(win4, text='Password', font=("Times New Roman", 18), width=10, text_color='black')
+	email_label = ctk.CTkLabel(win4, text='Username', font=("Times New Roman", 18), width=12, text_color='black')
+	pass_label = ctk.CTkLabel(win4, text='Password', font=("Times New Roman", 18), width=12, text_color='black')
 
 	age_entry = ctk.CTkEntry(win4, textvariable=age_var, font=("Times New Roman", 18), width=200)
 	email_entry = ctk.CTkEntry(win4, textvariable=email_var, font=("Times New Roman", 18), width=200)
 	pass_entry = ctk.CTkEntry(win4, textvariable=pass_var, font=("Times New Roman", 18), width=200, show='*')
 
-	button1 = ctk.CTkRadioButton(win4, text='Male', variable=gender_var, font=("Times New Roman", 18), fg_color="lightblue", text_color='black', value="male", width=7)
+	button1 = ctk.CTkRadioButton(win4, text='Male', variable=gender_var, font=("Times New Roman", 18), fg_color="Green", text_color='black', value="male", width=7)
 	button2 = ctk.CTkRadioButton(win4, text='Female', variable=gender_var, font=("Times New Roman", 18), fg_color="Green", text_color='black', value="female", width=7)
 	submit_button = ctk.CTkButton(win4, text='Submit', font=("Times New Roman", 18), command=_submit, fg_color='lightblue',text_color="blue",hover_color='pink')
 	close_button = ctk.CTkButton(win4, text='Back', font=("Times New Roman", 14), text_color="blue", fg_color="lightblue", command=close_window,hover_color='pink')
 	show_password_check = ctk.CTkCheckBox(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen, text_color='black')
 
-	# Grid row configuration to push content down
-	win4.grid_rowconfigure(0, weight=1)  
-	win4.grid_rowconfigure(1, weight=1) 
-	win4.grid_rowconfigure(2, weight=0)  
-	win4.grid_rowconfigure(3, weight=0)  
-	win4.grid_rowconfigure(4, weight=0)  
-	win4.grid_rowconfigure(5, weight=0)  
-	win4.grid_rowconfigure(6, weight=0)  
-	win4.grid_rowconfigure(7, weight=1)  
+	# Layout
+	email_label.place(relx=0.2,rely=0.4)
+	pass_label.place(relx=0.2,rely=0.5)
+	age_label.place(relx=0.2,rely=0.6)
+	email_entry.place(relx=0.4,rely=0.4)
+	pass_entry.place(relx=0.4,rely=0.5)
+	age_entry.place(relx=0.4,rely=0.6)
+	button1.place(relx=0.2,rely=0.7)
+	button2.place(relx=0.45,rely=0.7)
+	submit_button.place(relx=0.2,rely=0.8)
+	close_button.place(relx=0.5,rely=0.8)
+	
 
-	email_label.grid(row=2, column=0, padx=5, pady=5, sticky='e')  
-	email_entry.grid(row=2, column=1, padx=5, pady=5, sticky='w')  
-
-	age_label.grid(row=3, column=0, padx=5, pady=5, sticky='e')  
-	age_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')  
-
-	pass_label.grid(row=4, column=0, padx=5, pady=5, sticky='e')  
-	pass_entry.grid(row=4, column=1, padx=5, pady=5, sticky='w')  
-	show_password_check.grid(row=5, column=1, sticky='w', padx=5, pady=5)
-	button1.grid(row=6, column=0, padx=5, pady=5, sticky='w')  
-	button2.grid(row=6, column=1, padx=5, pady=5, sticky='w')  
-	submit_button.grid(row=6, column=0, columnspan=2, pady=20, sticky='n') 
-	close_button.grid(row=7, column=0, columnspan=2, pady=10, sticky='n') 
-	win4.grid_columnconfigure(0, weight=1)
-	win4.grid_columnconfigure(1, weight=1)
 
 
 	win4.mainloop()
