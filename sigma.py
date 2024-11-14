@@ -13,7 +13,7 @@ def _import_data():
 	sql_insert_query = "SELECT * from login_info where id = '%s'" 
 	cursor.execute(sql_insert_query % id)
 	result = cursor.fetchall()
-	label = CTkLabel(app,text='User_Id: '+str(result[0][0])+'\nUsername: '+str(result[0][1])+'\nAge: '+str(result[0][3])+'\nGender: '+str(result[0][2])+'\nPassword: '+str(result[0][4]), font=('Arial',20),width=200,height=130)
+	label = CTkLabel(app,text='User_Id: '+str(result[0][0])+'\nUsername: '+str(result[0][1])+'\nAge: '+str(result[0][3])+'\nGender: '+str(result[0][4])+'\nPassword: '+str(result[0][2]), font=('Arial',20),width=200,height=130)
 	label.place(relx=0.5,rely=0.1,anchor='center')
 	f.close()
 	return id,result[0][1],room
