@@ -51,6 +51,15 @@ def room1():
 	win3=CTk()
 	win3.geometry("1600x900")
 	win3.title("Be fake")
+	img_file_name = "room.png"
+	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+	img_path = os.path.join(current_dir, img_file_name)
+
+	#Load the image using Pillow
+	image = Image.open(img_path)
+	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
+	background_label = ctk.CTkLabel(win3, image=background_image)
+	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 
 	frame=CTkFrame(win3,corner_radius=15,width=600,height=600,fg_color='black')
 	frame.place(relx=0.5,rely=0.5,anchor='center')
@@ -68,8 +77,16 @@ def room1():
 def create_room():
 	win4=CTkToplevel()
 	win4.geometry("1600x900")
-	win4.title("Room")
+	win4.title("Room1")
+	img_file_name = "room.png"
+	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+	img_path = os.path.join(current_dir, img_file_name)
 
+	#Load the image using Pillow
+	image = Image.open(img_path)
+	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
+	background_label = ctk.CTkLabel(win4, image=background_image)
+	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	label_name=CTkLabel(win4,text="Name",font=("Arial",28))
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
 	label_pass=CTkLabel(win4,text="Password",font=("Arial",28))
@@ -103,6 +120,15 @@ def join_room():
 	win5.geometry("1600x900")
 	label_name=CTkLabel(win5,text="Name",font=("Arial",28))
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
+	img_file_name = "room1.png"
+	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+	img_path = os.path.join(current_dir, img_file_name)
+
+	#Load the image using Pillow
+	image = Image.open(img_path)
+	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
+	background_label = ctk.CTkLabel(win5, image=background_image)
+	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28))
 	label_pass.place(relx=0.48,rely=0.6,anchor="center")
 	show_password = BooleanVar()
