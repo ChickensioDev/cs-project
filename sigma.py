@@ -80,13 +80,23 @@ def _bgchange():
 		_funtions_menu()
 		_message()
 		_import_data()
+def _notes():
+	notes_window=CTkToplevel()
+	notes_window.title("Notes")
+	notes_window.geometry("400x500")
+	
+	label=CTkLabel(notes_window,text='Type your notes below!',font=("Times New Roman",18),bg_color='transparent')
+	label.place(anchor='center')
+	
+	text_area=CTkTextbox(notes_window,font=("Times New Roman",18),height=350,width=360,wrap='word')
+	text_area.place(anchor='center')
 
 def _funtions_menu():
 
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
-	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes)
 	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
