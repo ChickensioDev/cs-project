@@ -2,6 +2,9 @@ import pathlib, os
 import mysql.connector
 from customtkinter import *
 import subprocess
+import PIL
+from PIL import Image
+
 def _import_data():
 	f = open('cache.txt','r')
 	id = int(f.readline())
@@ -57,8 +60,8 @@ def room1():
 
 	#Load the image using Pillow
 	image = Image.open(img_path)
-	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
-	background_label = ctk.CTkLabel(win3, image=background_image)
+	background_image =CTkImage(dark_image=image,size=(1000,900))
+	background_label = CTkLabel(win3, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 
 	frame=CTkFrame(win3,corner_radius=15,width=600,height=600,fg_color='black')
@@ -152,7 +155,7 @@ def join_room():
 	join_button.place(relx=0.55,rely=0.7,anchor='center')
 
 	win5.mainloop()
-conn = mysql.connector.connect(host='152.67.165.118', user = 'guest2', password='test')
+conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test')
 cursor = conn.cursor()
 data = _import_data()
 id = data[0]
