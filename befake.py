@@ -87,8 +87,8 @@ def create_room():
 
 	#Load the image using Pillow
 	image = Image.open(img_path)
-	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
-	background_label = ctk.CTkLabel(win4, image=background_image)
+	background_image =CTkImage(dark_image=image,size=(1000,900))
+	background_label = CTkLabel(win4, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	label_name=CTkLabel(win4,text="Name",font=("Arial",28))
 	label_name.place(relx=0.5,rely=0.5,anchor='center')
@@ -129,8 +129,8 @@ def join_room():
 
 	#Load the image using Pillow
 	image = Image.open(img_path)
-	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
-	background_label = ctk.CTkLabel(win5, image=background_image)
+	background_image =CTkImage(dark_image=image,size=(1000,900))
+	background_label = CTkLabel(win5, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28))
 	label_pass.place(relx=0.48,rely=0.6,anchor="center")
