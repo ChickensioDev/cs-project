@@ -80,7 +80,7 @@ def room1():
 def create_room():
 	win4=CTkToplevel()
 	win4.geometry("1600x900")
-	win4.title("Room1")
+	win4.title("Create room")
 	img_file_name = "room.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
@@ -121,8 +121,7 @@ def create_room():
 def join_room():
 	win5=CTkToplevel()
 	win5.geometry("1600x900")
-	label_name=CTkLabel(win5,text="Name",font=("Arial",28))
-	label_name.place(relx=0.5,rely=0.5,anchor='center')
+	win5.title("Join room")
 	img_file_name = "room1.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
@@ -132,6 +131,8 @@ def join_room():
 	background_image =CTkImage(dark_image=image,size=(1000,900))
 	background_label = CTkLabel(win5, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
+	label_name=CTkLabel(win5,text="Name",font=("Arial",28))
+	label_name.place(relx=0.5,rely=0.5,anchor='center')
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28))
 	label_pass.place(relx=0.48,rely=0.6,anchor="center")
 	show_password = BooleanVar()
