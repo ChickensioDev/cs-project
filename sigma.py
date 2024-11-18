@@ -93,6 +93,9 @@ def _bgchange():
 		_message()
 		_import_data()
 		
+
+	
+		
 def _notes():
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
 	frame_3.place(x = 300, y = 300)
@@ -101,7 +104,9 @@ def _notes():
 	frame_3.bind("<B1-Motion>",drag_motion)
 	text_box=CTkTextbox(frame_3,width=400,height=300,font=("Times New Roman",18))
 	text_box.insert("1.0", "Write your notes here...")
-	text_box.place(anchor='center',relx=0.5,rely=0.5)
+	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
+	close_button.place(relx=0.95, rely=0.05, anchor="center")
+	text_box.place(anchor='center',relx=0.6,rely=0.5)
 
 
 
