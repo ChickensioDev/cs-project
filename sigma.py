@@ -95,27 +95,41 @@ def _bgchange():
 		_funtions_menu()
 		_message()
 		_import_data()
-		
-def add_task():
-	task=remove_entry.get()
-	if task:
-		tasks_list.insert(0,task)
-		remove_entry.delete(0,END)
-		save_tasks()
-	else:
-		messagebox.showerror("Error","Enter a task to add")
-def remove_task():
-	selected=tasks_list.curselection()
-	if selected:
-		tasks_list.delete(selected[0])
-		save_tasks()
-	else:
-		messagebox.showerror("Error","Choose a task to delete")
-def save_tasks():
-	pass
-		
-		
 
+def _timer():
+	frame_4 = tk.Frame(app,width=350, height=200, background='pink')
+	frame_4.place(x= 400, y= 300,anchor='center')
+
+	def _countdown():
+		try: time = int((hours.get())*3600 + (minutes.get())*60 + (seconds.get())*1)
+		except:
+			label= CTkLabel(frame_4, text='Enter time',text_color='red')
+			label.place(relx=0.4, rely=0.7)
+		else:
+			while time > -1:
+				min,sec = (time // 60 , time % 60)
+				hour =0
+				if int(minutes.get()) > 60:
+					hr , min = (minutes // 60 , minutes % 60)
+				seconds.set(sec)
+				minutes.set(min)
+				hours.set(hr)
+			time= time-1
+		
+	seconds= StringVar()
+	minutes= StringVar()
+	hours= StringVar()
+	sec_entry= CTkEntry(frame_4, textvariable=seconds,width=80,text_color='black',fg_color='cyan',height=30)
+	min_entry= CTkEntry(frame_4,textvariable=minutes,width=80,text_color='black',fg_color='cyan',height=30)
+	hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
+	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, bg_color='black',hover_color='grey',command=_countdown)
+	sec_entry.place(relx=0.1,rely=0.3)
+	min_entry.place(relx=0.4,rely=.3)
+	hour_entry.place(relx=0.7,rely=0.3)
+	set_button.place(relx=0.35, rely= 0.55)
+	close_button=CTkButton(frame_4,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_4.destroy)
+	close_button.place(relx=0.95, rely=0.05, anchor="center")
+		
 def _todolist():
 	to_do_win=CTkToplevel()
 	to_do_win.config(bg='#09112e')
@@ -133,10 +147,25 @@ def _todolist():
 	remove_task.place(relx=0.55,rely=0.2)
 	remove_entry.place(relx=0.15,rely=0.3)
 	tasks_list.place(relx=0.1,rely=0.4)
-	
-	
-		
 
+	def add_task():
+		task=remove_entry.get()
+		if task:
+			tasks_list.insert(0,task)
+			remove_entry.delete(0,END)
+			save_tasks()
+		else:
+			messagebox.showerror("Error","Enter a task to add")
+	def remove_task():
+		selected=tasks_list.curselection()
+		if selected:
+			tasks_list.delete(selected[0])
+			save_tasks()
+		else:
+			messagebox.showerror("Error","Choose a task to delete")
+	def save_tasks():
+		pass
+	
 	to_do_win.mainloop()
 		
 def _notes():
@@ -152,10 +181,9 @@ def _notes():
 	text_box.place(anchor='center',relx=0.6,rely=0.5)
 
 
-
 def _funtions_menu():
 
-	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes)
