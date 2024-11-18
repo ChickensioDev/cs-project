@@ -5,6 +5,7 @@ from tkinter import filedialog, messagebox
 from PIL import Image
 import tkinter as tk
 import random
+import time
 msgno = 0
 def _import_data():
 	f = open('cache.txt','r')
@@ -96,7 +97,28 @@ def _bgchange():
 		_import_data()
 		
 
+def _todolist():
+	to_do_win=CTkToplevel()
+	to_do_win.config(bg='#09112e')
+	to_do_win.geometry("400x600")
+	to_do_win.title("To do list")
+	remove_var=StringVar()
+	label1=CTkLabel(to_do_win, text="To do List",font=("Times New Roman", 18), width=10,height=40, text_color='white',bg_color='dark blue')
+	remove_task=CTkButton(to_do_win,text='Remove Task',font=("Times New Roman",18),width=30,height=30,fg_color='Red',bg_color='transparent',hover_color='dark blue')
+	add_task=CTkButton(to_do_win,text="Add Task",width=100,height=30,font=("Times New Roman",18),bg_color='transparent',fg_color='green',hover_color='dark blue')
+	remove_entry=CTkEntry(to_do_win,textvariable=remove_var,font=("Times New Roman",18),width=300)
+	tasks_list=tk.Listbox(to_do_win,width=35,height=15,font=("Times New Roman",18),bg='grey')
 	
+	label1.place(relx=0.4,rely=0.1)
+	add_task.place(relx=0.15,rely=0.2)
+	remove_task.place(relx=0.55,rely=0.2)
+	remove_entry.place(relx=0.15,rely=0.3)
+	tasks_list.place(relx=0.1,rely=0.4)
+	
+	
+		
+
+	to_do_win.mainloop()
 		
 def _notes():
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
@@ -118,7 +140,7 @@ def _funtions_menu():
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes)
-	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_todolist)
 	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
 
