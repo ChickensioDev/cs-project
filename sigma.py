@@ -96,6 +96,25 @@ def _bgchange():
 		_message()
 		_import_data()
 		
+def add_task():
+	task=remove_entry.get()
+	if task:
+		tasks_list.insert(0,task)
+		remove_entry.delete(0,END)
+		save_tasks()
+	else:
+		messagebox.showerror("Error","Enter a task to add")
+def remove_task():
+	selected=tasks_list.curselection()
+	if selected:
+		tasks_list.delete(selected[0])
+		save_tasks()
+	else:
+		messagebox.showerror("Error","Choose a task to delete")
+def save_tasks():
+	pass
+		
+		
 
 def _todolist():
 	to_do_win=CTkToplevel()
@@ -104,8 +123,8 @@ def _todolist():
 	to_do_win.title("To do list")
 	remove_var=StringVar()
 	label1=CTkLabel(to_do_win, text="To do List",font=("Times New Roman", 18), width=10,height=40, text_color='white',bg_color='dark blue')
-	remove_task=CTkButton(to_do_win,text='Remove Task',font=("Times New Roman",18),width=30,height=30,fg_color='Red',bg_color='transparent',hover_color='dark blue')
-	add_task=CTkButton(to_do_win,text="Add Task",width=100,height=30,font=("Times New Roman",18),bg_color='transparent',fg_color='green',hover_color='dark blue')
+	remove_task=CTkButton(to_do_win,text='Remove Task',font=("Times New Roman",18),width=30,height=30,fg_color='Red',bg_color='transparent',hover_color='dark blue',command=remove_task)
+	add_task=CTkButton(to_do_win,text="Add Task",width=100,height=30,font=("Times New Roman",18),bg_color='transparent',fg_color='green',hover_color='dark blue',command=add_task)
 	remove_entry=CTkEntry(to_do_win,textvariable=remove_var,font=("Times New Roman",18),width=300)
 	tasks_list=tk.Listbox(to_do_win,width=35,height=15,font=("Times New Roman",18),bg='grey')
 	
