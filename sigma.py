@@ -19,6 +19,17 @@ def _import_data():
 	f.close()
 	return id,result[0][1],room
 
+def drag_start(event):
+    widget = event.widget
+    widget.startX = event.x
+    widget.startY = event.y
+
+def drag_motion(event):
+    widget = event.widget
+    x = widget.winfo_x() - widget.startX + event.x
+    y = widget.winfo_y() - widget.startY + event.y
+    widget.place(x=x,y=y)
+
 def _message():
 	cursor.execute('use %s'%room)
 	
@@ -83,13 +94,15 @@ def _bgchange():
 		_import_data()
 		
 def _notes():
-	frame=CTkFrame(app, width=400, height=400, corner_radius=15, fg_color="transparent")
-	frame.place(anchor='center',relx=0.5,rely=0.5)
-	text_box=CTkTextbox(frame,width=400,height=300,font=("Times New Roman",18))
+	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
+	frame_3.place(x = 300, y = 300)
+	
+	frame_3.bind("<Button-1>",drag_start)
+	frame_3.bind("<B1-Motion>",drag_motion)
+	text_box=CTkTextbox(frame_3,width=400,height=300,font=("Times New Roman",18))
 	text_box.insert("1.0", "Write your notes here...")
 	text_box.place(anchor='center',relx=0.5,rely=0.5)
-	
-	
+
 
 
 def _funtions_menu():
