@@ -47,10 +47,12 @@ def _message():
 		conn.commit()
 		cursor.execute('select * from messages')
 		result = cursor.fetchall()
-		for i in range(msgno,len(result)):
+		for i in range(len(result)-1,msgno-1,-1):
 			displabel = CTkLabel(master=frame_2, text = result[i][2]+' : '+result[i][3]+'\n',bg_color='transparent',text_color='white',wraplength=200,font=('Arial',15))
 			displabel.pack(side='bottom')
 		msgno = len(result)
+		print('bye')
+		app.after(5000,_check)
 	
 	def _close():
 		sql_insert_query ='''delete from messages'''
