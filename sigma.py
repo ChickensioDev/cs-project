@@ -6,6 +6,8 @@ from PIL import Image
 import tkinter as tk
 import random
 import time
+import tkcalendar
+from tkcalendar import DateEntry
 msgno = 0
 def _import_data():
 	f = open('cache.txt','r')
@@ -63,8 +65,9 @@ def _message():
 
 	frame_2 = CTkFrame(app, corner_radius=15,width=260,height=500, fg_color="transparent") 
 	frame_2.place(relx=0.8, rely=0.1)
-	scroll = CTkScrollbar(master=frame_2,orientation='vertical')
+	scroll = CTkScrollbar(frame_2,orientation='vertical')
 	scroll.pack(side='right')
+	
 	frame_2.pack_propagate(False)
 	message = StringVar()
 	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
@@ -95,10 +98,25 @@ def _bgchange():
 		_funtions_menu()
 		_message()
 		_import_data()
+def _calendar():
+        frame_5 = tk.Frame(app,width=300, height=300, background='#09112e')
+        frame_5.place(x=400,y=500,anchor='center')
+        frame_5.bind("<Button-1>",drag_start)
+        frame_5.bind("<B1-Motion>",drag_motion)
 
+        label1=CTkLabel(frame_5,text='Calendar',width=30,font=("Times New Roman",18))
+        label1.place(x=1,y=1)
+        close_button=CTkButton(frame_5,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_5.destroy)
+        close_button.place(relx=0.95, rely=0.05, anchor="center")
+        cal=DateEntry(frame_5,selectmode='day',width=30)
+        cal.place(anchor='center',relx=0.4,rely=0.2)
+
+        
 def _timer():
-	frame_4 = tk.Frame(app,width=350, height=200, background='pink')
+	frame_4 = tk.Frame(app,width=350, height=200, background='#09112e')
 	frame_4.place(x= 400, y= 300,anchor='center')
+	frame_4.bind("<Button-1>",drag_start)
+	frame_4.bind("<B1-Motion>",drag_motion)
 
 	def _countdown():
 		try: time = int((hours.get())*3600 + (minutes.get())*60 + (seconds.get())*1)
@@ -137,17 +155,16 @@ def _todolist():
 	to_do_win.title("To do list")
 	remove_var=StringVar()
 	label1=CTkLabel(to_do_win, text="To do List",font=("Times New Roman", 18), width=10,height=40, text_color='white',bg_color='dark blue')
-	remove_task=CTkButton(to_do_win,text='Remove Task',font=("Times New Roman",18),width=30,height=30,fg_color='Red',bg_color='transparent',hover_color='dark blue',command=remove_task)
-	add_task=CTkButton(to_do_win,text="Add Task",width=100,height=30,font=("Times New Roman",18),bg_color='transparent',fg_color='green',hover_color='dark blue',command=add_task)
+	remove_task=CTkButton(to_do_win,text='Remove Task',font=("Times New Roman",18),width=30,height=30,fg_color='Red',bg_color='transparent',hover_color='dark blue')
+	add_task=CTkButton(to_do_win,text="Add Task",width=100,height=30,font=("Times New Roman",18),bg_color='transparent',fg_color='green',hover_color='dark blue')
 	remove_entry=CTkEntry(to_do_win,textvariable=remove_var,font=("Times New Roman",18),width=300)
-	tasks_list=tk.Listbox(to_do_win,width=35,height=15,font=("Times New Roman",18),bg='grey')
+	tasks_list=tk.Listbox(to_do_win,width=30,height=15,font=("Times New Roman",18),bg='grey')
 	
 	label1.place(relx=0.4,rely=0.1)
 	add_task.place(relx=0.15,rely=0.2)
 	remove_task.place(relx=0.55,rely=0.2)
 	remove_entry.place(relx=0.15,rely=0.3)
 	tasks_list.place(relx=0.1,rely=0.4)
-
 	def add_task():
 		task=remove_entry.get()
 		if task:
@@ -163,10 +180,9 @@ def _todolist():
 			save_tasks()
 		else:
 			messagebox.showerror("Error","Choose a task to delete")
-	def save_tasks():
-		pass
+		
 	
-	to_do_win.mainloop()
+	
 		
 def _notes():
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
@@ -174,20 +190,20 @@ def _notes():
 	
 	frame_3.bind("<Button-1>",drag_start)
 	frame_3.bind("<B1-Motion>",drag_motion)
-	text_box=CTkTextbox(frame_3,width=400,height=300,font=("Times New Roman",18))
+	text_box=CTkTextbox(frame_3,width=400,height=350,font=("Times New Roman",18))
 	text_box.insert("1.0", "Write your notes here...")
 	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
-	text_box.place(anchor='center',relx=0.6,rely=0.5)
+	text_box.place(anchor='center',relx=0.5,rely=0.5)
 
 
 def _funtions_menu():
 
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
-	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_calendar)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes)
-	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_todolist)
+	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
 
