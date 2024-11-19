@@ -221,7 +221,7 @@ def _welcome():
 	frame.place(relx=0.5, rely=0.55, anchor='center')
 
 	win1.geometry("1000x900")
-	title_label = ctk.CTkLabel(win1, text= "welcome!", font = ('broadway', 40),bg_color='lightpink')
+	title_label = ctk.CTkLabel(win1, text= "welcome!", font = ('broadway', 40),bg_color='purple')
 	title_label.place(relx=0.5,rely=0.25,anchor='center')
 	
 	label1 = ctk.CTkLabel(win1, text= "Already have an account?", font = ('Berlin Sans FB Demi', 28),fg_color='purple',text_color= 'lightpink')

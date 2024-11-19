@@ -149,37 +149,35 @@ def _timer():
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
 def _todolist():
-	to_do_win=CTkToplevel()
-	to_do_win.config(bg='#09112e')
-	to_do_win.geometry("400x600")
-	to_do_win.title("To do list")
-	remove_var=StringVar()
-	label1=CTkLabel(to_do_win, text="To do List",font=("Times New Roman", 18), width=10,height=40, text_color='white',bg_color='dark blue')
-	remove_task=CTkButton(to_do_win,text='Remove Task',font=("Times New Roman",18),width=30,height=30,fg_color='Red',bg_color='transparent',hover_color='dark blue')
-	add_task=CTkButton(to_do_win,text="Add Task",width=100,height=30,font=("Times New Roman",18),bg_color='transparent',fg_color='green',hover_color='dark blue')
-	remove_entry=CTkEntry(to_do_win,textvariable=remove_var,font=("Times New Roman",18),width=300)
-	tasks_list=tk.Listbox(to_do_win,width=30,height=15,font=("Times New Roman",18),bg='grey')
+	frame_6=tk.Frame(app,width=400,height=400,background='#09112e')
+	frame_6.place(x=300,y=200)
+	frame_6.bind("<Button-1>",drag_start)
+	frame_6.bind("<B1-Motion>",drag_motion)
+	label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
+	label1.place(x=1,y=1)
 	
-	label1.place(relx=0.4,rely=0.1)
-	add_task.place(relx=0.15,rely=0.2)
-	remove_task.place(relx=0.55,rely=0.2)
-	remove_entry.place(relx=0.15,rely=0.3)
-	tasks_list.place(relx=0.1,rely=0.4)
-	def add_task():
-		task=remove_entry.get()
-		if task:
-			tasks_list.insert(0,task)
-			remove_entry.delete(0,END)
-			save_tasks()
+	def task_done():
+		if show_task.get():
+			task_entry.configure(show='Task done')
 		else:
-			messagebox.showerror("Error","Enter a task to add")
-	def remove_task():
-		selected=tasks_list.curselection()
-		if selected:
-			tasks_list.delete(selected[0])
-			save_tasks()
-		else:
-			messagebox.showerror("Error","Choose a task to delete")
+			task_entry.configure(show=' ')
+	
+	task_var=StringVar()
+	show_task=BooleanVar()
+	task_entry=CTkEntry(frame_6,textvariable=task_var,bg_color='transparent')
+	task_entry.place(anchor='center',relx=0.3,rely=0.2)
+	show_task= CTkCheckBox(frame_6, text='', variable=show_task, onvalue=True, offvalue=False, command=task_done, text_color='black')
+	show_task.place(anchor='center',relx=0.7,rely=0.2)
+	close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
+	close_button.place(relx=0.95, rely=0.05, anchor="center")
+	
+	
+	
+
+	
+	
+	
+	
 		
 	
 	
@@ -190,7 +188,7 @@ def _notes():
 	
 	frame_3.bind("<Button-1>",drag_start)
 	frame_3.bind("<B1-Motion>",drag_motion)
-	text_box=CTkTextbox(frame_3,width=400,height=350,font=("Times New Roman",18))
+	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
 	text_box.insert("1.0", "Write your notes here...")
 	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
@@ -203,7 +201,7 @@ def _funtions_menu():
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_calendar)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes)
-	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_todolist)
 	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
 
@@ -217,6 +215,7 @@ def _funtions_menu():
 
 app = CTk()
 app.geometry("1600x900")
+app.title("App")
 conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test')
 cursor = conn.cursor()
 image_file = "bg_image.png"
