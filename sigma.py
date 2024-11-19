@@ -99,8 +99,8 @@ def _bgchange():
 		_message()
 		_import_data()
 def _calendar():
-        frame_5 = tk.Frame(app,width=300, height=300, background='#09112e')
-        frame_5.place(x=400,y=500,anchor='center')
+        frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
+        frame_5.place(x=350,y=500,anchor='center')
         frame_5.bind("<Button-1>",drag_start)
         frame_5.bind("<B1-Motion>",drag_motion)
 
@@ -108,8 +108,8 @@ def _calendar():
         label1.place(x=1,y=1)
         close_button=CTkButton(frame_5,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_5.destroy)
         close_button.place(relx=0.95, rely=0.05, anchor="center")
-        cal=DateEntry(frame_5,selectmode='day',width=30)
-        cal.place(anchor='center',relx=0.4,rely=0.2)
+        cal=DateEntry(frame_5,selectmode='day',width=20,font=("Times New Roman",15))
+        cal.place(anchor='center',relx=0.35,rely=0.2)
 
         
 def _timer():
@@ -149,37 +149,58 @@ def _timer():
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
 def _todolist():
-	frame_6=tk.Frame(app,width=400,height=400,background='#09112e')
+	frame_6=tk.Frame(app,width=450,height=450,background='#09112e')
 	frame_6.place(x=300,y=200)
-	frame_6.bind("<Button-1>",drag_start)
-	frame_6.bind("<B1-Motion>",drag_motion)
+
 	label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
 	label1.place(x=1,y=1)
-	
-	def task_done():
-		if show_task.get():
-			task_entry.configure(show='Task done')
-		else:
-			task_entry.configure(show=' ')
-	
+		
 	task_var=StringVar()
-	show_task=BooleanVar()
-	task_entry=CTkEntry(frame_6,textvariable=task_var,bg_color='transparent')
-	task_entry.place(anchor='center',relx=0.3,rely=0.2)
-	show_task= CTkCheckBox(frame_6, text='', variable=show_task, onvalue=True, offvalue=False, command=task_done, text_color='black')
-	show_task.place(anchor='center',relx=0.7,rely=0.2)
+	task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
+	task_entry.place(anchor='center',relx=0.5,rely=0.28)
+	task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="white", fg="black")
+	task_listbox.place(anchor="center", relx=0.5, rely=0.7)
+
+	def add_task():
+		task=task_var.get()
+		if task:
+			task_listbox.insert(tk.END,task)
+			task_var.set("")
+		else:
+			messagebox.showerror("Error",'Please enter a task to add')
+	def remove_task():
+		selected_task=task_listbox.curselection() #Returns the selected task
+		if selected_task:
+			task_listbox.delete(selected_task)
+		else:
+			messagebox.showerror("Error",'Please select a task to remove')
+	def task_done():
+		selected_task=task_listbox.curselection()
+		if selected_task:
+			task_listbox.itemconfig(selected_task,foreground='gray')
+		else:
+			messagebox.showerror("Error",'Please select a task to mark as done')
+	def clear_selection(event):
+		if event.widget!=task_listbox: #clears selection only if left click is done outside the listbox
+			task_listbox.selection_clear(0,END)
+	def frame_click(event):
+		clear_selection(event)
+		drag_start(event)	
+    
+	add_task_button=CTkButton(frame_6,text='Add Task',fg_color='green',hover_color='#8A2BE2',width=100,height=30,command=add_task,font=("Times New Roman",18))
+	add_task_button.place(anchor='center',relx=0.15,rely=0.15)
+	
+	remove_task_button=CTkButton(frame_6,text='Remove Task',fg_color='Red',hover_color='#8A2BE2',width=100,height=30,command=remove_task,font=("Times New Roman",18))
+	remove_task_button.place(anchor='center',relx=0.46,rely=0.15)
+	
+	task_done_button=CTkButton(frame_6,text='Mark as done',fg_color='#03A9F4',hover_color='#8A2BE2',width=100,height=30,command=task_done,font=("Times New Roman",18))
+	task_done_button.place(anchor='center',relx=0.78,rely=0.15)
+	
 	close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	
-	
-	
-
-	
-	
-	
-	
-		
-	
+	frame_6.bind("<Button-1>",frame_click)
+	frame_6.bind("<B1-Motion>",drag_motion)
 	
 		
 def _notes():
