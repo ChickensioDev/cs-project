@@ -23,15 +23,15 @@ def _import_data():
 	return id,result[0][1],room
 
 def drag_start(event):
-    widget = event.widget
-    widget.startX = event.x
-    widget.startY = event.y
+	widget = event.widget
+	widget.startX = event.x
+	widget.startY = event.y
 
 def drag_motion(event):
-    widget = event.widget
-    x = widget.winfo_x() - widget.startX + event.x
-    y = widget.winfo_y() - widget.startY + event.y
-    widget.place(x=x,y=y)
+	widget = event.widget
+	x = widget.winfo_x() - widget.startX + event.x
+	y = widget.winfo_y() - widget.startY + event.y
+	widget.place(x=x,y=y)
 
 def _message():
 	cursor.execute('use %s'%room)
@@ -99,19 +99,19 @@ def _bgchange():
 		_message()
 		_import_data()
 def _calendar():
-        frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
-        frame_5.place(x=350,y=500,anchor='center')
-        frame_5.bind("<Button-1>",drag_start)
-        frame_5.bind("<B1-Motion>",drag_motion)
+	frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
+	frame_5.place(x=350,y=500,anchor='center')
+	frame_5.bind("<Button-1>",drag_start)
+	frame_5.bind("<B1-Motion>",drag_motion)
 
-        label1=CTkLabel(frame_5,text='Calendar',width=30,font=("Times New Roman",18))
-        label1.place(x=1,y=1)
-        close_button=CTkButton(frame_5,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_5.destroy)
-        close_button.place(relx=0.95, rely=0.05, anchor="center")
-        cal=DateEntry(frame_5,selectmode='day',width=20,font=("Times New Roman",15))
-        cal.place(anchor='center',relx=0.35,rely=0.2)
+	label1=CTkLabel(frame_5,text='Calendar',width=30,font=("Times New Roman",18))
+	label1.place(x=1,y=1)
+	close_button=CTkButton(frame_5,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_5.destroy)
+	close_button.place(relx=0.95, rely=0.05, anchor="center")
+	cal=DateEntry(frame_5,selectmode='day',width=20,font=("Times New Roman",15))
+	cal.place(anchor='center',relx=0.35,rely=0.2)
 
-        
+	
 def _timer():
 	frame_4 = tk.Frame(app,width=350, height=200, background='#09112e')
 	frame_4.place(x= 400, y= 300,anchor='center')
@@ -154,14 +154,16 @@ def _todolist():
 
 	label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
 	label1.place(x=1,y=1)
-		
+	selected_task = None	
 	task_var=StringVar()
 	task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
 	task_entry.place(anchor='center',relx=0.5,rely=0.28)
 	task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="white", fg="black")
 	task_listbox.place(anchor="center", relx=0.5, rely=0.7)
-
-	def add_task():
+	def set_selected_task(event):
+			nonlocal selected_task
+			selected_task=task_listbox.curselection()
+	def add_task(event):
 		task=task_var.get()
 		if task:
 			task_listbox.insert(tk.END,task)
@@ -174,35 +176,32 @@ def _todolist():
 			task_listbox.delete(selected_task)
 		else:
 			messagebox.showerror("Error",'Please select a task to remove')
-	def task_done():
-		selected_task=task_listbox.curselection()
+	def task_done(event):
 		if selected_task:
 			task_listbox.itemconfig(selected_task,foreground='gray')
 		else:
 			messagebox.showerror("Error",'Please select a task to mark as done')
+				
 	def clear_selection(event):
 		if event.widget!=task_listbox: #clears selection only if left click is done outside the listbox
 			task_listbox.selection_clear(0,END)
 	def frame_click(event):
 		clear_selection(event)
 		drag_start(event)	
-    
-	add_task_button=CTkButton(frame_6,text='Add Task',fg_color='green',hover_color='#8A2BE2',width=100,height=30,command=add_task,font=("Times New Roman",18))
-	add_task_button.place(anchor='center',relx=0.15,rely=0.15)
 	
 	remove_task_button=CTkButton(frame_6,text='Remove Task',fg_color='Red',hover_color='#8A2BE2',width=100,height=30,command=remove_task,font=("Times New Roman",18))
 	remove_task_button.place(anchor='center',relx=0.46,rely=0.15)
 	
-	task_done_button=CTkButton(frame_6,text='Mark as done',fg_color='#03A9F4',hover_color='#8A2BE2',width=100,height=30,command=task_done,font=("Times New Roman",18))
-	task_done_button.place(anchor='center',relx=0.78,rely=0.15)
-	
+
 	close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	
 	frame_6.bind("<Button-1>",frame_click)
 	frame_6.bind("<B1-Motion>",drag_motion)
-	
-		
+	task_entry.bind("<Return>",  add_task)
+	task_listbox.bind("<<ListboxSelect>>", set_selected_task)
+	if selected_task != None:
+				selected_task.bind("<Enter>",task_done)
 def _notes():
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
 	frame_3.place(x = 300, y = 300)
