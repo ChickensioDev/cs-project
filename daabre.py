@@ -182,7 +182,7 @@ def _signup():
 	button2 = ctk.CTkRadioButton(win4, text='Female', variable=gender_var, font=("Times New Roman", 18), fg_color="Green", text_color='black', value="female", width=7)
 	submit_button = ctk.CTkButton(win4, text='Submit', font=("Times New Roman", 18), command=_submit, fg_color='lightblue',text_color="blue",hover_color='pink')
 	close_button = ctk.CTkButton(win4, text='Back', font=("Times New Roman", 14), text_color="blue", fg_color="lightblue", command=close_window,hover_color='pink')
-	show_password_check = ctk.CTkCheckBox(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, command=password_seen, text_color='black')
+	show_password_check = ctk.CTkCheckBox(win4, text='Show Password', variable=show_password, onvalue=True, offvalue=False, font=('Timer New Roman',12),command=password_seen, text_color='black',height=5)
 
 	# Layout
 	email_label.place(relx=0.2,rely=0.4)
@@ -195,6 +195,7 @@ def _signup():
 	button2.place(relx=0.45,rely=0.7)
 	submit_button.place(relx=0.2,rely=0.8)
 	close_button.place(relx=0.5,rely=0.8)
+	show_password_check.place(relx=0.4,rely=0.55)
 	
 
 
