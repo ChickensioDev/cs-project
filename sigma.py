@@ -268,7 +268,7 @@ def _notes():
 	if result != []:
 		text_box.insert('0.0',result[0][1])
 	else:
-		text_box.insert('0,0', 'type notes here....')
+		text_box.insert('0.0', 'type notes here....')
 	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	text_box.place(anchor='center',relx=0.5,rely=0.5)
