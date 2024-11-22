@@ -10,6 +10,7 @@ import tkcalendar
 from tkcalendar import DateEntry
 import csv,os
 msgno = 0
+flag = False
 def _import_data():
 	f = open('cache.txt','r')
 	id = int(f.readline())
@@ -35,28 +36,29 @@ def drag_motion(event):
 	widget.place(x=x,y=y)
 
 def  _create_csv():
-        f= open('to-do-list.csv','w',newline='')
+		f= open('to-do-list.csv','w',newline='')
 def _open_csv(mode,task):
-        f=open('to-do-list.csv',mode,newline='')
-        if mode=='a':
-                obj=csv.writer(f)
-                store=[task]
-                obj.writerow(store)
-        elif mode=='w':
-                g= open('temp.csv','w',newline='')
-                gobj=csv.writer(g)
-                data=task
-                d= csv.reader(f,delimiter=',')
-                for x in d:
-                        if x!=data: gobj.writerow(x)
-                g.close(); f.close()
-                os.remove('to-do-list.csv')
-                os.rename('temp,csv','to-do-list.csv')
-        elif mode=='r':
-                data=csv.reader(f,delimiter=',')
-                return f
-        f.close()
+		f=open('to-do-list.csv',mode,newline='')
+		if mode=='a':
+				obj=csv.writer(f)
+				store=[task]
+				obj.writerow(store)
+		elif mode=='w':
+				g= open('temp.csv','w',newline='')
+				gobj=csv.writer(g)
+				data=task
+				d= csv.reader(f,delimiter=',')
+				for x in d:
+						if x!=data: gobj.writerow(x)
+				g.close(); f.close()
+				os.remove('to-do-list.csv')
+				os.rename('temp,csv','to-do-list.csv')
+		elif mode=='r':
+				data=csv.reader(f,delimiter=',')
+				return f
+		f.close()
 
+	
 def _message():
 	cursor.execute('use %s'%room)
 	
@@ -68,18 +70,23 @@ def _message():
 		cursor.execute(sql_insert_query, sql_insert_tuple)
 		conn.commit()
 
-		
 	def _check():
 		global msgno
 		conn.commit()
 		cursor.execute('select * from messages')
 		result = cursor.fetchall()
-		for i in range(len(result)-1,msgno-1,-1):
+		for i in range(msgno, len(result)):
 			displabel = CTkLabel(master=frame_2, text = result[i][2]+' : '+result[i][3]+'\n',bg_color='transparent',text_color='white',wraplength=200,font=('Arial',15))
-			displabel.pack(side='bottom')
+			displabel.pack(side='top')		
 		msgno = len(result)
-		print('bye')
-		app.after(5000,_check)
+		
+	def _update():
+		global flag
+		if not flag:
+			flag = True
+		else:
+			_check()
+		app.after(1000,_update)
 	
 	def _close():
 		sql_insert_query ='''delete from messages'''
@@ -96,17 +103,16 @@ def _message():
 	message = StringVar()
 	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
 	
-	submitbutton = CTkButton(app,text='Send',font=("Times New Roman", 18),command=_send,text_color='white',fg_color='green',width=100)
+	submitbutton = CTkButton(app,text='Send',font=("Times New Roman", 18),command=_send,text_color='white',fg_color='green',width=200)
 	checkbutton = CTkButton(app,text='check',font=("Times New Roman", 18),command=_check,text_color='white',fg_color='green',width=100)
 	closebutton = CTkButton(app,text='close',font=("Times New Roman", 18),command=_close,text_color='white',fg_color='green')
 	chatbox_label= CTkLabel(app,text='ChatBox',font=("Times New Roman", 18),width=260)
 
 	chatbox_label.place(relx=0.8,rely=0.02)
 	messagebox.place(relx = 0.81,rely=0.86)
-	submitbutton.place(relx=0.82,rely=0.92)
-	checkbutton.place(relx=0.9,rely=0.92)
-	closebutton.place(relx=0.5,rely=0.95,anchor='center')
-
+	submitbutton.place(relx=0.83,rely=0.92)
+	
+	_update()
 def _bgchange():
 		list_bg= ['pic1.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png','pic7.png','pic8.png','pic9.png']
 		def _openimage():
@@ -173,86 +179,107 @@ def _timer():
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
 def _todolist():
-    try: f=open('to-do-list.csv','r',newline='')
-    except: _create_csv()
-    else:
-        frame_6=tk.Frame(app,width=450,height=450,background='#09112e')
-        frame_6.place(x=300,y=200)
+	try: print("hi")#f=open('to-do-list.csv','r',newline='')
+	except: _create_csv()
+	else:
+		
+		frame_6=tk.Frame(app,width=450,height=450,background='#09112e')
+		frame_6.place(x=300,y=200)
 
-        label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
-        label1.place(x=1,y=1)
-        selected_task = None	
-        task_var=StringVar()
-        task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
-        task_entry.place(anchor='center',relx=0.5,rely=0.28)
-        task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="white", fg="black")
-        task_listbox.place(anchor="center", relx=0.5, rely=0.7)
-        def set_selected_task(event):
-               nonlocal selected_task
-               selected_task = task_listbox.curselection()
-        def add_task(event):
-            task=task_var.get()
-            data = _open_csv('r',task)
-            if task:
-                for x in data:
-                        task_listbox.insert(tk.END,x)
+		label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
+		label1.place(x=1,y=1)
+		selected_task = None	
+		task_var=StringVar()
+		task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
+		task_entry.place(anchor='center',relx=0.5,rely=0.28)
+		task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="white", fg="black")
+		task_listbox.place(anchor="center", relx=0.5, rely=0.7)
+		def set_selected_task(event):
+			nonlocal selected_task
+			selected_task = task_listbox.curselection()
+		def add_task(event):
+			task=task_var.get()
+		   # data = _open_csv('r',task)
+			if task:
+				#for x in data:
+						#task_listbox.insert(tk.END,x)
 
-                task_listbox.insert(tk.END,task)
-                task_var.set("")
-                _open_csv('a',task)
-            else:
-                messagebox.showerror("Error",'Please enter a task to add')
-        def remove_task():
-            selected_task=task_listbox.curselection() #Returns the selected task
-            if selected_task:
-                task_listbox.delete(selected_task)
-                _open_csv('w',selected_task)
-            else:
-                messagebox.showerror("Error",'Please select a task to remove')
-        def task_done(event):
-            if selected_task:
-                task_listbox.itemconfig(selected_task,foreground='gray')
-            else:
-                messagebox.showerror("Error",'Please select a task to mark as done')
+				task_listbox.insert(tk.END,task)
+				task_var.set("")
+				#_open_csv('a',task)
+			else:
+				messagebox.showerror("Error",'Please enter a task to add')
+		def remove_task():
+			selected_task=task_listbox.curselection() #Returns the selected task
+			if selected_task:
+				task_listbox.delete(selected_task)
+				_open_csv('w',selected_task)
+			else:
+				messagebox.showerror("Error",'Please select a task to remove')
+		def task_done(event):
+			if selected_task:
+				task_listbox.itemconfig(selected_task,foreground='gray')
+			else:
+				messagebox.showerror("Error",'Please select a task to mark as done')
 
-        def clear_selection(event):
-            if event.widget!=task_listbox: #clears selection only if left click is done outside the listbox
-                task_listbox.selection_clear(0,END)
-        def frame_click(event):
-            clear_selection(event)
-            drag_start(event)	
+		def clear_selection(event):
+			if event.widget!=task_listbox: #clears selection only if left click is done outside the listbox
+				task_listbox.selection_clear(0,END)
+		def frame_click(event):
+			clear_selection(event)
+			drag_start(event)	
 	
-        remove_task_button=CTkButton(frame_6,text='Remove Task',fg_color='Red',hover_color='#8A2BE2',width=100,height=30,command=remove_task,font=("Times New Roman",18))
-        remove_task_button.place(anchor='center',relx=0.46,rely=0.15)
+		remove_task_button=CTkButton(frame_6,text='Remove Task',fg_color='Red',hover_color='#8A2BE2',width=100,height=30,command=remove_task,font=("Times New Roman",18))
+		remove_task_button.place(anchor='center',relx=0.46,rely=0.15)
 	
 
-        close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
-        close_button.place(relx=0.95, rely=0.05, anchor="center")
+		close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
+		close_button.place(relx=0.95, rely=0.05, anchor="center")
 	
-        frame_6.bind("<Button-1>",frame_click)
-        frame_6.bind("<B1-Motion>",drag_motion)
-        task_entry.bind("<Return>",  add_task)
-        task_listbox.bind("<<ListboxSelect>>", set_selected_task)
-        if selected_task != None:
-               selected_task.bind("<Enter>",task_done)
-                                
+		frame_6.bind("<Button-1>",frame_click)
+		frame_6.bind("<B1-Motion>",drag_motion)
+		task_entry.bind("<Return>",  add_task)
+		task_listbox.bind("<<ListboxSelect>>", set_selected_task)
+		if selected_task != None:
+			selected_task.bind("<Enter>",task_done)
+			print("done")
+								
 def _notes():
+	cursor.execute("create table if not exists notewidget (wid int, message varchar(1000), posx int, posy int)")
+	cursor.execute("insert into widgets(wname) values ('note')")
+	conn.commit()
+	cursor.execute('select * from notewidget')
+	result = cursor.fetchall()
+	
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
 	frame_3.place(x = 300, y = 300)
+	def _save_notes(event):
+		data = text_box.get('1.0',END)
+		
+		cursor.execute("update notewidget set message = %s",(data,))
+		
+		if cursor.rowcount == 0:
+			cursor.execute("insert into notewidget(message) values(%s)",(data,))
+		conn.commit()
 	
 	frame_3.bind("<Button-1>",drag_start)
 	frame_3.bind("<B1-Motion>",drag_motion)
 	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
-	text_box.insert("1.0", "Write your notes here...")
+	if result != []:
+		text_box.insert('0.0',result[0][1])
+	else:
+		text_box.insert('0,0', 'type notes here....')
 	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	text_box.place(anchor='center',relx=0.5,rely=0.5)
+	
 	data = text_box.get('1.0',END)
-    
+	text_box.bind('<Return>', _save_notes)
+	
 
 
 def _funtions_menu():
-
+	cursor.execute("create table if not exists widgets (wid int primary key auto_increment, wname varchar(20))")
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_calendar)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
@@ -268,9 +295,10 @@ def _funtions_menu():
 	musicbutton.place(relx=0.02,rely=0.7)
 	logoutbutton.place(relx=0.02,rely=0.92)
 	bgchangebutton.place(relx=0.02,rely=0.2)
+	
 
-
-
+	   
+	   
 
 app = CTk()
 app.geometry("1600x900")
@@ -292,4 +320,6 @@ user = data[1]
 room = data[2]
 _message()
 _funtions_menu()
+
+
 app.mainloop()
