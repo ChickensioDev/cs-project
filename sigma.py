@@ -9,6 +9,7 @@ import time
 import tkcalendar
 from tkcalendar import DateEntry
 import csv,os
+
 msgno = 0
 flag = False
 def _import_data():
@@ -128,6 +129,28 @@ def _bgchange():
 		_funtions_menu()
 		_message()
 		_import_data()
+
+'''def _music():
+        from tkinterweb import HtmlFrame  # Import HtmlFrame to use the embedded browser
+        import pytube
+        from pytube import extract
+        class App(customtkinter.CTk):
+                def __init__(self):
+                        super().__init__()
+                        self.visualisation_frame = customtkinter.CTkFrame(self)
+                        self.visualisation_frame.pack(pady=20, padx=20)
+                        self.youtubeframe = HtmlFrame(self.visualisation_frame)  # Use HtmlFrame to display the YouTube video
+                        self.youtubeframe.grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
+
+    # def update_url(self, url):
+        video_embed_url = "https://www.youtube.com/embed/6Ejga4kJUts"
+        self.youtubeframe.load_website(video_embed_url)  # Update to load the embedded video
+        if __name__ == "__main__":
+            appp = App()
+            appp.mainloop()
+        
+'''
+        
 def _calendar():
 	frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
 	frame_5.place(x=350,y=500,anchor='center')
@@ -165,7 +188,7 @@ def _timer():
 			time= time-1
 		
 	seconds= StringVar()
-	minutes= StringVar()
+	minutes= StringVar() 
 	hours= StringVar()
 	sec_entry= CTkEntry(frame_4, textvariable=seconds,width=80,text_color='black',fg_color='cyan',height=30)
 	min_entry= CTkEntry(frame_4,textvariable=minutes,width=80,text_color='black',fg_color='cyan',height=30)
@@ -275,9 +298,7 @@ def _notes():
 	
 	data = text_box.get('1.0',END)
 	text_box.bind('<Return>', _save_notes)
-	
-
-
+        
 def _funtions_menu():
 	cursor.execute("create table if not exists widgets (wid int primary key auto_increment, wname varchar(20))")
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
