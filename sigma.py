@@ -12,6 +12,7 @@ import csv,os
 
 msgno = 0
 flag = False
+editing = False
 def _import_data():
 	f = open('cache.txt','r')
 	id = int(f.readline())
@@ -35,6 +36,7 @@ def drag_motion(event):
 	x = widget.winfo_x() - widget.startX + event.x
 	y = widget.winfo_y() - widget.startY + event.y
 	widget.place(x=x,y=y)
+	editing = True
 
 def  _create_csv():
 		f= open('to-do-list.csv','w',newline='')
@@ -280,17 +282,17 @@ def _notes():
 	def _save_notes(event):
 		data = text_box.get('1.0',END)
 		
-		cursor.execute("update notewidget set message = %s, posx = %s, posy = %s",(data,frame_3.winfo_x(),frame_3.winfo_y()))
+		cursor.execute("update notewidget set message,posx,posy = %s,%s,%s",(data,winfo_x(),winfo_y()))
 		
 		if cursor.rowcount == 0:
-			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, frame_3.winfo_x(), frame_3.winfo_y()))
+			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, winfo_x(), winfo_y()))
 		conn.commit()
 	def _check():
 		cursor.execute('select * from notewidget')
 		result = cursor.fetchall()
-		if result != []:
+		if result != [] and editing == False:
 			frame_3.place(x = result[0][2], y = result[0][3])
-		print(result[0][2],result[0][3])
+		editing = False
 	def _update():
 		global flag
 		if not flag:
