@@ -269,6 +269,7 @@ def _todolist():
 								
 def _notes():
 	cursor.execute("create table if not exists notewidget (wid int, message varchar(1000), posx int, posy int)")
+                
 	cursor.execute("insert into widgets(wname) values ('note')")
 	conn.commit()
 	cursor.execute('select * from notewidget')
@@ -279,12 +280,24 @@ def _notes():
 	def _save_notes(event):
 		data = text_box.get('1.0',END)
 		
-		cursor.execute("update notewidget set message = %s",(data,))
+		cursor.execute("update notewidget set message = %s, posx = %s, posy = %s",(data,frame_3.winfo_x(),frame_3.winfo_y()))
 		
 		if cursor.rowcount == 0:
-			cursor.execute("insert into notewidget(message) values(%s)",(data,))
+			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, frame_3.winfo_x(), frame_3.winfo_y()))
 		conn.commit()
-	
+	def _check():
+		cursor.execute('select * from notewidget')
+		result = cursor.fetchall()
+		if result != []:
+			frame_3.place(x = result[0][2], y = result[0][3])
+		print(result[0][2],result[0][3])
+	def _update():
+		global flag
+		if not flag:
+			flag = True
+		else:
+			_check()
+		app.after(1000,_update)
 	frame_3.bind("<Button-1>",drag_start)
 	frame_3.bind("<B1-Motion>",drag_motion)
 	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
@@ -295,7 +308,7 @@ def _notes():
 	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	text_box.place(anchor='center',relx=0.5,rely=0.5)
-	
+	_update()
 	data = text_box.get('1.0',END)
 	text_box.bind('<Return>', _save_notes)
         
