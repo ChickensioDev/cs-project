@@ -27,11 +27,13 @@ def _import_data():
 	return id,result[0][1],room
 
 def drag_start(event):
+	global editing
 	widget = event.widget
 	widget.startX = event.x
 	widget.startY = event.y
-
+	editing = True
 def drag_motion(event):
+	global editing
 	widget = event.widget
 	x = widget.winfo_x() - widget.startX + event.x
 	y = widget.winfo_y() - widget.startY + event.y
@@ -270,44 +272,61 @@ def _todolist():
 			print("done")
 								
 def _notes():
+	delete = False
 	cursor.execute("create table if not exists notewidget (wid int, message varchar(1000), posx int, posy int)")
-                
 	cursor.execute("insert into widgets(wname) values ('note')")
 	conn.commit()
 	cursor.execute('select * from notewidget')
 	result = cursor.fetchall()
-	
+	print(result)
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
-	frame_3.place(x = 300, y = 300)
+	frame_3.place(x = result[0][2], y = result[0][3])
 	def _save_notes(event):
+		global editing
+		nonlocal delete
 		data = text_box.get('1.0',END)
 		
-		cursor.execute("update notewidget set message,posx,posy = %s,%s,%s",(data,winfo_x(),winfo_y()))
+		cursor.execute("update notewidget set message= %s, posx = %s, posy = %s",(data,frame_3.winfo_x(),frame_3.winfo_y()))
 		
 		if cursor.rowcount == 0:
-			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, winfo_x(), winfo_y()))
+			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, frame_3.winfo_x(), frame_3.winfo_y()))
+		editing = False
+		print("bye")
 		conn.commit()
+		if delete:
+			frame_3.destroy()
+	def _delete_set():
+		nonlocal delete
+		delete = True
+		_save_notes(0)
 	def _check():
+		global editing
 		cursor.execute('select * from notewidget')
 		result = cursor.fetchall()
+	
 		if result != [] and editing == False:
 			frame_3.place(x = result[0][2], y = result[0][3])
-		editing = False
+			print(result)
+		
+	
+		
 	def _update():
 		global flag
+		nonlocal delete
 		if not flag:
 			flag = True
-		else:
+		elif delete != True:
 			_check()
 		app.after(1000,_update)
 	frame_3.bind("<Button-1>",drag_start)
 	frame_3.bind("<B1-Motion>",drag_motion)
+	frame_3.bind('<ButtonRelease-1>', _save_notes)
 	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
 	if result != []:
 		text_box.insert('0.0',result[0][1])
 	else:
 		text_box.insert('0.0', 'type notes here....')
-	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=frame_3.destroy)
+	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=_delete_set)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	text_box.place(anchor='center',relx=0.5,rely=0.5)
 	_update()
@@ -354,8 +373,8 @@ data = _import_data()
 id = data[0]
 user = data[1]
 room = data[2]
+
 _message()
 _funtions_menu()
-
 
 app.mainloop()
