@@ -135,26 +135,26 @@ def _bgchange():
 		_import_data()
 
 '''def _music():
-        from tkinterweb import HtmlFrame  # Import HtmlFrame to use the embedded browser
-        import pytube
-        from pytube import extract
-        class App(customtkinter.CTk):
-                def __init__(self):
-                        super().__init__()
-                        self.visualisation_frame = customtkinter.CTkFrame(self)
-                        self.visualisation_frame.pack(pady=20, padx=20)
-                        self.youtubeframe = HtmlFrame(self.visualisation_frame)  # Use HtmlFrame to display the YouTube video
-                        self.youtubeframe.grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
+		from tkinterweb import HtmlFrame  # Import HtmlFrame to use the embedded browser
+		import pytube
+		from pytube import extract
+		class App(customtkinter.CTk):
+				def __init__(self):
+						super().__init__()
+						self.visualisation_frame = customtkinter.CTkFrame(self)
+						self.visualisation_frame.pack(pady=20, padx=20)
+						self.youtubeframe = HtmlFrame(self.visualisation_frame)  # Use HtmlFrame to display the YouTube video
+						self.youtubeframe.grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
 
-    # def update_url(self, url):
-        video_embed_url = "https://www.youtube.com/embed/6Ejga4kJUts"
-        self.youtubeframe.load_website(video_embed_url)  # Update to load the embedded video
-        if __name__ == "__main__":
-            appp = App()
-            appp.mainloop()
-        
+	# def update_url(self, url):
+		video_embed_url = "https://www.youtube.com/embed/6Ejga4kJUts"
+		self.youtubeframe.load_website(video_embed_url)  # Update to load the embedded video
+		if __name__ == "__main__":
+			appp = App()
+			appp.mainloop()
+		
 '''
-        
+		
 def _calendar():
 	frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
 	frame_5.place(x=350,y=500,anchor='center')
@@ -278,20 +278,21 @@ def _notes():
 	conn.commit()
 	cursor.execute('select * from notewidget')
 	result = cursor.fetchall()
-	print(result)
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
 	frame_3.place(x = result[0][2], y = result[0][3])
+	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
+	def _test(event):
+		global editing
+		editing = True
 	def _save_notes(event):
 		global editing
 		nonlocal delete
-		data = text_box.get('1.0',END)
-		
+		data = text_box.get('0.0',END)
+		print(data)
 		cursor.execute("update notewidget set message= %s, posx = %s, posy = %s",(data,frame_3.winfo_x(),frame_3.winfo_y()))
-		
 		if cursor.rowcount == 0:
 			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, frame_3.winfo_x(), frame_3.winfo_y()))
 		editing = False
-		print("bye")
 		conn.commit()
 		if delete:
 			frame_3.destroy()
@@ -303,11 +304,15 @@ def _notes():
 		global editing
 		cursor.execute('select * from notewidget')
 		result = cursor.fetchall()
-	
+		print(editing)
 		if result != [] and editing == False:
 			frame_3.place(x = result[0][2], y = result[0][3])
-			print(result)
-		
+			text_box.delete(0.0,'end')
+			text_box.insert(0.0, result[0][1][0:len(result[0][1])-1:])
+		elif result != [] and editing == True:
+			_save_notes(0)
+	text_box.bind("<Key>", _test)	
+	
 	
 		
 	def _update():
@@ -321,7 +326,7 @@ def _notes():
 	frame_3.bind("<Button-1>",drag_start)
 	frame_3.bind("<B1-Motion>",drag_motion)
 	frame_3.bind('<ButtonRelease-1>', _save_notes)
-	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
+	
 	if result != []:
 		text_box.insert('0.0',result[0][1])
 	else:
@@ -332,7 +337,7 @@ def _notes():
 	_update()
 	data = text_box.get('1.0',END)
 	text_box.bind('<Return>', _save_notes)
-        
+		
 def _funtions_menu():
 	cursor.execute("create table if not exists widgets (wid int primary key auto_increment, wname varchar(20))")
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
