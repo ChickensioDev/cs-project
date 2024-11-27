@@ -112,7 +112,6 @@ def _message():
 	chatbox_label.place(relx=0.8,rely=0.02)
 	messagebox.place(relx = 0.81,rely=0.86)
 	submitbutton.place(relx=0.83,rely=0.92)
-	
 	_update()
 def _bgchange():
 		list_bg= ['pic1.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png','pic7.png','pic8.png','pic9.png']
