@@ -1,6 +1,8 @@
 import pathlib, os
 import mysql.connector
 from customtkinter import *
+import tkinter
+from tkinter import messagebox
 import subprocess
 import PIL
 from PIL import Image
@@ -46,9 +48,9 @@ def join_pressed(n,p):
 			subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
 			sys.exit()
 		else:
-			pass ###remove this line and add text that says password incorrect
+			messagebox.showerror("Error",'Incorrect password')
 	else:
-		pass ###remove this line and add text that says acc not found
+		messagebox.showerror("Error",'Room not found')
 	
 def room1():
 	global win3
