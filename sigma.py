@@ -214,9 +214,10 @@ def _todolist():
 		selected_task = None	
 		task_var=StringVar()
 		task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
-		task_entry.place(anchor='center',relx=0.5,rely=0.28)
-		task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="white", fg="black")
-		task_listbox.place(anchor="center", relx=0.5, rely=0.7)
+		task_entry.place(anchor='center',relx=0.5,rely=0.22)
+		task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="black", fg="white")
+		task_listbox.place(anchor="center", relx=0.5, rely=0.63)
+		
 		def set_selected_task(event):
 			nonlocal selected_task
 			selected_task = task_listbox.curselection()
@@ -253,7 +254,7 @@ def _todolist():
 			drag_start(event)	
 	
 		remove_task_button=CTkButton(frame_6,text='Remove Task',fg_color='Red',hover_color='#8A2BE2',width=100,height=30,command=remove_task,font=("Times New Roman",18))
-		remove_task_button.place(anchor='center',relx=0.46,rely=0.15)
+		remove_task_button.place(anchor='center',relx=0.48,rely=0.12)
 	
 
 		close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
