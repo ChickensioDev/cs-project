@@ -98,8 +98,9 @@ def _message():
 		conn.commit()
 		cursor.close()
 
-	frame_2 = CTkScrollableFrame(app, corner_radius=15,width=300,height=500, fg_color="transparent") 
-	frame_2.place(relx=0.75, rely=0.1)
+	frame_2 = CTkScrollableFrame(app, corner_radius=15,width=250,height=500, fg_color="transparent") 
+	frame_2.place(relx=0.79, rely=0.1)
+
 	
 	message = StringVar()
 	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
