@@ -166,38 +166,40 @@ def _calendar():
 
 	
 def _timer():
-	frame_4 = tk.Frame(app,width=350, height=200, background='#09112e')
+	frame_4 = tk.Frame(app,width=200, height=170, background='#09112e')
 	frame_4.place(x= 400, y= 300,anchor='center')
 	frame_4.bind("<Button-1>",drag_start)
 	frame_4.bind("<B1-Motion>",drag_motion)
 
 	def _countdown():
-		try: time = int((hours.get())*3600 + (minutes.get())*60 + (seconds.get())*1)
-		except:
-			label= CTkLabel(frame_4, text='Enter time',text_color='red')
-			label.place(relx=0.4, rely=0.7)
-		else:
-			while time > -1:
-				min,sec = (time // 60 , time % 60)
-				hour =0
-				if int(minutes.get()) > 60:
-					hr , min = (minutes // 60 , minutes % 60)
-				seconds.set(sec)
-				minutes.set(min)
-				hours.set(hr)
-			time= time-1
+		win = tk.Tk()
+		win.title('Set Timer')
+		win.geometry('200x70')
+		label = tk.Label(win, font=("Helvetica", 24), fg="red")
+		label.pack()
+		time = int(seconds.get())+ int(minutes.get())*60
+		def _count(time):
+			label.config(text=str(time))
+			if time > 0:
+				win.after(1000, lambda: _count(time-1))
+			else:
+				label.config(text="Time's up!")
+		_count(time)
+		win.mainloop()
 		
 	seconds= StringVar()
 	minutes= StringVar() 
-	hours= StringVar()
-	sec_entry= CTkEntry(frame_4, textvariable=seconds,width=80,text_color='black',fg_color='cyan',height=30)
-	min_entry= CTkEntry(frame_4,textvariable=minutes,width=80,text_color='black',fg_color='cyan',height=30)
-	hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
+	#hours= StringVar()
+	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='white',height=30)
+	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 15))
+	entry_label.place(relx=0.16,rely=0.1)
+	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='white',height=30)
+	#hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
 	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, bg_color='black',hover_color='grey',command=_countdown)
-	sec_entry.place(relx=0.1,rely=0.3)
-	min_entry.place(relx=0.4,rely=.3)
-	hour_entry.place(relx=0.7,rely=0.3)
-	set_button.place(relx=0.35, rely= 0.55)
+	sec_entry.place(relx=0.5,rely=0.4)
+	min_entry.place(relx=0.1,rely=0.4)
+	#hour_entry.place(relx=0.7,rely=0.3)
+	set_button.place(relx=0.3, rely= 0.7)
 	close_button=CTkButton(frame_4,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_4.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
