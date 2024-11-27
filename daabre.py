@@ -84,7 +84,7 @@ def _login():
 	#Load the image using Pillow
 	image = Image.open(img_path)
 	background_image =ctk.CTkImage(dark_image=image,size=(500,500))
-	background_label = ctk.CTkLabel(win2, image=background_image)
+	background_label = ctk.CTkLabel(win2, text = '', image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	
 	def _submit():

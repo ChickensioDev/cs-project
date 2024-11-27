@@ -13,6 +13,7 @@ import csv,os
 msgno = 0
 flag = False
 editing = False
+note = False
 def _import_data():
 	f = open('cache.txt','r')
 	id = int(f.readline())
@@ -272,9 +273,18 @@ def _todolist():
 			print("done")
 								
 def _notes():
+	global note
 	delete = False
+	create = True
+	note = True
 	cursor.execute("create table if not exists notewidget (wid int, message varchar(1000), posx int, posy int)")
-	cursor.execute("insert into widgets(wname) values ('note')")
+	cursor.execute("select * from widgets")
+	result = cursor.fetchall()
+	for i in result:
+		if i[1] == "note":
+			create = False
+	if create:
+		cursor.execute("insert into widgets(wname) values ('note')")
 	conn.commit()
 	cursor.execute('select * from notewidget')
 	result = cursor.fetchall()
@@ -285,16 +295,16 @@ def _notes():
 		global editing
 		editing = True
 	def _save_notes(event):
-		global editing
+		global editing, note
 		nonlocal delete
 		data = text_box.get('0.0',END)
-		print(data)
 		cursor.execute("update notewidget set message= %s, posx = %s, posy = %s",(data,frame_3.winfo_x(),frame_3.winfo_y()))
 		if cursor.rowcount == 0:
 			cursor.execute("insert into notewidget(message, posx, posy) values(%s,%s,%s)",(data, frame_3.winfo_x(), frame_3.winfo_y()))
 		editing = False
 		conn.commit()
 		if delete:
+			note = False
 			frame_3.destroy()
 	def _delete_set():
 		nonlocal delete
@@ -308,7 +318,7 @@ def _notes():
 		if result != [] and editing == False:
 			frame_3.place(x = result[0][2], y = result[0][3])
 			text_box.delete(0.0,'end')
-			text_box.insert(0.0, result[0][1][0:len(result[0][1])-1:])
+			text_box.insert(0.0, result[0][1])
 		elif result != [] and editing == True:
 			_save_notes(0)
 	text_box.bind("<Key>", _test)	
@@ -334,16 +344,20 @@ def _notes():
 	close_button=CTkButton(frame_3,text='X',fg_color='red',width=50,height=10,font=("Times New Roman",15),command=_delete_set)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 	text_box.place(anchor='center',relx=0.5,rely=0.5)
-	_update()
 	data = text_box.get('1.0',END)
+	_update()
 	text_box.bind('<Return>', _save_notes)
-		
+	
+def _notes_check():
+	global note
+	if note == False:
+		_notes()
 def _funtions_menu():
 	cursor.execute("create table if not exists widgets (wid int primary key auto_increment, wname varchar(20))")
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_calendar)
 	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
-	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes)
+	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes_check)
 	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_todolist)
 	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
