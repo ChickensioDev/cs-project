@@ -67,10 +67,8 @@ def _open_csv(mode,task):
 	
 def _message():
 	cursor.execute('use %s'%room)
-	
 
 	def _send():
-		
 		sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
 		sql_insert_tuple = (id,user,message.get())
 		cursor.execute(sql_insert_query, sql_insert_tuple)
@@ -100,12 +98,9 @@ def _message():
 		conn.commit()
 		cursor.close()
 
-	frame_2 = CTkFrame(app, corner_radius=15,width=260,height=500, fg_color="transparent") 
-	frame_2.place(relx=0.8, rely=0.1)
-	scroll = CTkScrollbar(frame_2,orientation='vertical')
-	scroll.pack(side='right')
+	frame_2 = CTkScrollableFrame(app, corner_radius=15,width=300,height=500, fg_color="transparent") 
+	frame_2.place(relx=0.75, rely=0.1)
 	
-	frame_2.pack_propagate(False)
 	message = StringVar()
 	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
 	
