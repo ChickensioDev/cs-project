@@ -189,6 +189,7 @@ def _timer():
 		
 	seconds= StringVar()
 	minutes= StringVar() 
+	
 	#hours= StringVar()
 	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='white',height=30)
 	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 15))
