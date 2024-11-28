@@ -55,13 +55,13 @@ def _open_csv(mode,task):
 				data=task
 				d= csv.reader(f,delimiter=',')
 				for x in d:
-						if x!=data: gobj.writerow(x)
+					if x!=data: gobj.writerow(x)
 				g.close(); f.close()
 				os.remove('to-do-list.csv')
 				os.rename('temp,csv','to-do-list.csv')
 		elif mode=='r':
 				data=csv.reader(f,delimiter=',')
-				return f
+				return data
 		f.close()
 
 	
@@ -130,29 +130,9 @@ def _bgchange():
 		_message()
 		_import_data()
 
-'''def _music():
-		from tkinterweb import HtmlFrame  # Import HtmlFrame to use the embedded browser
-		import pytube
-		from pytube import extract
-		class App(customtkinter.CTk):
-				def __init__(self):
-						super().__init__()
-						self.visualisation_frame = customtkinter.CTkFrame(self)
-						self.visualisation_frame.pack(pady=20, padx=20)
-						self.youtubeframe = HtmlFrame(self.visualisation_frame)  # Use HtmlFrame to display the YouTube video
-						self.youtubeframe.grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
-
-	# def update_url(self, url):
-		video_embed_url = "https://www.youtube.com/embed/6Ejga4kJUts"
-		self.youtubeframe.load_website(video_embed_url)  # Update to load the embedded video
-		if __name__ == "__main__":
-			appp = App()
-			appp.mainloop()
-		
-'''
 		
 def _calendar():
-	frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
+	frame_5 = tk.Frame(app,width=370, height=350, background='#09112e')
 	frame_5.place(x=350,y=500,anchor='center')
 	frame_5.bind("<Button-1>",drag_start)
 	frame_5.bind("<B1-Motion>",drag_motion)
@@ -225,21 +205,18 @@ def _todolist():
 			selected_task = task_listbox.curselection()
 		def add_task(event):
 			task=task_var.get()
-		   # data = _open_csv('r',task)
+			#data = _open_csv('r',task)
 			if task:
-				#for x in data:
-						#task_listbox.insert(tk.END,x)
-
 				task_listbox.insert(tk.END,task)
 				task_var.set("")
-				#_open_csv('a',task)
+			#	_open_csv('a',task)
 			else:
 				messagebox.showerror("Error",'Please enter a task to add')
 		def remove_task():
 			selected_task=task_listbox.curselection() #Returns the selected task
 			if selected_task:
 				task_listbox.delete(selected_task)
-				_open_csv('w',selected_task)
+			#	_open_csv('w',selected_task)
 			else:
 				messagebox.showerror("Error",'Please select a task to remove')
 		def task_done(event):
@@ -261,7 +238,7 @@ def _todolist():
 
 		close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
 		close_button.place(relx=0.95, rely=0.05, anchor="center")
-	
+
 		frame_6.bind("<Button-1>",frame_click)
 		frame_6.bind("<B1-Motion>",drag_motion)
 		task_entry.bind("<Return>",  add_task)
@@ -350,6 +327,7 @@ def _notes_check():
 	global note
 	if note == False:
 		_notes()
+
 def _funtions_menu():
 	cursor.execute("create table if not exists widgets (wid int primary key auto_increment, wname varchar(20))")
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
