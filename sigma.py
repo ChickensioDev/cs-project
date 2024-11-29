@@ -166,26 +166,44 @@ def _calendar():
 
 	
 def _timer():
-	frame_4 = tk.Frame(app,width=200, height=170, background='#09112e')
+	frame_4 = tk.Frame(app,width=300, height=400, background='#09112e')
 	frame_4.place(x= 400, y= 300,anchor='center')
 	frame_4.bind("<Button-1>",drag_start)
 	frame_4.bind("<B1-Motion>",drag_motion)
-
+	flag=False
 	def _countdown():
-		win = tk.Tk()
-		win.title('Set Timer')
-		win.geometry('200x70')
-		label = tk.Label(win, font=("Helvetica", 24), fg="red")
-		label.pack()
-		time = int(seconds.get())+ int(minutes.get())*60
-		def _count(time):
-			label.config(text=str(time))
-			if time > 0:
-				win.after(1000, lambda: _count(time-1))
+			nonlocal flag
+			global frame_time
+			if flag==True:
+				frame_time.destroy()
+			
+			frame_time=tk.Frame(frame_4,width=100,height=100,background='black')
+			
+			flag=True
+			frame_time.place(relx=0.5,rely=0.6,anchor='center')
+			label = tk.Label(frame_time, font=("Helvetica", 24), fg="red")
+			label.pack()
+			def _count(time):
+					label.config(text=str(time))
+					if time > 0:
+						frame_time.after(1000, lambda: _count(time-1))
+					else:
+						label.config(text="Time's up!",fg="green")		
+			try:
+				a=int(minutes.get()) if minutes.get() else 0
+				b=int(seconds.get()) if seconds.get() else 0
+			except ValueError:
+				messagebox.showerror("Error","Enter a valid time")
+				return
+			time=a*60 +b
+			if time>0:
+				_count(time)
 			else:
-				label.config(text="Time's up!")
-		_count(time)
-		win.mainloop()
+				messagebox.showerror("Error","Enter Time")
+			
+
+			
+		
 		
 	seconds= StringVar()
 	minutes= StringVar() 
@@ -193,7 +211,7 @@ def _timer():
 	#hours= StringVar()
 	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='white',height=30)
 	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 15))
-	entry_label.place(relx=0.16,rely=0.1)
+	entry_label.place(relx=0.16,rely=0.2)
 	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='white',height=30)
 	#hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
 	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, bg_color='black',hover_color='grey',command=_countdown)
