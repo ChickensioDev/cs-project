@@ -208,18 +208,64 @@ def _timer():
 	seconds= StringVar()
 	minutes= StringVar() 
 	
-	#hours= StringVar()
-	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='white',height=30)
-	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 15))
-	entry_label.place(relx=0.16,rely=0.2)
-	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='white',height=30)
-	#hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
-	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, bg_color='black',hover_color='grey',command=_countdown)
-	sec_entry.place(relx=0.5,rely=0.4)
-	min_entry.place(relx=0.1,rely=0.4)
-	#hour_entry.place(relx=0.7,rely=0.3)
-	set_button.place(relx=0.3, rely= 0.7)
-	close_button=CTkButton(frame_4,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_4.destroy)
+	# Entry for seconds
+	sec_entry = CTkEntry(
+    frame_4,
+    textvariable=seconds,
+    width=70,
+    text_color='pink',
+    fg_color='violet',
+    height=30,
+    font=("Times New Roman", 12)
+)
+
+	# Label for instructions
+	entry_label = CTkLabel(
+    frame_4,
+    text='Enter Time\n\nMinutes        Seconds',
+    font=("Times New Roman", 15),
+    text_color='pink'
+)
+	entry_label.place(relx=0.16, rely=0.2)
+
+	# Entry for minutes
+	min_entry = CTkEntry(
+    frame_4,
+    textvariable=minutes,
+    width=70,
+    text_color='pink',
+    fg_color='violet',
+    height=30,
+    font=("Times New Roman", 12)
+)
+
+	# Button to set the timer
+	set_button = CTkButton(
+    frame_4,
+    text='Set Timer',
+    text_color='pink',
+    width=80,
+    bg_color='violet',
+    hover_color='pink',
+    font=("Times New Roman", 12),
+    command=_countdown
+)
+
+	# Place components
+	sec_entry.place(relx=0.5, rely=0.4)
+	min_entry.place(relx=0.1, rely=0.4)
+	set_button.place(relx=0.3, rely=0.7)
+
+	# Close button
+	close_button = CTkButton(
+    frame_4,
+    text='X',
+    fg_color='pink',
+    width=30,
+    height=10,
+    font=("Times New Roman", 15),
+    command=frame_4.destroy
+)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
 def _todolist():
