@@ -177,11 +177,10 @@ def _timer():
 			if flag==True:
 				frame_time.destroy()
 			
-			frame_time=tk.Frame(frame_4,width=100,height=100,background='black')
-			
+			frame_time=tk.Frame(frame_4,width=100,height=100,bg='#09112e')
 			flag=True
 			frame_time.place(relx=0.5,rely=0.6,anchor='center')
-			label = tk.Label(frame_time, font=("Helvetica", 24), fg="red")
+			label = tk.Label(frame_time, font=("Helvetica", 24), fg="red",bg='#09112e')
 			label.pack()
 			def _count(time):
 					label.config(text=str(time))
@@ -194,11 +193,13 @@ def _timer():
 				b=int(seconds.get()) if seconds.get() else 0
 			except ValueError:
 				messagebox.showerror("Error","Enter a valid time")
+				frame_time.destroy()
 				return
 			time=a*60 +b
 			if time>0:
 				_count(time)
 			else:
+				frame_time.destroy()
 				messagebox.showerror("Error","Enter Time")
 			
 
@@ -207,65 +208,18 @@ def _timer():
 		
 	seconds= StringVar()
 	minutes= StringVar() 
-	
-	# Entry for seconds
-	sec_entry = CTkEntry(
-    frame_4,
-    textvariable=seconds,
-    width=70,
-    text_color='pink',
-    fg_color='violet',
-    height=30,
-    font=("Times New Roman", 12)
-)
-
-	# Label for instructions
-	entry_label = CTkLabel(
-    frame_4,
-    text='Enter Time\n\nMinutes        Seconds',
-    font=("Times New Roman", 15),
-    text_color='pink'
-)
-	entry_label.place(relx=0.16, rely=0.2)
-
-	# Entry for minutes
-	min_entry = CTkEntry(
-    frame_4,
-    textvariable=minutes,
-    width=70,
-    text_color='pink',
-    fg_color='violet',
-    height=30,
-    font=("Times New Roman", 12)
-)
-
-	# Button to set the timer
-	set_button = CTkButton(
-    frame_4,
-    text='Set Timer',
-    text_color='pink',
-    width=80,
-    bg_color='violet',
-    hover_color='pink',
-    font=("Times New Roman", 12),
-    command=_countdown
-)
-
-	# Place components
-	sec_entry.place(relx=0.5, rely=0.4)
-	min_entry.place(relx=0.1, rely=0.4)
-	set_button.place(relx=0.3, rely=0.7)
-
-	# Close button
-	close_button = CTkButton(
-    frame_4,
-    text='X',
-    fg_color='pink',
-    width=30,
-    height=10,
-    font=("Times New Roman", 15),
-    command=frame_4.destroy
-)
+	#hours= StringVar()
+	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='violet',height=30)
+	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 18))
+	entry_label.place(relx=0.16,rely=0.2)
+	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='violet',height=30)
+	#hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
+	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, fg_color='violet',hover_color='cyan',command=_countdown)
+	sec_entry.place(relx=0.5,rely=0.4)
+	min_entry.place(relx=0.1,rely=0.4)
+	#hour_entry.place(relx=0.7,rely=0.3)
+	set_button.place(relx=0.3, rely= 0.7)
+	close_button=CTkButton(frame_4,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_4.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
 def _todolist():
