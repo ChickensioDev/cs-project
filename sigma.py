@@ -236,13 +236,17 @@ def _todolist():
 		task_var=StringVar()
 		task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
 		task_entry.place(anchor='center',relx=0.5,rely=0.22)
-		task_listbox = tk.Listbox(frame_6, width=30, height=15, font=("Times New Roman", 14), bg="black", fg="white")
+		task_listbox = tk.Listbox(frame_6, width=30, height=10, font=("Times New Roman", 20), bg="black", fg="white")
 		task_listbox.place(anchor="center", relx=0.5, rely=0.63)
+		x=0.5
+		y=0.01
+		
 		
 		def set_selected_task(event):
 			nonlocal selected_task
 			selected_task = task_listbox.curselection()
 		def add_task(event):
+			nonlocal x,y
 			task=task_var.get()
 		   # data = _open_csv('r',task)
 			if task:
@@ -250,7 +254,10 @@ def _todolist():
 						#task_listbox.insert(tk.END,x)
 
 				task_listbox.insert(tk.END,task)
+				_checkbox = CTkCheckBox(task_listbox,width=1,text='', onvalue=True, offvalue=False, font=('Timer New Roman',12), text_color='white',height=3)
 				task_var.set("")
+				_checkbox.place(relx=x,rely=y)
+				y=y+0.1
 				#_open_csv('a',task)
 			else:
 				messagebox.showerror("Error",'Please enter a task to add')
