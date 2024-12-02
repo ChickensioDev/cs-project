@@ -3,7 +3,7 @@ import mysql.connector
 from customtkinter import *
 import tkinter
 from tkinter import messagebox
-import subprocess
+import subprocess,sys
 import PIL
 from PIL import Image
 
@@ -16,30 +16,34 @@ def _import_data():
 	cursor.execute(sql_insert_query % id)
 	result = cursor.fetchall()
 
-	f.close()
-	return id,result[0][1]
+	f.close()	
+	return id,result[0][1] #returns id and username 
 def create_pressed(n,p):
-	cursor.execute('''create database %s'''%n)
-	cursor.execute('''use %s'''%n)
-	cursor.execute('''create table messages (mid int primary key auto_increment, id int, username varchar(20),message varchar(3000))''')
-	
-	cursor.execute('''use userinfo''')
-	cursor.execute('''insert into room_info(id,room,password) values (%s, %s, %s)''',(id,n,p))
-	conn.commit()
-	f = open("cache.txt","w")
-	f.write(str(id) + '\n')
-	f.write(n + '\n')
-	f.close()
-	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
-	subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
-	sys.exit()
+	try:cursor.execute("Use %s"%n)
+	except:
+		cursor.execute('''create database %s'''%n)
+		cursor.execute('''use %s'''%n)
+		cursor.execute('''create table messages (mid int primary key auto_increment, id int, username varchar(20),message varchar(3000))''')
+		
+		cursor.execute('''use userinfo''')
+		cursor.execute('''insert into room_info(id,room,password) values (%s, %s, %s)''',(id,n,p))
+		conn.commit()
+		f = open("cache.txt","w")
+		f.write(str(id) + '\n')
+		f.write(n + '\n')
+		f.close()
+		current_dir = pathlib.Path(__file__).parent.resolve() # current directory
+		subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
+		sys.exit()
+	else:
+		messagebox.showerror("Error","Room name already exists")
 
 def join_pressed(n,p):
 	cursor.execute('''use userinfo''')
 	cursor.execute('select * from room_info where room = %s', (n,))
 	result = cursor.fetchall()
 	if len(result) != 0:
-		if result[0][3] == p:
+		if result[0][3] == p:  #checking for password
 			f = open("cache.txt",'w')
 			f.write(str(id) + '\n')
 			f.write(n + '\n')
@@ -48,7 +52,7 @@ def join_pressed(n,p):
 			subprocess.Popen(['python',os.path.join(current_dir,'sigma.py')])
 			sys.exit()
 		else:
-			messagebox.showerror("Error",'Incorrect password')
+			messagebox.showerror("Error",'Incorrect password')	
 	else:
 		messagebox.showerror("Error",'Room not found')
 	
@@ -56,7 +60,7 @@ def room1():
 	global win3
 	win3=CTk()
 	win3.geometry("1600x900")
-	win3.title("Be fake")
+	win3.title("Ready to study?")
 	img_file_name = "room.png"
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
@@ -120,6 +124,8 @@ def create_room():
 		print(pass_var.get(),name_var.get())
 		if pass_var.get() and name_var.get():
 			create_pressed(name_var.get(),pass_var.get())
+		else:
+			messagebox.showerror("Error","Enter both password and Room name")
 	back_button = CTkButton(win4, text='Back', font=("Times New Roman",24), text_color="black", fg_color="#6A82FB",hover_color='#FC5C7D', command=close_window)
 	create_button=CTkButton(win4,text='Create Room',font=("Times New Roman",24), command = pressed,text_color="black", fg_color="#6A82FB",hover_color='#FC5C7D' )
 	back_button.place(relx=0.45,rely=0.7,anchor='center')
@@ -160,6 +166,8 @@ def join_room():
 	def pressed():
 		if pass_var.get() and name_var.get():
 			join_pressed(name_var.get(),pass_var.get())
+		else:
+			messagebox.showerror("Error","Enter both password and name of the room to be joined")
 	name_entry=CTkEntry(win5,textvariable=name_var,font=("Times New Roman",28),width=200)
 	name_entry.place(relx=0.6,rely=0.5,anchor='center')
 	pass_entry=CTkEntry(win5,textvariable=pass_var,font=("Times New Roman",28),width=200, show = "*")

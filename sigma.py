@@ -1,7 +1,8 @@
 import pathlib, os
 import mysql.connector
 from customtkinter import *
-from tkinter import filedialog, messagebox
+from tkinter import filedialog
+from tkinter import messagebox
 from PIL import Image
 import tkinter as tk
 import random
@@ -15,7 +16,7 @@ flag = False
 editing = False
 note = False
 def _import_data():
-	f = open('cache.txt','r')
+	f = open('cache.txt','r') #1st line of the file is user id and second line of the file is name of the room
 	id = int(f.readline())
 	room = f.readline()
 	cursor.execute("use userinfo")
@@ -25,7 +26,7 @@ def _import_data():
 	label = CTkLabel(app,text='User_Id: '+str(result[0][0])+'\nUsername: '+str(result[0][1])+'\nAge: '+str(result[0][3])+'\nGender: '+str(result[0][4])+'\nPassword: '+str(result[0][2]), font=('Arial',20),width=200,height=130)
 	label.place(relx=0.5,rely=0.1,anchor='center')
 	f.close()
-	return id,result[0][1],room
+	return id,result[0][1],room #result[0][1] fetches the username
 
 def drag_start(event):
 	global editing
@@ -66,54 +67,54 @@ def _open_csv(mode,task):
 
 	
 def _message():
-	cursor.execute('use %s'%room)
+		cursor.execute('use %s'%room)
+		def _send():
+			sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
+			sql_insert_tuple = (id,user,message.get())
+			cursor.execute(sql_insert_query, sql_insert_tuple)
+			conn.commit()
 
-	def _send():
-		sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
-		sql_insert_tuple = (id,user,message.get())
-		cursor.execute(sql_insert_query, sql_insert_tuple)
-		conn.commit()
-
-	def _check():
-		global msgno
-		conn.commit()
-		cursor.execute('select * from messages')
-		result = cursor.fetchall()
-		for i in range(msgno, len(result)):
-			displabel = CTkLabel(master=frame_2, text = result[i][2]+' : '+result[i][3]+'\n',bg_color='transparent',text_color='white',wraplength=200,font=('Arial',15))
-			displabel.pack(side='top')		
-		msgno = len(result)
+		def _check():
+			global msgno
+			conn.commit()
+			cursor.execute('select * from messages')
+			result = cursor.fetchall()
+			for i in range(msgno, len(result)):
+				displabel = CTkLabel(master=frame_2, text = result[i][2]+' : '+result[i][3]+'\n',bg_color='transparent',text_color='white',wraplength=200,font=('Arial',15))
+				displabel.pack(side='top')		
+			msgno = len(result)
 		
-	def _update():
-		global flag
-		if not flag:
-			flag = True
-		else:
-			_check()
-		app.after(1000,_update)
-	
-	def _close():
-		sql_insert_query ='''delete from messages'''
-		cursor.execute(sql_insert_query)
-		conn.commit()
-		cursor.close()
+		def _update():
+			global flag
+			if not flag:
+				flag = True
+			else:
+				_check()
+			app.after(1000,_update)
+		
+		def _close():
+			sql_insert_query ='''delete from messages'''
+			cursor.execute(sql_insert_query)
+			conn.commit()
+			cursor.close()
 
-	frame_2 = CTkScrollableFrame(app, corner_radius=15,width=250,height=500, fg_color="transparent") 
-	frame_2.place(relx=0.79, rely=0.1)
+		frame_2 = CTkScrollableFrame(app, corner_radius=15,width=250,height=500, fg_color="transparent") 
+		frame_2.place(relx=0.79, rely=0.1)
 
 	
-	message = StringVar()
-	messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
+		message = StringVar()
+		messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
 	
-	submitbutton = CTkButton(app,text='Send',font=("Times New Roman", 18),command=_send,text_color='white',fg_color='green',width=200)
-	checkbutton = CTkButton(app,text='check',font=("Times New Roman", 18),command=_check,text_color='white',fg_color='green',width=100)
-	closebutton = CTkButton(app,text='close',font=("Times New Roman", 18),command=_close,text_color='white',fg_color='green')
-	chatbox_label= CTkLabel(app,text='ChatBox',font=("Times New Roman", 18),width=260)
+		submitbutton = CTkButton(app,text='Send',font=("Times New Roman", 18),command=_send,text_color='white',fg_color='green',width=200)
+		checkbutton = CTkButton(app,text='check',font=("Times New Roman", 18),command=_check,text_color='white',fg_color='green',width=100)
+		closebutton = CTkButton(app,text='close',font=("Times New Roman", 18),command=_close,text_color='white',fg_color='green')
+		chatbox_label= CTkLabel(app,text='ChatBox',font=("Times New Roman", 18),width=260)
 
-	chatbox_label.place(relx=0.8,rely=0.02)
-	messagebox.place(relx = 0.81,rely=0.86)
-	submitbutton.place(relx=0.83,rely=0.92)
-	_update()
+		chatbox_label.place(relx=0.8,rely=0.02)
+		messagebox.place(relx = 0.81,rely=0.86)
+		submitbutton.place(relx=0.83,rely=0.92)
+		_update()
+	
 def _bgchange():
 		list_bg= ['pic1.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png','pic7.png','pic8.png','pic9.png']
 		def _openimage():
@@ -130,27 +131,7 @@ def _bgchange():
 		_message()
 		_import_data()
 
-'''def _music():
-		from tkinterweb import HtmlFrame  # Import HtmlFrame to use the embedded browser
-		import pytube
-		from pytube import extract
-		class App(customtkinter.CTk):
-				def __init__(self):
-						super().__init__()
-						self.visualisation_frame = customtkinter.CTkFrame(self)
-						self.visualisation_frame.pack(pady=20, padx=20)
-						self.youtubeframe = HtmlFrame(self.visualisation_frame)  # Use HtmlFrame to display the YouTube video
-						self.youtubeframe.grid(row=0, column=0, columnspan=2, padx=20, pady=(20, 5))
 
-	# def update_url(self, url):
-		video_embed_url = "https://www.youtube.com/embed/6Ejga4kJUts"
-		self.youtubeframe.load_website(video_embed_url)  # Update to load the embedded video
-		if __name__ == "__main__":
-			appp = App()
-			appp.mainloop()
-		
-'''
-		
 def _calendar():
 	frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
 	frame_5.place(x=350,y=500,anchor='center')
@@ -202,28 +183,24 @@ def _timer():
 				frame_time.destroy()
 				messagebox.showerror("Error","Enter Time")
 			
-
-			
-		
-		
 	seconds= StringVar()
 	minutes= StringVar() 
-	#hours= StringVar()
+	
 	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='violet',height=30)
 	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 18))
 	entry_label.place(relx=0.16,rely=0.2)
 	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='violet',height=30)
-	#hour_entry= CTkEntry(frame_4, textvariable=hours,width=80, text_color='black',fg_color='cyan', height=30)
+
 	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, fg_color='violet',hover_color='cyan',command=_countdown)
 	sec_entry.place(relx=0.5,rely=0.4)
 	min_entry.place(relx=0.1,rely=0.4)
-	#hour_entry.place(relx=0.7,rely=0.3)
+
 	set_button.place(relx=0.3, rely= 0.7)
 	close_button=CTkButton(frame_4,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_4.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
 def _todolist():
-	try: print("hi")#f=open('to-do-list.csv','r',newline='')
+	try: print("hi")
 	except: _create_csv()
 	else:
 		
@@ -248,17 +225,13 @@ def _todolist():
 		def add_task(event):
 			nonlocal x,y
 			task=task_var.get()
-		   # data = _open_csv('r',task)
 			if task:
-				#for x in data:
-						#task_listbox.insert(tk.END,x)
-
 				task_listbox.insert(tk.END,task)
 				_checkbox = CTkCheckBox(task_listbox,width=1,text='', onvalue=True, offvalue=False, font=('Timer New Roman',12), text_color='white',height=3)
 				task_var.set("")
 				_checkbox.place(relx=x,rely=y)
 				y=y+0.1
-				#_open_csv('a',task)
+				
 			else:
 				messagebox.showerror("Error",'Please enter a task to add')
 		def remove_task():
@@ -380,7 +353,6 @@ def _funtions_menu():
 	cursor.execute("create table if not exists widgets (wid int primary key auto_increment, wname varchar(20))")
 	timerbutton = CTkButton(app,text='Timer',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_timer)
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_calendar)
-	musicbutton = CTkButton(app,text='Music',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes_check)
 	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_todolist)
 	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
@@ -390,7 +362,6 @@ def _funtions_menu():
 	calendarbutton.place(relx=0.02,rely=0.4)
 	taskbutton.place(relx=0.02,rely=0.5)
 	notesbutton.place(relx=0.02,rely=0.6)
-	musicbutton.place(relx=0.02,rely=0.7)
 	logoutbutton.place(relx=0.02,rely=0.92)
 	bgchangebutton.place(relx=0.02,rely=0.2)
 	
@@ -413,9 +384,9 @@ bg_label =CTkLabel(app, image=bg_image,text=' ')
 bg_label.place(relwidth=1, relheight=1) 
 
 data = _import_data()
-id = data[0]
-user = data[1]
-room = data[2]
+id = data[0] #user id
+user = data[1] #username
+room = data[2] #room name
 
 _message()
 _funtions_menu()

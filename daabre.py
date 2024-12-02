@@ -36,7 +36,7 @@ def _create_sql(n,a,p,g):
 		f = open('cache.txt','w')
 		f.write(str(result[0][0]) + '\n')
 	else:
-		pass ###make label say username already exists
+		msg.showerror("Error","Username already exists")
 		
 	
 def _search_sql(n,p):
@@ -54,7 +54,7 @@ def _search_sql(n,p):
 		result = cursor.fetchall()
 		cursor.close()
 		f = open('cache.txt','w')
-		f.write(str(result[0][0]) + '\n')
+		f.write(str(result[0][0]) + '\n') #result[0][0] gives user id
 		cursor.close()
 		return 1
 	else:
@@ -62,7 +62,6 @@ def _search_sql(n,p):
 		return 0
 	
 	
-
 def _login():
 	
 	def close_window():
@@ -197,9 +196,6 @@ def _signup():
 	close_button.place(relx=0.5,rely=0.8)
 	show_password_check.place(relx=0.4,rely=0.55)
 	
-
-
-
 	win4.mainloop()
 
 
