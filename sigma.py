@@ -73,6 +73,7 @@ def _message():
 			sql_insert_tuple = (id,user,message.get())
 			cursor.execute(sql_insert_query, sql_insert_tuple)
 			conn.commit()
+			messagebox.delete(0,tk.END)
 
 		def _check():
 			global msgno
