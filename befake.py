@@ -74,7 +74,7 @@ def room1():
 	frame=CTkFrame(win3,corner_radius=15,width=600,height=600,fg_color='black')
 	frame.place(relx=0.5,rely=0.5,anchor='center')
 	
-	label1=CTkLabel(win3,text='welcome to befake',font=('Arial',28))
+	label1=CTkLabel(win3,text='welcome to StudyBuddy',font=('Arial',28))
 	label1.place(relx=0.5,rely=0.5,anchor='center')
 
 	button1=CTkButton(win3,text='Create Room',font=("Arial",28),command=create_room)

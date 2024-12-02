@@ -67,7 +67,7 @@ def _open_csv(mode,task):
 
 	
 def _message():
-		cursor.execute('use %s'%room)
+		cursor.execute('use %s'%room)	
 		def _send():
 			sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
 			sql_insert_tuple = (id,user,message.get())
@@ -203,72 +203,56 @@ def _todolist():
 	try: print("hi")
 	except: _create_csv()
 	else:
-		
 		frame_6=tk.Frame(app,width=450,height=450,background='#09112e')
 		frame_6.place(x=300,y=200)
-
 		label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
-		label1.place(x=1,y=1)
-		selected_task = None	
+		label1.place(x=1,y=1)		
 		task_var=StringVar()
 		task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
-		task_entry.place(anchor='center',relx=0.5,rely=0.22)
-		task_listbox = tk.Listbox(frame_6, width=30, height=10, font=("Times New Roman", 20), bg="black", fg="white")
-		task_listbox.place(anchor="center", relx=0.5, rely=0.63)
-		x=0.5
-		y=0.01
-		
-		
-		def set_selected_task(event):
-			nonlocal selected_task
-			selected_task = task_listbox.curselection()
-		def add_task(event):
-			nonlocal x,y
+		task_entry.place(anchor='center',relx=0.5,rely=0.28)
+		task_listbox = tk.Listbox(frame_6, width=30, height=10, font=("Times New Roman", 18), bg="black", fg="white")
+		task_listbox.place(anchor="center", relx=0.5, rely=0.65)
+
+		def add_task():
 			task=task_var.get()
 			if task:
 				task_listbox.insert(tk.END,task)
-				_checkbox = CTkCheckBox(task_listbox,width=1,text='', onvalue=True, offvalue=False, font=('Timer New Roman',12), text_color='white',height=3)
 				task_var.set("")
-				_checkbox.place(relx=x,rely=y)
-				y=y+0.1
-				
 			else:
 				messagebox.showerror("Error",'Please enter a task to add')
 		def remove_task():
 			selected_task=task_listbox.curselection() #Returns the selected task
 			if selected_task:
 				task_listbox.delete(selected_task)
-				_open_csv('w',selected_task)
 			else:
 				messagebox.showerror("Error",'Please select a task to remove')
-		def task_done(event):
+		def task_done():
+			selected_task=task_listbox.curselection()
 			if selected_task:
 				task_listbox.itemconfig(selected_task,foreground='gray')
 			else:
 				messagebox.showerror("Error",'Please select a task to mark as done')
-
 		def clear_selection(event):
 			if event.widget!=task_listbox: #clears selection only if left click is done outside the listbox
 				task_listbox.selection_clear(0,END)
 		def frame_click(event):
 			clear_selection(event)
 			drag_start(event)	
-	
+		
+		add_task_button=CTkButton(frame_6,text='Add Task',fg_color='green',hover_color='#8A2BE2',width=100,height=30,command=add_task,font=("Times New Roman",18))
+		add_task_button.place(anchor='center',relx=0.15,rely=0.15)
+		
 		remove_task_button=CTkButton(frame_6,text='Remove Task',fg_color='Red',hover_color='#8A2BE2',width=100,height=30,command=remove_task,font=("Times New Roman",18))
-		remove_task_button.place(anchor='center',relx=0.48,rely=0.12)
-	
-
+		remove_task_button.place(anchor='center',relx=0.46,rely=0.15)
+		
+		task_done_button=CTkButton(frame_6,text='Mark as done',fg_color='#03A9F4',hover_color='#8A2BE2',width=100,height=30,command=task_done,font=("Times New Roman",18))
+		task_done_button.place(anchor='center',relx=0.78,rely=0.15)
+		
 		close_button=CTkButton(frame_6,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_6.destroy)
 		close_button.place(relx=0.95, rely=0.05, anchor="center")
-	
 		frame_6.bind("<Button-1>",frame_click)
 		frame_6.bind("<B1-Motion>",drag_motion)
-		task_entry.bind("<Return>",  add_task)
-		task_listbox.bind("<<ListboxSelect>>", set_selected_task)
-		if selected_task != None:
-			selected_task.bind("<Enter>",task_done)
-			print("done")
-								
+
 def _notes():
 	global note
 	delete = False
