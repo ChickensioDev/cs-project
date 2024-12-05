@@ -39,7 +39,9 @@ def drag_motion(event):
 	widget = event.widget
 	x = widget.winfo_x() - widget.startX + event.x
 	y = widget.winfo_y() - widget.startY + event.y
+	print(widget.winfo_x(), widget.startX, event.x, end = "  ")
 	widget.place(x=x,y=y)
+	print(widget.winfo_x(), widget.startX, event.x)
 	editing = True
 
 def  _create_csv():
@@ -271,7 +273,10 @@ def _notes():
 	cursor.execute('select * from notewidget')
 	result = cursor.fetchall()
 	frame_3=tk.Frame(app, width=400, height=400, background = 'black')
-	frame_3.place(x = result[0][2], y = result[0][3])
+	if result != []:
+		frame_3.place(x = result[0][2], y = result[0][3])
+	else:
+		frame_3.place(x = 500, y = 500)
 	text_box=CTkTextbox(frame_3,width=300,height=300,font=("Times New Roman",18))
 	def _test(event):
 		global editing
