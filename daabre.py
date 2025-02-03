@@ -37,6 +37,7 @@ def _create_sql(n,a,p,g):
 		f.write(str(result[0][0]) + '\n')
 	else:
 		msg.showerror("Error","Username already exists")
+		return -1
 		
 	
 def _search_sql(n,p):
@@ -158,8 +159,8 @@ def _signup():
 	
 	def _submit():
 		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o':
-			_create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get())
-			_successful_signin()
+			if _create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get()) != -1:
+				_successful_signin()
 		else:
 			enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
 			enter_value.place(relx=0.5,rely=0.95, anchor="center")
