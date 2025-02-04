@@ -39,9 +39,9 @@ def drag_motion(event):		# function helps in moving the widgets
 	widget = event.widget
 	x = widget.winfo_x() - widget.startX + event.x
 	y = widget.winfo_y() - widget.startY + event.y
-	print(widget.winfo_x(), widget.startX, event.x, end = "  ")
+	
 	widget.place(x=x,y=y)
-	print(widget.winfo_x(), widget.startX, event.x)
+	
 	editing = True
 '''
 def  _create_csv():
@@ -300,7 +300,7 @@ def _notes():
 		global editing
 		cursor.execute('select * from notewidget')
 		result = cursor.fetchall()
-		print(editing)
+		
 		if result != [] and editing == False:
 			frame_3.place(x = result[0][2], y = result[0][3])
 			text_box.delete(0.0,'end')
