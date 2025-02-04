@@ -158,12 +158,17 @@ def _signup():
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	
 	def _submit():
-		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o': #If all attributes are entered by the user
-			if _create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get()) != -1: #Checking if username exists else creating new record
-				_successful_signin()
+		try:
+			a = int(age_var.get())
+		except:
+			msg.showerror("Invalid age","Enter valid age")
 		else:
-			enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
-			enter_value.place(relx=0.5,rely=0.95, anchor="center")
+			if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o': #If all attributes are entered by the user
+				if _create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get()) != -1: #Checking if username exists else creating new record
+					_successful_signin()
+			else:
+				enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
+				enter_value.place(relx=0.5,rely=0.95, anchor="center")
 	def password_seen():
 		if show_password.get():
 			pass_entry.configure(show='')
