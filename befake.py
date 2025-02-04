@@ -6,6 +6,7 @@ from tkinter import messagebox
 import subprocess,sys
 import PIL
 from PIL import Image
+
 #Retrieving data from the user's device
 def _import_data():
 	f = open('cache.txt','r')
@@ -18,10 +19,11 @@ def _import_data():
 
 	f.close()	
 	return id,result[0][1] #returns id and username as a tuple
-def create_pressed(n,p):
+
+def create_pressed(n,p):   # creates a new room
 	try:cursor.execute("Use %s"%n)
 	except:
-		cursor.execute('''create database %s'''%n)
+		cursor.execute('''create database %s'''%n)   # creates a new database for the room
 		cursor.execute('''use %s'''%n)
 		cursor.execute('''create table messages (mid int primary key auto_increment, id int, username varchar(20),message varchar(3000))''')
 		
@@ -38,10 +40,10 @@ def create_pressed(n,p):
 	else:
 		messagebox.showerror("Error","Room name already exists")
 
-def join_pressed(n,p):
-	cursor.execute('''use userinfo''')
+def join_pressed(n,p):   # join an exsting room 
+	cursor.execute('''use userinfo''')   # uses the database of the room
 	cursor.execute('select * from room_info where room = %s', (n,))
-	result = cursor.fetchall()
+	result = cursor.fetchall()   
 	if len(result) != 0:
 		if result[0][3] == p:  #checking for password
 			f = open("cache.txt",'w')
@@ -56,7 +58,7 @@ def join_pressed(n,p):
 	else:
 		messagebox.showerror("Error",'Room not found')
 	
-def room1():
+def room1():      # creates and opens the window to create a room or join an existing room
 	global win3
 	win3=CTk()
 	win3.geometry("1600x900")
@@ -84,9 +86,9 @@ def room1():
 	button2.place(relx=0.6,rely=0.6,anchor='center')
 	win3.mainloop()
 
-def create_room():
+def create_room():     # opens a window to create a new room
 	win4=CTkToplevel()
-	win3.withdraw()
+	win3.withdraw()     # closes the previous window
 	win4.geometry("1600x900")
 	win4.title("Create room")
 	img_file_name = "room.png"
@@ -103,25 +105,27 @@ def create_room():
 	label_pass=CTkLabel(win4,text="Password",font=("Arial",28),bg_color='#6A82FB')
 	label_pass.place(relx=0.48,rely=0.6,anchor="center")
 	show_password = BooleanVar()
-
-	name_var=StringVar()
+	name_var=StringVar()     # input the name and password of the room
 	pass_var=StringVar()
+
 	def close_window():
 		win4.withdraw() 
 		win3.deiconify() 
-	def password_seen():
+	def password_seen():    
 		if show_password.get():
 				pass_entry.configure(show='')
 		else:
-				pass_entry.configure(show='*')  # Hide the password with *)
+				pass_entry.configure(show='*')  # Hide the password with *
+
 	name_entry=CTkEntry(win4,textvariable=name_var,font=("Times New Roman",28),width=200)
 	name_entry.place(relx=0.6,rely=0.5,anchor='center')
 	pass_entry=CTkEntry(win4,textvariable=pass_var,font=("Times New Roman",28),width=200, show = "*")
 	pass_entry.place(relx=0.6,rely=0.6,anchor='center')
 	show_password_check = CTkCheckBox(win4, text='Show Password',bg_color='#6A82FB',fg_color='#6A82FB', variable=show_password, onvalue=True, offvalue=False, command=password_seen,text_color='white')
 	show_password_check.place(relx=0.58,rely=0.65,anchor='center')
-	def pressed():
-		print(pass_var.get(),name_var.get())
+	
+	def pressed():      
+		print(pass_var.get(),name_var.get())    # checks if name and password are given
 		if pass_var.get() and name_var.get():
 			create_pressed(name_var.get(),pass_var.get())
 		else:
@@ -133,7 +137,7 @@ def create_room():
 
 	win4.mainloop()
 
-def join_room():
+def join_room():      # opens a window to join an existing room
 	win5=CTkToplevel()
 	win3.withdraw()
 	win5.geometry("1600x900")
@@ -152,7 +156,7 @@ def join_room():
 	label_pass=CTkLabel(win5,text="Password",font=("Arial",28),bg_color='#8A2BE2')
 	label_pass.place(relx=0.48,rely=0.6,anchor="center")
 	show_password = BooleanVar()
-	name_var=StringVar()
+	name_var=StringVar()	# input the name and password of the room
 	pass_var=StringVar()
 	def close_window():
 		win5.withdraw() 
@@ -162,12 +166,13 @@ def join_room():
 		if show_password.get():
 				pass_entry.configure(show='')
 		else:
-				pass_entry.configure(show='*')  # Hide the password with *)
+				pass_entry.configure(show='*')  # Hide the password with *
 	def pressed():
-		if pass_var.get() and name_var.get():
+		if pass_var.get() and name_var.get():	# checks if name and password are given
 			join_pressed(name_var.get(),pass_var.get())
 		else:
 			messagebox.showerror("Error","Enter both password and name of the room to be joined")
+
 	name_entry=CTkEntry(win5,textvariable=name_var,font=("Times New Roman",28),width=200)
 	name_entry.place(relx=0.6,rely=0.5,anchor='center')
 	pass_entry=CTkEntry(win5,textvariable=pass_var,font=("Times New Roman",28),width=200, show = "*")
@@ -180,6 +185,8 @@ def join_room():
 	join_button.place(relx=0.6,rely=0.7,anchor='center')
 
 	win5.mainloop()
+
+# connecting with sql
 conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test')
 cursor = conn.cursor()
 data = _import_data()
