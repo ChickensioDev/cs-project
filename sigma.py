@@ -15,7 +15,7 @@ msgno = 0
 flag = False
 editing = False
 note = False
-def _import_data():
+def _import_data():	# data is imported from the text file from the user's system
 	f = open('cache.txt','r') #1st line of the file is user id and second line of the file is name of the room
 	id = int(f.readline())
 	room = f.readline()
@@ -28,13 +28,13 @@ def _import_data():
 	f.close()
 	return id,result[0][1],room #result[0][1] fetches the username
 
-def drag_start(event):
+def drag_start(event):	
 	global editing
 	widget = event.widget
 	widget.startX = event.x
 	widget.startY = event.y
 	editing = True
-def drag_motion(event):
+def drag_motion(event):		# function helps in moving the widgets
 	global editing
 	widget = event.widget
 	x = widget.winfo_x() - widget.startX + event.x
@@ -43,7 +43,7 @@ def drag_motion(event):
 	widget.place(x=x,y=y)
 	print(widget.winfo_x(), widget.startX, event.x)
 	editing = True
-
+'''
 def  _create_csv():
 		f= open('to-do-list.csv','w',newline='')
 def _open_csv(mode,task):
@@ -66,18 +66,17 @@ def _open_csv(mode,task):
 				data=csv.reader(f,delimiter=',')
 				return f
 		f.close()
-
-	
-def _message():
+'''
+def _message(): 	
 		cursor.execute('use %s'%room)	
-		def _send():
+		def _send():	# messages are inserted into the sql table
 			sql_insert_query ='''INSERT INTO messages(id,username,message) VALUES (%s, %s ,%s)'''
 			sql_insert_tuple = (id,user,message.get())
 			cursor.execute(sql_insert_query, sql_insert_tuple)
 			conn.commit()
-			messagebox.delete(0,tk.END)
+			messagebox.delete(0,tk.END)		# clears the entr box after sending message
 
-		def _check():
+		def _check():	# fetches the messages from the sql table
 			global msgno
 			conn.commit()
 			cursor.execute('select * from messages')
@@ -93,9 +92,9 @@ def _message():
 				flag = True
 			else:
 				_check()
-			app.after(1000,_update)
+			app.after(1000,_update)		# the check function is executed ever 1000 milli second
 		
-		def _close():
+		def _close():	  # deletes all the messages from the table
 			sql_insert_query ='''delete from messages'''
 			cursor.execute(sql_insert_query)
 			conn.commit()
@@ -105,7 +104,7 @@ def _message():
 		frame_2.place(relx=0.79, rely=0.1)
 
 	
-		message = StringVar()
+		message = StringVar()	# entry box for the message
 		messagebox = CTkEntry(app,textvariable=message,font=("Times New Roman", 20),width = 235)
 	
 		submitbutton = CTkButton(app,text='Send',font=("Times New Roman", 18),command=_send,text_color='white',fg_color='green',width=200)
@@ -118,9 +117,9 @@ def _message():
 		submitbutton.place(relx=0.83,rely=0.92)
 		_update()
 	
-def _bgchange():
+def _bgchange(): 	# changes the background
 		list_bg= ['pic1.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png','pic7.png','pic8.png','pic9.png']
-		def _openimage():
+		def _openimage():		# loads the image 
 			text= random.randint(0,8)
 			image_ = list_bg[text]
 			c_dir = pathlib.Path(__file__).parent.resolve()
@@ -135,7 +134,7 @@ def _bgchange():
 		_import_data()
 
 
-def _calendar():
+def _calendar():	# displays the calendar
 	frame_5 = tk.Frame(app,width=350, height=350, background='#09112e')
 	frame_5.place(x=350,y=500,anchor='center')
 	frame_5.bind("<Button-1>",drag_start)
@@ -149,8 +148,8 @@ def _calendar():
 	cal.place(anchor='center',relx=0.35,rely=0.2)
 
 	
-def _timer():
-	frame_4 = tk.Frame(app,width=300, height=400, background='#09112e')
+def _timer():	# timer widget
+	frame_4 = tk.Frame(app,width=200, height=300, background='#09112e')
 	frame_4.place(x= 400, y= 300,anchor='center')
 	frame_4.bind("<Button-1>",drag_start)
 	frame_4.bind("<B1-Motion>",drag_motion)
@@ -186,56 +185,56 @@ def _timer():
 				frame_time.destroy()
 				messagebox.showerror("Error","Enter Time")
 			
-	seconds= StringVar()
+	seconds= StringVar()	# enter the time
 	minutes= StringVar() 
 	
-	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='violet',height=30)
+	sec_entry= CTkEntry(frame_4,textvariable=seconds,width=70,text_color='black',fg_color='violet',height=25)
 	entry_label= CTkLabel(frame_4,text='Enter Time\n\nMinutes        Seconds  ',font=("Times New Roman", 18))
-	entry_label.place(relx=0.16,rely=0.2)
-	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='violet',height=30)
+	entry_label.place(relx=0.06,rely=0.2)
+	min_entry= CTkEntry(frame_4,textvariable=minutes,width=70,text_color='black',fg_color='violet',height=25)
 
 	set_button = CTkButton(frame_4, text='Set Timer',text_color='white',width=80, fg_color='violet',hover_color='cyan',command=_countdown)
-	sec_entry.place(relx=0.5,rely=0.4)
-	min_entry.place(relx=0.1,rely=0.4)
+	sec_entry.place(relx=0.5,rely=0.44)
+	min_entry.place(relx=0.1,rely=0.44)
 
 	set_button.place(relx=0.3, rely= 0.7)
 	close_button=CTkButton(frame_4,text='X',fg_color='red',width=30,height=10,font=("Times New Roman",15),command=frame_4.destroy)
 	close_button.place(relx=0.95, rely=0.05, anchor="center")
 		
-def _todolist():
+def _todolist():	# to do list widget
 	try: print("hi")
-	except: _create_csv()
+	except: a=5
 	else:
 		frame_6=tk.Frame(app,width=450,height=450,background='#09112e')
 		frame_6.place(x=300,y=200)
 		label1=CTkLabel(frame_6,text='To-do list',width=30,font=("Times New Roman",18))
 		label1.place(x=1,y=1)		
-		task_var=StringVar()
+		task_var=StringVar()	# entry box for task
 		task_entry = CTkEntry(frame_6, textvariable=task_var, placeholder_text="Enter your task", width=200, height=30)
 		task_entry.place(anchor='center',relx=0.5,rely=0.28)
 		task_listbox = tk.Listbox(frame_6, width=30, height=10, font=("Times New Roman", 18), bg="black", fg="white")
 		task_listbox.place(anchor="center", relx=0.5, rely=0.65)
 
-		def add_task():
+		def add_task():		# adds the task to the list
 			task=task_var.get()
 			if task:
 				task_listbox.insert(tk.END,task)
 				task_var.set("")
 			else:
 				messagebox.showerror("Error",'Please enter a task to add')
-		def remove_task():
+		def remove_task():		# removes the task from the list
 			selected_task=task_listbox.curselection() #Returns the selected task
 			if selected_task:
 				task_listbox.delete(selected_task)
 			else:
 				messagebox.showerror("Error",'Please select a task to remove')
-		def task_done():
+		def task_done():	# marks the task as done (changes the colour basically)
 			selected_task=task_listbox.curselection()
 			if selected_task:
 				task_listbox.itemconfig(selected_task,foreground='gray')
 			else:
 				messagebox.showerror("Error",'Please select a task to mark as done')
-		def clear_selection(event):
+		def clear_selection(event):		
 			if event.widget!=task_listbox: #clears selection only if left click is done outside the listbox
 				task_listbox.selection_clear(0,END)
 		def frame_click(event):
@@ -256,7 +255,7 @@ def _todolist():
 		frame_6.bind("<Button-1>",frame_click)
 		frame_6.bind("<B1-Motion>",drag_motion)
 
-def _notes():
+def _notes():	
 	global note
 	delete = False
 	create = True
