@@ -10,46 +10,46 @@ import customtkinter as ctk
 import subprocess
 import sys
 
-
+#Called in both Login and Sign_up functions
 def _successful_signin():
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 
 	subprocess.Popen(['python',os.path.join(current_dir,'befake.py')])
 	sys.exit()
 	
-
-def _create_sql(n,a,p,g):
+#This function is called in sign_up function
+def _create_sql(n,a,p,g): #Name,Age,Password,Gender
 	conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
 	cursor.execute('''select * from login_info where username = %s''',(n,))
 	result = cursor.fetchall()
-	if len(result) == 0:
+	if len(result) == 0: #Checking if the username already exists
 		sql_insert_query = '''INSERT INTO login_info
                    (username,password,age,gender) VALUES (%s,%s,%s,%s)'''
 		insert_tuple_1 = (n,p,a,g)
 		cursor.execute(sql_insert_query,insert_tuple_1)
-		conn.commit()
+		conn.commit()  #Ensures that the changes are done in the database
 		sql_insert_query = "SELECT id from login_info where username = '%s'" 
 		cursor.execute(sql_insert_query % n)
 		result = cursor.fetchall()
 		cursor.close()
-		f = open('cache.txt','w')
-		f.write(str(result[0][0]) + '\n')
+		f = open('cache.txt','w') 
+		f.write(str(result[0][0]) + '\n') #Text file is created to store the user id in the users device
 	else:
 		msg.showerror("Error","Username already exists")
 		return -1
 		
-	
+#This function is called in Login function	
 def _search_sql(n,p):
 	conn = mysql.connector.connect(host='150.230.143.62', user = 'guest2', password='test', database = 'userinfo')
 	cursor = conn.cursor()
 	sql_insert_query = "SELECT password from login_info where username = '%s'" 
 	cursor.execute(sql_insert_query % n)
 	result = cursor.fetchall()
-	if len(result) == 0:
+	if len(result) == 0:  #If the condition is true then username doesn't exist
 		cursor.close()
 		return -1
-	elif result[0][0] == p:
+	elif result[0][0] == p: #If the condition is true then the password matches 
 		sql_insert_query = "SELECT id from login_info where username = '%s'" 
 		cursor.execute(sql_insert_query % n)
 		result = cursor.fetchall()
@@ -66,7 +66,7 @@ def _search_sql(n,p):
 def _login():
 	
 	def close_window():
-		win2.iconify() # Hides the login window, win2
+		win2.withdraw() # Hides the login window, win2
 		win1.deiconify()  #Shows the hidden main window,win1 again
 	win1.withdraw() #Hides the main window.win1
 	win2= ctk.CTkToplevel() #Creates a Sub-window
@@ -81,14 +81,14 @@ def _login():
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
 
-	#Load the image using Pillow
+	#Load the image using function Image from PIL
 	image = Image.open(img_path)
 	background_image =ctk.CTkImage(dark_image=image,size=(500,500))
 	background_label = ctk.CTkLabel(win2, text = '', image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	
 	def _submit():
-			if email_var.get() and pass_var.get():
+			if email_var.get() and pass_var.get(): #Checking if all attributes are entered
 				if _search_sql(email_var.get(), pass_var.get()) == 1:
 					_successful_signin()
 				elif _search_sql(email_var.get(), pass_var.get()) == 0:
@@ -133,8 +133,8 @@ def _login():
 
 def _signup():
 	def close_window():
-		win4.withdraw() 
-		win1.deiconify() 
+		win4.withdraw() #Hides the window
+		win1.deiconify() #Re-draws the window Welcome page is shown again
 	
 	win1.withdraw()	
 	win4 = ctk.CTkToplevel()
@@ -151,15 +151,15 @@ def _signup():
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
 
-	#Load the image using Pillow
+	#Imagage.open is a function of PIL
 	image = Image.open(img_path)
 	background_image =ctk.CTkImage(dark_image=image,size=(500,500))
 	background_label = ctk.CTkLabel(win4, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 	
 	def _submit():
-		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o':
-			if _create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get()) != -1:
+		if age_var.get() and email_var.get() and pass_var.get() and gender_var.get() != 'o': #If all attributes are entered by the user
+			if _create_sql(email_var.get(),age_var.get(), pass_var.get(),gender_var.get()) != -1: #Checking if username exists else creating new record
 				_successful_signin()
 		else:
 			enter_value= ctk.CTkLabel(win4,text='Please enter values for all the fields',font=('arial',15),text_color='red',fg_color='white')
@@ -209,9 +209,9 @@ def _welcome():
 	current_dir = pathlib.Path(__file__).parent.resolve() # current directory
 	img_path = os.path.join(current_dir, img_file_name)
 
-	#Load the image using Pillow
-	image = Image.open(img_path)
-	background_image =ctk.CTkImage(dark_image=image,size=(1000,900))
+	
+	image = Image.open(img_path)  #Image is a function in PIL
+	background_image =ctk.CTkImage(dark_image=image,size=(1000,900)) #Given image is opened in dark mode
 	background_label = ctk.CTkLabel(win1, image=background_image)
 	background_label.place(relwidth=1, relheight=1)  # Stretch the image to cover the window
 
