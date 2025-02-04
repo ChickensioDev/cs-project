@@ -179,11 +179,11 @@ def _timer():	# timer widget
 				frame_time.destroy()
 				return
 			time=a*60 +b
-			if time>0:
+			if time>900:
 				_count(time)
 			else:
 				frame_time.destroy()
-				messagebox.showerror("Error","Enter Time")
+				messagebox.showerror("Error","Enter time thats more than 15minutes")
 			
 	seconds= StringVar()	# enter the time
 	minutes= StringVar() 
