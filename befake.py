@@ -6,7 +6,7 @@ from tkinter import messagebox
 import subprocess,sys
 import PIL
 from PIL import Image
-
+#Retrieving data from the user's device
 def _import_data():
 	f = open('cache.txt','r')
 	id = int(f.readline())
@@ -17,7 +17,7 @@ def _import_data():
 	result = cursor.fetchall()
 
 	f.close()	
-	return id,result[0][1] #returns id and username 
+	return id,result[0][1] #returns id and username as a tuple
 def create_pressed(n,p):
 	try:cursor.execute("Use %s"%n)
 	except:
