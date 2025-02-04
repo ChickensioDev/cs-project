@@ -344,14 +344,14 @@ def _funtions_menu():
 	calendarbutton = CTkButton(app,text='Calendar',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_calendar)
 	notesbutton = CTkButton(app,text='Notes',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_notes_check)
 	taskbutton = CTkButton(app,text='To-do list',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_todolist)
-	logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
+	#logoutbutton = CTkButton(app,text='Logout',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50)
 	bgchangebutton= CTkButton(app,text='Change\nBackground',font=('Times New Roman',18),fg_color='purple',hover_color='violet',text_color='white',width=100,height=50,command=_bgchange)
 
 	timerbutton.place(relx=0.02,rely=0.3)
 	calendarbutton.place(relx=0.02,rely=0.4)
 	taskbutton.place(relx=0.02,rely=0.5)
 	notesbutton.place(relx=0.02,rely=0.6)
-	logoutbutton.place(relx=0.02,rely=0.92)
+	#logoutbutton.place(relx=0.02,rely=0.92)
 	bgchangebutton.place(relx=0.02,rely=0.2)
 	
 
